@@ -1,56 +1,87 @@
 # Ship Before AGI
 
-Grow your codebase. Loop in customers. Don't let anything touch your branch.
+You're the founder. Your AI swarm does the fighting.
 
-A 4-minute territory game drawn on graph paper, about the life of a founder before AGI shows up.
+A 4-minute doodle action game about launching products before AGI shows up. Hit $10,000 MRR after the AI bill before the clock runs out.
 
 **Play:** https://ishaan1345.github.io/ishaan1345/
 
 ## How it plays
 
-- **Branch:** step out of your codebase (the hatched blue area) and you draw a line behind you.
-- **Merge:** walk back in. Everything your loop encloses becomes your codebase. Users inside it become paying customers, and distractions caught inside are deleted.
-- **Cut:** anything touching your line before you merge cuts it. `git reset --hard` snaps you back to where you left and costs $3k.
-- **Force push** (Space): merge in a straight line home from wherever you are.
-- **Runway is your health.** Cash burns every month. Customers pay monthly. Once MRR covers your burn you're default alive. At $0 you shut down.
-- **Bugs spawn inside your codebase,** more of them the bigger it gets. They eat holes in it, and customers standing on a hole churn. Step on bugs; walk over holes to patch them.
-- **Rival founders** draw their own branches. Cross a rival's line to cut it and poach something. Keep their heads away from yours.
-- **The Frontier Lab** launches a free version over the busiest part of your market.
+- **Move** with WASD, arrow keys, or drag on a phone. Your agents orbit you and fire on their own.
+- **Collect signups.** A full waitlist means a launch. Each launch puts a product on the map, and products pay MRR.
+- **Protect your products.** Enemies go after them. A product at 0 is down and earns nothing until you stand on it, or until on-call reboots it.
+- **/compact** (Space): agents fill their context as they work. Past 75% they hallucinate, firing wild and seeing things that aren't there. At 100% they go offline. Compact vents everything into a shockwave.
+- **⌘Z** (Shift): rewinds you 1.5 seconds and undoes the damage.
+- **Drop an agent** (E): leave one guarding a product, or pick it back up.
+- **The AI bill is real.** Every model costs money each month, and your score is MRR after the bill.
 
-## Cards
+## The swarm
 
-Loop around a card on the map to get it. Each one does one specific thing:
+Real models, each with its own attack:
 
-| Card | What it does |
+| Model | Attack | AI bill |
+| --- | --- | --- |
+| Claude Opus 5.5 | The best. Charges a beam that pierces everything in a line. | $200/mo |
+| GPT-6 Astra | Circles targets in red pen so everything hits them harder. Has a quick question. | $500/mo |
+| Claude Sonnet 5.5 | The daily driver. Steady rapid fire. | $100/mo |
+| Claude Haiku 5.5 | Cheap homing darts and a cloud of subagents. | $15/mo |
+| Gemini 4 Argon | Lobs gas balloons that splash. Fills its context fast. | $100/mo |
+| DeepSeek V4.1 Flash | Open weights. A cheap close-range shotgun. | $8/mo |
+| Claude Fable 5.1 | Give it the long job and walk away. Tireless when dropped. | $500/mo |
+
+Agents send out subagents that hunt, grab signups, and come back. You can run up to 6.
+
+## What you're up against
+
+- **Notifications:** @channel, "per my last message", "just following up". They come in storms.
+- **1-star reviews:** they chew on your products. "doesn't work on Safari."
+- **Flex tweets:** "$1M ARR at 19". Standing near one drains your focus.
+- **Scope creep:** "can we also add…". It grows the longer you leave it.
+- **Meetings:** "quick call?" stuns you. **Doomscrolling** makes days pass twice as fast.
+- **Legal:** two lawyers string red tape between them.
+- **Recruiters:** they grab an agent and run. Hit them once to make them let go.
+- **Prompt injection:** a PDF that spikes an agent's context.
+- **Dev Day keynote:** Big Tech spotlights your best product. Hit the keynote hard enough or your product gets sherlocked.
+- **529 Overloaded:** your whole swarm slows down for a few seconds.
+
+## Launches run on real companies
+
+Each launch, pick the company that product runs on. Most perks only work while that product is up.
+
+| Company | What it does |
 | --- | --- |
-| Co-founder | A second you that mirrors your every move |
-| Hire QA | Walks your codebase squashing bugs (+burn) |
-| Hire Sales | Drags free users into your codebase (+burn) |
-| Hire Designer | Every customer pays 50% more (+burn) |
-| AI Agent | Ships little loops by itself, sometimes adds bugs |
-| Rewrite in Rust | Your branch can't be cut, but you're 25% slower |
-| Feature Flags | The first 2 seconds of every branch can't be cut |
-| Monorepo | Holes in your codebase fill themselves |
-| Move Fast | 35% faster, but every merge adds 2 bugs |
-| Coffee | Double speed for 8 seconds |
-| Launch Day | Every free user on screen runs to you |
-| Referrals | Customers keep bringing friends |
-| Build in Public | Every merge pulls nearby users in |
-| SOC 2 | Enterprise whales show up: $2,000/mo, and shy |
-| Seed Round | +$80k cash, you own 15% less |
-| Annual Plans | +$150 cash per customer, right now |
-| Moat | The Frontier Lab can't touch your codebase |
+| AWS Activate | $100k credits. Then the bill. |
+| Google Cloud | Killed by Google: one enemy type |
+| Azure | GPT-6 Astra joins after quota approval |
+| Clay | Enriched: 1 in 6 signups is a whale |
+| Stripe | Usage-based billing: kills near products pay |
+| Cloudflare | Are you human? Enemies stall at products |
+| Product Hunt | Launch day: race the rival to #1 |
+| Hacker News | Front page: signups, trolls, hug of death |
+| Y Combinator | Talk to users: stand still, signups come |
+| a16z | Series A: Opus joins, goal goes up |
+| Notion | Agents read the docs: hallucinate later |
+| Figma | Multiplayer cursor box-selects and deletes |
+| PostHog | Session replay: ⌘Z rewinds through enemies |
+| ElevenLabs | Voice agent cold-calls: 1 in 5 converts |
+| LinkedIn | Post "Agree?": enemies stop to like it |
+| Uber | Surge pricing: crowded screen, 2x MRR |
+| Airbnb | Sell cereal: survive one burnout |
+| Granola | Meetings become notes. Walk into them. |
+| Ramp | Time is money. Save both. |
+| Typeform | One question at a time: single file |
+| X | Community Notes on every flex tweet |
+| Dropbox | Refer a friend: every signup brings one |
+| Lovable | Vibe-coded: launch faster, break easier |
+| Cursor | Tab, tab, tab: next Accept all is clean |
 
-## Founders
-
-- **The Hacker:** moves 20% faster, starts with an AI agent.
-- **The Seller:** free users near you follow you home.
-- **The Repeat Founder:** starts with $150k and a QA hire, owns 80%.
-
-Hit $10,000 MRR before AGI arrives.
+**Accept all** (Tab) takes all three, but one gets swapped for a famous flop: Quibi, Juicero, or WeWork.
 
 ## Run it
 
 It's one HTML file with no build step and no dependencies. Open `index.html` in a browser, or serve the repo with GitHub Pages.
 
 To show a tip link on the end screen, set `TIP_URL` near the top of the script in `index.html`.
+
+Company and model names belong to their owners. The icons are hand-drawn doodles, not logos.
