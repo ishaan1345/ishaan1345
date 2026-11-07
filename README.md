@@ -1,23 +1,19 @@
 # Ship Before AGI
 
-A 3-minute browser game about the timeline.
-
-Everyone on your feed shipped something today. You have 730 days until AGI, one laptop, and an app that keeps buzzing. Build, ship early, flop, post, touch grass, and try to reach $10,000 MRR before the countdown hits zero.
+The timeline is coming for you. A 4-minute arcade survival game drawn on graph paper.
 
 **Play:** https://ishaan1345.github.io/ishaan1345/
 
-## How it plays
+- **Move** with WASD, the arrow keys, or drag anywhere on a phone.
+- **Shooting is automatic.** You fire commits at every distraction: notification bubbles, flex tweets ("$40k MRR"), AGI hype bots, meetings, and phones that make you doomscroll (slower movement, time runs at 2x).
+- **Ship** by filling your contribution graph with the green squares that distractions drop. Every ship sets off a shockwave, earns MRR, and gives you an upgrade: Mechanical keyboard, Second monitor, Co-founder, Mute words, Boring B2B, and more.
+- **Heal** by touching grass. Literally.
+- **Survive the Frontier Lab** boss. Its pellets ship your product for free and take your MRR.
 
-- **Build:** hold the button or Space. It drains morale.
-- **Ship:** allowed from 40% done. Most launches flop, and every launch raises your skill.
-- **Post:** followers make launches bigger.
-- **Touch grass:** costs 4 days and restores morale. Burning out costs 18.
-- **Open the app:** the good ideas show up there, but days pass faster while you scroll.
-
-Boring B2B tools beat AI wrappers over time. A frontier lab can wipe out a wrapper overnight. The AGI date keeps moving and nobody knows the real one.
+Hit $10,000 MRR before the AGI countdown runs out. The date moves while you play.
 
 ## Run it
 
-It's one file with no build step. Open `index.html` in a browser, or serve the repo with GitHub Pages.
+It's one HTML file with no build step and no dependencies. Open `index.html` in a browser, or serve the repo with GitHub Pages.
 
 To show a tip link on the end screen, set `TIP_URL` near the top of the script in `index.html`.
