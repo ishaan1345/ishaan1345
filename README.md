@@ -1,24 +1,53 @@
 # Ship Before AGI
 
-You steer. Your AI agent fights. The timeline is coming for you.
+Grow your codebase. Loop in customers. Don't let anything touch your branch.
 
-A 4-minute arcade survival game drawn on graph paper, about building with AI before the clock runs out.
+A 4-minute territory game drawn on graph paper, about the life of a founder before AGI shows up.
 
 **Play:** https://ishaan1345.github.io/ishaan1345/
 
 ## How it plays
 
-- **Move** with WASD, the arrow keys, or drag anywhere on a phone. Your AI agent floats next to you and shoots on its own.
-- **Context window.** Every shot and kill fills your agent's context. More context makes it stronger. Past about 75% it starts **hallucinating**: shots go wild, it shoots at enemies that aren't there, it "refactors" your own products, and it tells you it deleted the tests so they pass. At 100% it crashes.
-- **Space = /compact.** Wipes the context and releases a blast whose size depends on how full the context was. Ride the edge.
-- **Shift = ⌘Z.** Rewinds you 1.5 seconds and undoes the damage. "You're absolutely right!"
-- **Ship.** Kills drop green commits that fill your contribution graph. When it's full you pick a product, and it gets built where you stand. Each product earns MRR and gives a perk while it's up: Boring B2B, AI wrapper, Dev tool, Indie game (its fans shoot), Newsletter, Extension, Agent framework, AI course.
-- **Accept all ⇥** gives you all three products, but one of them is a hallucination (an NFT of your codebase, `rm -rf ./products`) and you take on tech debt.
-- **Defend prod.** Bugs eat products. Down products earn nothing; stand on one to hotfix it.
-- **Pick a model.** Nano is fast and cheap, Pro is balanced, Max is brilliant, expensive, and hallucinates early.
-- **Survive** notification storms, flex tweets that drain your focus, merge conflicts with a beam between them, scope creep that keeps growing, meetings that stun you, phones that make time run 2x, a 529 outage that takes your agent offline, and a Frontier Lab boss that ships your best product for free. Beat the boss for a model upgrade: Parallel agents, Reasoning mode, Tool use, Bigger context window.
+- **Branch:** step out of your codebase (the hatched blue area) and you draw a line behind you.
+- **Merge:** walk back in. Everything your loop encloses becomes your codebase. Users inside it become paying customers, and distractions caught inside are deleted.
+- **Cut:** anything touching your line before you merge cuts it. `git reset --hard` snaps you back to where you left and costs $3k.
+- **Force push** (Space): merge in a straight line home from wherever you are.
+- **Runway is your health.** Cash burns every month. Customers pay monthly. Once MRR covers your burn you're default alive. At $0 you shut down.
+- **Bugs spawn inside your codebase,** more of them the bigger it gets. They eat holes in it, and customers standing on a hole churn. Step on bugs; walk over holes to patch them.
+- **Rival founders** draw their own branches. Cross a rival's line to cut it and poach something. Keep their heads away from yours.
+- **The Frontier Lab** launches a free version over the busiest part of your market.
 
-Hit $10,000 MRR before AGI arrives. The date moves while you play.
+## Cards
+
+Loop around a card on the map to get it. Each one does one specific thing:
+
+| Card | What it does |
+| --- | --- |
+| Co-founder | A second you that mirrors your every move |
+| Hire QA | Walks your codebase squashing bugs (+burn) |
+| Hire Sales | Drags free users into your codebase (+burn) |
+| Hire Designer | Every customer pays 50% more (+burn) |
+| AI Agent | Ships little loops by itself, sometimes adds bugs |
+| Rewrite in Rust | Your branch can't be cut, but you're 25% slower |
+| Feature Flags | The first 2 seconds of every branch can't be cut |
+| Monorepo | Holes in your codebase fill themselves |
+| Move Fast | 35% faster, but every merge adds 2 bugs |
+| Coffee | Double speed for 8 seconds |
+| Launch Day | Every free user on screen runs to you |
+| Referrals | Customers keep bringing friends |
+| Build in Public | Every merge pulls nearby users in |
+| SOC 2 | Enterprise whales show up: $2,000/mo, and shy |
+| Seed Round | +$80k cash, you own 15% less |
+| Annual Plans | +$150 cash per customer, right now |
+| Moat | The Frontier Lab can't touch your codebase |
+
+## Founders
+
+- **The Hacker:** moves 20% faster, starts with an AI agent.
+- **The Seller:** free users near you follow you home.
+- **The Repeat Founder:** starts with $150k and a QA hire, owns 80%.
+
+Hit $10,000 MRR before AGI arrives.
 
 ## Run it
 
