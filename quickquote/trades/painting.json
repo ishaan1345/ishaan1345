@@ -1,0 +1,27 @@
+{
+  "label": "Interior painting",
+  "title": "What will it cost to paint?",
+  "subtitle": "Answer four quick questions and see your price range instantly.",
+  "hero": "Clean lines, no mess, in {city}",
+  "bullets": ["Price range in 30 seconds", "Furniture moved and covered", "Spotless cleanup, every day"],
+  "minimum": 400,
+  "spread": 0.15,
+  "round": 25,
+  "questions": [
+    { "id": "rooms", "type": "number", "label": "Rooms to paint", "min": 1, "max": 15, "default": 3, "price": 350, "unit": "rooms" },
+    { "id": "ceilings", "type": "choice", "label": "Ceilings too?", "options": [
+      { "value": "no", "label": "Walls only" },
+      { "value": "yes", "label": "Walls + ceilings", "mult": 1.25 }
+    ]},
+    { "id": "condition", "type": "choice", "label": "Wall condition", "options": [
+      { "value": "good", "label": "Good" },
+      { "value": "patch", "label": "Some patching", "mult": 1.15 },
+      { "value": "repair", "label": "Needs repair", "mult": 1.35 }
+    ]},
+    { "id": "extras", "type": "multi", "label": "Extras", "options": [
+      { "value": "trim", "label": "Trim & doors", "add": 300 },
+      { "value": "cabinets", "label": "Kitchen cabinets", "add": 1800 },
+      { "value": "dark", "label": "Covering a dark color", "add": 200 }
+    ]}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "quickquote",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Instant-quote widget for local service businesses, plus a one-command personalized demo for sales.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.js",
+    "demo": "node new-demo.js"
+  }
+}

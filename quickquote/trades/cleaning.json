@@ -1,0 +1,31 @@
+{
+  "label": "House cleaning",
+  "title": "Get your cleaning price in 30 seconds",
+  "subtitle": "No phone tag. Pick what you need and see your price instantly.",
+  "hero": "A spotless home in {city}, without the phone tag",
+  "bullets": ["See your price before you book", "Insured, background-checked cleaners", "Book in under a minute"],
+  "minimum": 100,
+  "spread": 0.1,
+  "round": 5,
+  "questions": [
+    { "id": "type", "type": "choice", "label": "Type of clean", "options": [
+      { "value": "standard", "label": "Standard", "add": 60 },
+      { "value": "deep", "label": "Deep clean", "add": 90, "mult": 1.5 },
+      { "value": "move", "label": "Move in / out", "add": 120, "mult": 1.8 }
+    ]},
+    { "id": "bedrooms", "type": "number", "label": "Bedrooms", "min": 0, "max": 8, "default": 2, "price": 25, "unit": "bed" },
+    { "id": "bathrooms", "type": "number", "label": "Bathrooms", "min": 1, "max": 6, "default": 2, "price": 30, "unit": "bath" },
+    { "id": "extras", "type": "multi", "label": "Extras", "options": [
+      { "value": "fridge", "label": "Inside fridge", "add": 35 },
+      { "value": "oven", "label": "Inside oven", "add": 35 },
+      { "value": "windows", "label": "Interior windows", "add": 45 },
+      { "value": "laundry", "label": "Laundry", "add": 25 }
+    ]},
+    { "id": "frequency", "type": "choice", "label": "How often?", "options": [
+      { "value": "once", "label": "One time" },
+      { "value": "monthly", "label": "Monthly", "discount": 0.1, "note": "save 10%" },
+      { "value": "biweekly", "label": "Every 2 weeks", "discount": 0.15, "note": "save 15%" },
+      { "value": "weekly", "label": "Weekly", "discount": 0.2, "note": "save 20%" }
+    ]}
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "label": "Junk removal",
+  "title": "How much to haul it away?",
+  "subtitle": "Tell us roughly how much and get your price now. We do the lifting.",
+  "hero": "Gone today. Junk removal in {city}",
+  "bullets": ["Upfront price, no surprises", "Same-day pickup when available", "We donate and recycle what we can"],
+  "minimum": 99,
+  "spread": 0.1,
+  "round": 5,
+  "questions": [
+    { "id": "load", "type": "choice", "label": "How much stuff?", "options": [
+      { "value": "item", "label": "Single item", "add": 99 },
+      { "value": "quarter", "label": "¼ truck", "add": 199, "note": "≈ a pickup bed" },
+      { "value": "half", "label": "½ truck", "add": 349 },
+      { "value": "threequarter", "label": "¾ truck", "add": 479 },
+      { "value": "full", "label": "Full truck", "add": 599, "note": "≈ a garage cleanout" }
+    ]},
+    { "id": "heavy", "type": "multi", "label": "Anything heavy or special?", "options": [
+      { "value": "appliance", "label": "Appliances", "add": 50 },
+      { "value": "mattress", "label": "Mattress", "add": 40 },
+      { "value": "hottub", "label": "Hot tub", "add": 300 },
+      { "value": "piano", "label": "Piano", "add": 150 }
+    ]},
+    { "id": "access", "type": "choice", "label": "Where is it?", "options": [
+      { "value": "curb", "label": "Curb or garage" },
+      { "value": "inside", "label": "Inside, ground floor", "mult": 1.1 },
+      { "value": "stairs", "label": "Upstairs / basement", "mult": 1.2 }
+    ]},
+    { "id": "when", "type": "choice", "label": "When?", "options": [
+      { "value": "week", "label": "This week" },
+      { "value": "asap", "label": "Today / tomorrow", "add": 50 }
+    ]}
+  ]
+}

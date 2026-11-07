@@ -1,0 +1,25 @@
+{
+  "label": "Pressure washing",
+  "title": "Get your pressure washing price now",
+  "subtitle": "Pick your surfaces and see your price instantly. No site visit needed to get a number.",
+  "hero": "Make your place look new again in {city}",
+  "bullets": ["Instant price, no waiting on a callback", "Soft wash for siding and roofs, safe for plants", "Fully insured"],
+  "minimum": 150,
+  "spread": 0.12,
+  "round": 5,
+  "questions": [
+    { "id": "house", "type": "choice", "label": "House wash", "options": [
+      { "value": "none", "label": "No house wash" },
+      { "value": "1", "label": "1 story", "add": 250 },
+      { "value": "2", "label": "2 story", "add": 400 },
+      { "value": "3", "label": "3 story", "add": 550 }
+    ]},
+    { "id": "flatwork", "type": "number", "label": "Driveway, patio & walkways", "min": 0, "max": 6000, "step": 100, "default": 600, "price": 0.2, "unit": "sq ft" },
+    { "id": "extras", "type": "multi", "label": "Add-ons", "options": [
+      { "value": "deck", "label": "Deck", "add": 150 },
+      { "value": "fence", "label": "Fence", "add": 120 },
+      { "value": "roof", "label": "Roof soft wash", "add": 350 },
+      { "value": "gutters", "label": "Gutter brightening", "add": 100 }
+    ]}
+  ]
+}

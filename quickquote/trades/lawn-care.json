@@ -1,0 +1,30 @@
+{
+  "label": "Lawn care",
+  "title": "Get your lawn care price",
+  "subtitle": "Pick your yard size and services. Your price shows up instantly.",
+  "hero": "A yard you're proud of, all season, in {city}",
+  "bullets": ["Instant price per visit", "Same crew, same day each week", "Skip or cancel any time"],
+  "per": "per visit",
+  "minimum": 35,
+  "spread": 0.1,
+  "round": 5,
+  "questions": [
+    { "id": "size", "type": "choice", "label": "Yard size", "options": [
+      { "value": "small", "label": "Small", "add": 40, "note": "under ⅛ acre" },
+      { "value": "medium", "label": "Medium", "add": 55, "note": "about ¼ acre" },
+      { "value": "large", "label": "Large", "add": 80, "note": "about ½ acre" },
+      { "value": "xl", "label": "Very large", "add": 130, "note": "1 acre +" }
+    ]},
+    { "id": "services", "type": "multi", "label": "Add services", "options": [
+      { "value": "edging", "label": "Edging", "add": 10 },
+      { "value": "hedges", "label": "Hedge trimming", "add": 45 },
+      { "value": "leaves", "label": "Leaf cleanup", "add": 90 },
+      { "value": "weeds", "label": "Weed control", "add": 35 }
+    ]},
+    { "id": "frequency", "type": "choice", "label": "How often?", "options": [
+      { "value": "biweekly", "label": "Every 2 weeks" },
+      { "value": "weekly", "label": "Weekly", "discount": 0.1, "note": "save 10%" },
+      { "value": "once", "label": "One time", "add": 20 }
+    ]}
+  ]
+}
