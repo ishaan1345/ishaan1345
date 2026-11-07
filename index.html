@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Everyone on your timeline shipped something today. You have 730 days until AGI. A 3-minute game about building, flopping, and doomscrolling.">
+<meta property="og:title" content="Ship Before AGI">
+<meta property="og:description" content="Everyone on your timeline shipped something today. You have 730 days until AGI. A 3-minute game about building, flopping, and doomscrolling.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ishaan1345.github.io/ishaan1345/">
+<meta property="og:image" content="https://ishaan1345.github.io/ishaan1345/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ship Before AGI">
+<meta name="twitter:description" content="Everyone on your timeline shipped something today. You have 730 days until AGI. A 3-minute game about building, flopping, and doomscrolling.">
+<meta name="twitter:image" content="https://ishaan1345.github.io/ishaan1345/og.png">
+<title>Ship Before AGI</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: the AGI clock spans the top. Your desk (the work) sits left, the timeline (the temptation) sits right.
+   One dark 2am world, single theme on purpose. */
+:root{
+  --ink:#121019;
+  --panel:#1a1825;
+  --raise:#252233;
+  --line:#322e45;
+  --text:#ede8f6;
+  --muted:#958fac;
+  --alarm:#ff5a6e;
+  --money:#f5c453;
+  --glow:#97b6ff;
+  --grass:#80d49c;
+  --on-light:#121019;
+  --scrim:rgba(9,8,14,.86);
+  --money-wash:rgba(245,196,83,.08);
+  --glow-wash:rgba(151,182,255,.16);
+  --alarm-wash:rgba(255,90,110,.12);
+  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0;background:var(--ink);color:var(--text);
+  font:15px/1.45 var(--f-body);-webkit-font-smoothing:antialiased;
+  padding-block:20px 32px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+button,a{font:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid var(--glow);outline-offset:2px}
+.app{max-width:1180px;margin:0 auto;display:grid;gap:18px}
+.eyebrow{font:600 11px/1.2 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0}
+.muted{color:var(--muted)}
+kbd{font:600 10.5px/1 var(--f-mono);padding:3px 5px;border:1px solid currentColor;border-radius:4px;opacity:.55;letter-spacing:.02em}
+@media (hover:none){ kbd{display:none} }
+
+/* Clock */
+.clock{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 40px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.countdown{font-family:var(--f-display);font-weight:900;font-size:clamp(68px,12vw,136px);line-height:.82;color:var(--alarm);display:flex;align-items:baseline;gap:12px;font-variant-numeric:tabular-nums;margin-top:8px}
+.countdown small{font-size:.26em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text)}
+.countdown.shake{animation:shake .7s}
+@keyframes shake{0%,100%{transform:none}15%{transform:translateX(-7px)}35%{transform:translateX(6px)}55%{transform:translateX(-4px)}75%{transform:translateX(2px)}}
+.clock-note{font:13px/1.4 var(--f-mono);color:var(--muted);margin-top:10px;min-height:1.4em}
+.clock-note.hit{color:var(--alarm)}
+.stats{display:grid;grid-template-columns:repeat(4,auto);gap:10px 32px;margin:0}
+.stat dt{font:600 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.stat dd{margin:6px 0 0;font:600 28px/1 var(--f-mono);font-variant-numeric:tabular-nums}
+.stat.money dd{color:var(--money)}
+.stat dd.goal{font:400 11px/1.3 var(--f-mono);color:var(--muted);margin-top:6px}
+@media (max-width:620px){ .stats{grid-template-columns:repeat(2,minmax(0,1fr));width:100%} .stat dd{font-size:24px} }
+
+/* Board */
+.board{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px;align-items:start}
+@media (max-width:920px){ .board{grid-template-columns:minmax(0,1fr)} }
+.desk{display:grid;gap:16px;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
+
+.morale{display:grid;gap:8px}
+.morale-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.mood{font:600 13px var(--f-mono);color:var(--grass)}
+.mood.low{color:var(--alarm)}
+.meter{height:8px;background:var(--raise);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;width:70%;background:var(--grass);transition:width .2s,background-color .3s}
+.meter.low i{background:var(--alarm)}
+
+/* Project */
+.project{display:grid;gap:12px;min-height:236px;align-content:start}
+.proj-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.proj-name{font:700 clamp(22px,3vw,30px)/1.15 var(--f-body);margin:0;text-wrap:balance}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:600 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:99px;background:var(--raise);color:var(--muted);white-space:nowrap}
+.chip.hot{background:var(--glow-wash);color:var(--glow)}
+.link{background:none;border:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px 0;font-size:13px}
+.link:hover{color:var(--text)}
+.progress{position:relative;height:22px;background:var(--raise);border-radius:6px;overflow:hidden;margin-top:6px}
+.progress i{position:absolute;inset:0 auto 0 0;width:0;background:var(--muted);transition:width .12s ease-out}
+.progress[data-state="early"] i{background:var(--glow)}
+.progress[data-state="ready"] i{background:var(--money)}
+.progress .mark{position:absolute;top:0;bottom:0;left:40%;width:2px;background:var(--ink)}
+.proj-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font:13px var(--f-mono);color:var(--muted)}
+.proj-meta #pPct{color:var(--text)}
+.ideas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:720px){ .ideas{grid-template-columns:minmax(0,1fr)} }
+.idea{display:grid;gap:10px;align-content:start;text-align:left;background:var(--raise);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:14px;cursor:pointer;min-width:0;transition:border-color .15s,transform .15s}
+.idea:hover{border-color:var(--muted);transform:translateY(-2px)}
+.idea.is-hot{border-color:var(--glow)}
+.idea-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.idea strong{font-size:16px;line-height:1.25;overflow-wrap:anywhere}
+.idea-meters{display:grid;gap:4px}
+.m{display:flex;justify-content:space-between;align-items:center;font:12px var(--f-mono);color:var(--muted)}
+.dots{display:flex;gap:3px}
+.dots i{width:14px;height:5px;border-radius:2px;background:var(--line)}
+.dots i.on{background:var(--text)}
+.idea-note{font-size:13px;color:var(--muted);line-height:1.35}
+
+/* Actions */
+.busy{font:600 14px var(--f-mono);padding:12px 14px;border-radius:8px;background:var(--alarm-wash);color:var(--alarm)}
+.busy.grass{background:var(--raise);color:var(--grass)}
+.actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.act{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:58px;padding:12px 14px;border-radius:8px;border:1px solid var(--line);background:var(--raise);color:var(--text);font-weight:700;font-size:15px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:manipulation;text-align:left;transition:transform .06s,opacity .2s}
+.act:active:not(:disabled),.act.pressed{transform:scale(.97)}
+.act:disabled{opacity:.38;cursor:not-allowed}
+.act .sub{display:block;font:400 11.5px/1.2 var(--f-mono);opacity:.75;margin-top:3px}
+.act.build{grid-column:span 2;background:var(--text);color:var(--on-light);border-color:var(--text);font-size:18px}
+.act.ship{grid-column:span 2;background:var(--money);color:var(--on-light);border-color:var(--money);font-size:18px}
+.act.ship.ready:not(:disabled){animation:ready 1.2s ease-in-out infinite}
+@keyframes ready{50%{box-shadow:0 0 0 6px var(--money-wash)}}
+.act.grass{color:var(--grass)}
+.act.scroll{grid-column:span 2;color:var(--glow);border-color:var(--glow-wash)}
+.badge{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:var(--alarm);color:var(--on-light);font:700 12px var(--f-mono);margin-left:6px}
+.badge.bump{animation:bump .4s}
+@keyframes bump{40%{transform:scale(1.35)}}
+@media (max-width:560px){ .actions{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+/* Ledger */
+.ledger{display:grid;gap:12px}
+.ledger-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+.ledger h2{font:700 16px var(--f-body);margin:4px 0 0}
+.spark-wrap{flex:1 1 220px;max-width:340px;min-width:0}
+#spark{display:block;width:100%;height:54px}
+.products{list-style:none;margin:0;padding:0;display:grid}
+.prod{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line)}
+.prod-name{font-weight:700;overflow-wrap:anywhere}
+.prod-note{grid-column:1;font:12px var(--f-mono);color:var(--muted)}
+.prod-mrr{font:600 15px var(--f-mono);color:var(--money);font-variant-numeric:tabular-nums;grid-row:1;grid-column:2}
+.prod.zero .prod-mrr{color:var(--muted)}
+.empty{color:var(--muted);margin:0;font-size:14px;padding:10px 0;border-top:1px solid var(--line)}
+
+/* Timeline */
+.timeline{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;position:sticky;top:16px;max-height:calc(100vh - 32px);display:flex;flex-direction:column;min-width:0}
+@media (max-width:920px){ .timeline{position:static;max-height:440px} }
+.tl-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+.tl-head strong{font-size:16px}
+.feed{list-style:none;margin:0;padding:0;overflow-y:auto;flex:1;min-height:0}
+.tweet{display:grid;grid-template-columns:36px minmax(0,1fr);gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);animation:drop .35s ease-out}
+@keyframes drop{from{opacity:.2;transform:translateY(-10px)}}
+.tweet.you{background:var(--money-wash)}
+.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:700 15px var(--f-body);color:var(--on-light)}
+.tw-head{font-size:14px;display:flex;gap:6px;align-items:baseline;min-width:0;flex-wrap:wrap}
+.tw-head span{font:12px var(--f-mono);color:var(--muted)}
+.tw-body{font-size:14.5px;margin-top:2px;overflow-wrap:anywhere}
+.tw-foot{display:flex;gap:16px;margin-top:6px;font:12px var(--f-mono);color:var(--muted);flex-wrap:wrap}
+.fx{font-weight:600}
+.fx.bad{color:var(--alarm)} .fx.good{color:var(--grass)} .fx.idea{color:var(--glow)}
+
+footer{font:12px/1.5 var(--f-mono);color:var(--muted);padding-top:8px;border-top:1px solid var(--line)}
+
+/* Toasts */
+.toasts{position:fixed;left:50%;transform:translateX(-50%);top:calc(14px + env(safe-area-inset-top, 0px));z-index:80;display:grid;gap:8px;width:min(520px, calc(100% - 32px));pointer-events:none}
+.toast{background:var(--raise);border:1px solid var(--line);border-left:4px solid var(--muted);border-radius:8px;padding:11px 14px;font-size:14.5px;box-shadow:0 10px 30px rgba(0,0,0,.4);animation:toast .3s ease-out}
+.toast.good{border-left-color:var(--grass)} .toast.bad{border-left-color:var(--alarm)} .toast.money{border-left-color:var(--money)}
+@keyframes toast{from{opacity:0;transform:translateY(-8px)}}
+
+/* Overlays */
+.overlay{position:fixed;inset:0;z-index:50;background:var(--scrim);display:grid;place-items:center;overflow-y:auto;
+  padding:max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px))}
+.card{width:min(640px,100%);background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(20px,4vw,34px);display:grid;gap:18px}
+.title{font:900 clamp(64px,13vw,112px)/.84 var(--f-display);text-transform:uppercase;margin:0;letter-spacing:-.005em}
+.title em{font-style:normal;color:var(--alarm)}
+.lede{font-size:17px;line-height:1.5;margin:0;max-width:56ch}
+.rules{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;margin:0;font-size:14.5px}
+.rules dt{font:600 12px/1.9 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--text);white-space:nowrap}
+.rules dd{margin:0;color:var(--muted)}
+@media (max-width:460px){ .rules{grid-template-columns:minmax(0,1fr);gap:2px} .rules dd{margin-bottom:8px} }
+.goal-line{margin:0;font-size:15px}
+.goal-line b{color:var(--money)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.cta{display:inline-flex;align-items:center;gap:10px;justify-content:center;background:var(--alarm);color:var(--on-light);border:0;border-radius:8px;padding:14px 22px;font-weight:700;font-size:17px;cursor:pointer;text-decoration:none}
+.cta:hover{filter:brightness(1.08)}
+.ghost{background:var(--raise);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:13px 18px;font-weight:700;cursor:pointer}
+.best{font:13px var(--f-mono);color:var(--muted)}
+
+.phone{width:min(400px,100%);height:min(740px, calc(100vh - 40px));height:min(740px, calc(100dvh - 40px));background:var(--panel);border:1px solid var(--glow-wash);border-radius:30px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 90px var(--glow-wash)}
+.phone-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.mini-clock{font:900 30px/1 var(--f-display);color:var(--alarm);font-variant-numeric:tabular-nums}
+.mini-clock small{font-size:.5em;color:var(--text);letter-spacing:.06em;text-transform:uppercase;margin-left:4px}
+.phone-top .warn{font:12px/1.35 var(--f-mono);color:var(--muted);text-align:right}
+.phone-top .warn b{color:var(--alarm)}
+.phone .feed{overflow:hidden}
+.phone-bottom{padding:14px;border-top:1px solid var(--line)}
+.phone-bottom .cta{width:100%}
+
+.end .rank{font:900 clamp(48px,9vw,84px)/.9 var(--f-display);text-transform:uppercase;margin:0;text-wrap:balance}
+.end .rank.won{color:var(--money)}
+.final{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin:0;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.final div{background:var(--panel);padding:12px 14px}
+.final dt{font:600 10.5px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.final dd{margin:5px 0 0;font:600 20px var(--f-mono);font-variant-numeric:tabular-nums}
+.final .money dd{color:var(--money)}
+@media (max-width:480px){ .final div{padding:10px} .final dd{font-size:16px} .final dt{font-size:9.5px;letter-spacing:.06em} }
+.epilogue{margin:0;color:var(--muted);font-size:15px;line-height:1.55}
+.epilogue b{color:var(--text)}
+.share-text{width:100%;min-height:96px;background:var(--raise);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px;font:13px var(--f-mono);resize:vertical}
+
+@media (prefers-reduced-motion:reduce){ *,*::before,*::after{animation:none!important;transition:none!important} }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="clock">
+    <div>
+      <p class="eyebrow">Estimated time until AGI</p>
+      <div class="countdown" id="countdown"><span id="tminus">730</span><small>days left</small></div>
+      <div class="clock-note" id="clockNote">Day 0 of your last two years</div>
+    </div>
+    <dl class="stats">
+      <div class="stat money"><dt>MRR</dt><dd id="sMrr">$0</dd><dd class="goal">goal $10,000</dd></div>
+      <div class="stat"><dt>Followers</dt><dd id="sFol">14</dd></div>
+      <div class="stat"><dt>Skill</dt><dd id="sSkill">1</dd></div>
+      <div class="stat"><dt>Shipped</dt><dd id="sShips">0</dd></div>
+    </dl>
+  </header>
+
+  <main class="board">
+    <section class="desk" aria-label="Your desk">
+      <div class="panel morale">
+        <div class="morale-top"><p class="eyebrow">Morale</p><span class="mood" id="mood">locked in</span></div>
+        <div class="meter" id="moraleMeter"><i id="moraleBar"></i></div>
+      </div>
+
+      <div class="panel project" id="project"></div>
+
+      <div class="busy" id="busy" hidden></div>
+      <div class="actions">
+        <button class="act build" id="bBuild" type="button"><span>Build<span class="sub">hold it down</span></span><kbd>Space</kbd></button>
+        <button class="act ship" id="bShip" type="button" disabled><span><span id="shipLabel">Ship it</span><span class="sub" id="shipSub">pick an idea first</span></span><kbd>Enter</kbd></button>
+        <button class="act" id="bPost" type="button"><span>Post<span class="sub" id="postSub">build in public</span></span><kbd>P</kbd></button>
+        <button class="act grass" id="bGrass" type="button"><span>Touch grass<span class="sub">4 days, +morale</span></span><kbd>G</kbd></button>
+        <button class="act scroll" id="bScroll" type="button"><span>Open the app<span class="badge" id="badge">2</span><span class="sub">ideas live here. so does time.</span></span><kbd>T</kbd></button>
+      </div>
+
+      <div class="panel ledger">
+        <div class="ledger-head">
+          <div><p class="eyebrow">Revenue</p><h2>Things you shipped</h2></div>
+          <div class="spark-wrap"><canvas id="spark" aria-label="MRR over time"></canvas></div>
+        </div>
+        <ul class="products" id="products"></ul>
+      </div>
+    </section>
+
+    <aside class="timeline" aria-label="Timeline">
+      <div class="tl-head"><strong>Timeline</strong><span class="eyebrow">For you</span></div>
+      <ol class="feed" id="feed"></ol>
+    </aside>
+  </main>
+
+  <footer>Built in a day by ishaan1345. The AGI date in this game is made up. So is the one on your timeline.</footer>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<div class="overlay" id="scrollOverlay" hidden>
+  <div class="phone" role="dialog" aria-label="Doomscrolling">
+    <div class="phone-top">
+      <div class="mini-clock"><span id="miniT">730</span><small>days left</small></div>
+      <div class="warn">Scrolling for <b id="scrollDays">0 days</b><br>Time moves faster in here</div>
+    </div>
+    <ol class="feed" id="scrollFeed"></ol>
+    <div class="phone-bottom"><button class="cta" id="bClose" type="button">Close the app <kbd>T</kbd></button></div>
+  </div>
+</div>
+
+<div class="overlay" id="titleScreen">
+  <div class="card" role="dialog" aria-labelledby="gameTitle">
+    <p class="eyebrow">A game about your timeline</p>
+    <h1 class="title" id="gameTitle">Ship before <em>AGI</em></h1>
+    <p class="lede">Everyone on your timeline shipped something today. You have 730 days, one laptop, and an app that keeps buzzing.</p>
+    <dl class="rules">
+      <dt>Build</dt><dd>Hold the button or Space. It drains morale.</dd>
+      <dt>Ship</dt><dd>Allowed from 40% done. Most launches flop. Every launch raises your skill.</dd>
+      <dt>Post</dt><dd>Followers make launches bigger. People follow builders who ship.</dd>
+      <dt>Touch grass</dt><dd>Costs 4 days, restores morale. Burning out costs 18.</dd>
+      <dt>Open the app</dt><dd>Good ideas show up there. Days pass faster while you scroll.</dd>
+    </dl>
+    <p class="goal-line">Goal: <b>$10,000 MRR</b> before the countdown hits zero.</p>
+    <div class="row"><button class="cta" id="bStart" type="button">Start day 1</button><span class="best" id="bestLine"></span></div>
+  </div>
+</div>
+
+<div class="overlay" id="endScreen" hidden>
+  <div class="card end" role="dialog" aria-labelledby="endTitle">
+    <p class="eyebrow" id="endEyebrow">AGI has arrived</p>
+    <h2 class="rank" id="endTitle">Rank</h2>
+    <p class="lede" id="endLine"></p>
+    <dl class="final" id="endStats"></dl>
+    <p class="epilogue" id="endEpilogue"></p>
+    <div class="row">
+      <a class="cta" id="bShare" href="https://x.com/intent/tweet" target="_blank" rel="noopener">Post your result</a>
+      <button class="ghost" id="bCopy" type="button">Copy result</button>
+      <button class="ghost" id="bAgain" type="button">Play again</button>
+    </div>
+    <textarea class="share-text" id="shareText" readonly aria-label="Your result" hidden></textarea>
+    <p class="best" id="tipLine" hidden><a id="tipLink" href="#" target="_blank" rel="noopener" style="color:var(--money)">Enjoyed it? Buy me a coffee.</a></p>
+  </div>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* ---------- config ---------- */
+const DAY_MS = 240;            // one in-game day in real milliseconds
+const START_DAYS = 730;
+const GOAL = 10000;
+const SCROLL_SPEED = 1.5;      // days pass faster while doomscrolling
+const BUSY_SPEED = 2;
+const TIP_URL = '';            // add a Buy Me a Coffee / Gumroad / Stripe link to show a tip link on the end screen
+const GAME_URL = /github\.io$/.test(location.hostname)
+  ? location.origin + location.pathname
+  : 'https://ishaan1345.github.io/ishaan1345/';
+
+/* ---------- content ---------- */
+const TYPES = {
+  wrapper:{label:'AI wrapper',   effort:28, base:380, viral:.22, churn:.14, growth:0,   lab:true,  fol:1,   up:2, hype:3, note:'Fast to build. A frontier lab could ship it for free tomorrow.'},
+  agent:  {label:'AI agent',     effort:46, base:620, viral:.26, churn:.11, growth:.01, lab:true,  fol:1.2, up:3, hype:3, note:'Big upside. Same lab risk.'},
+  b2b:    {label:'Boring B2B',   effort:85, base:950, viral:.04, churn:.03, growth:.06, lab:false, fol:.5,  up:4, hype:1, note:'Nobody will retweet it. Customers stay for years.'},
+  game:   {label:'Indie game',   effort:55, base:70,  viral:.38, churn:.30, growth:0,   lab:false, fol:3,   up:1, hype:4, note:'Brings fans, not revenue.'},
+  ext:    {label:'Extension',    effort:22, base:140, viral:.14, churn:.07, growth:.01, lab:false, fol:1,   up:1, hype:2, note:'Small and quick. Pays for lunch.'},
+  letter: {label:'Newsletter',   effort:18, base:0,   viral:.10, churn:0,   growth:0,   lab:false, fol:1.5, up:2, hype:2, note:'Earns from sponsors. Grows with your followers.', newsletter:true},
+};
+const HOT_NOTE = 'Trending today. Twelve other people saw the same tweet.';
+const NICHES = ['dentists','HVAC contractors','wedding photographers','food trucks','notaries','roofers','pickleball clubs','landlords','dog groomers','church choirs','tattoo studios','plumbers','driving schools','beekeepers','piano teachers'];
+const WRAP = ['your PDFs','LinkedIn posts','dating app bios','lease agreements','homework','meeting notes','cover letters','grocery receipts','apology texts'];
+const GAMES = ['a roguelike about filing taxes','a cozy game about fixing bugs','a pigeon delivery sim','a horror game set in a standup meeting','a farming game where the crops are startups','a puzzle game about cable management','an idle game about a GPU shortage'];
+const EXTS = ['hides your follower count','blocks the timeline after 10pm','summarizes 40 open tabs','rates your tweets before you post','turns any article into a podcast','mutes every tweet that says MRR'];
+const TASKS = ['opening the editor','naming the repo','buying the domain','arguing with the AI','fixing CSS','writing the landing page','fixing CSS again','wiring up payments','testing it on your phone','writing the launch tweet'];
+
+const PEOPLE = [
+  ['Sam Shipsalot','shipsalot'],['Kai Builds','kaibuilds'],['Priya, solo founder','priyaships'],['vibecoder','vibecoder_99'],
+  ['Marco in public','marco_in_public'],['Dana','dana_mrr'],['jules','julesmakesapps'],['Theo, 19','theo19ceo'],
+  ['Lena Indie','lena_indie'],['prompt lord','promptlord'],['Ravi','ravi_ships_daily'],['Noor','noor_bootstraps'],
+];
+const AGI_ACC = ['AGI by Tuesday','agibytuesday'];
+const LAB = ['Frontier Lab','frontierlab'];
+const FLEX = [
+  'made a game today. took 3 hours. 40k plays already',
+  'just crossed $40k MRR. no employees. no meetings. no investors.',
+  'shipped my 6th app this month',
+  'my agent built this whole SaaS while I slept',
+  '$0 to $12k MRR in 41 days. thread below',
+  'quit my job today. the side project pays more now',
+  'if you are not building right now you are cooked',
+  'you have 2 years to escape the permanent underclass. what are you doing tonight?',
+  'day 3 of building in public: $2.1k MRR',
+  'launched at 9am. $5k by lunch.',
+  '19 years old. $1M ARR. ask me anything',
+  'sold my side project for $340k. it was a spreadsheet',
+  'another weekend, another app. that is 52 this year',
+  'woke up to 1,200 new signups',
+  'cloned a $400/mo tool in an afternoon. charging $9',
+];
+const REAL = [
+  'nobody posts the 30 launches that got zero users. I had 30.',
+  'took me 4 years to get to $3k MRR. still the best thing I ever did',
+  'the guy who built it in a weekend has been coding for 15 years',
+  'your timeline is a highlight reel stitched together from 10,000 people',
+  'my first 9 products made $0. the 10th pays my rent',
+  'reminder: revenue screenshots are marketing',
+  'boring businesses do not go viral. they just keep paying',
+  'logged off for a week. shipped more than the whole month before',
+];
+const HYPE = [
+  'AGI 2027. plan accordingly',
+  'new model just dropped. it is so over',
+  'we are so back',
+  'the window to make money is closing. every day you wait it gets smaller',
+  'my p(doom) went up 4% today',
+  'honestly AGI could be 2 years away or 20. nobody actually knows',
+];
+const AGI_UP = ['new model just dropped. timelines moved up. again.','it is so over. AGI by summer','benchmarks got crushed overnight. adjust your plans'];
+const AGI_DOWN = ['scaling is hitting a wall (allegedly). timelines pushed back','we are so back. AGI is further than you think','the new model is fine. just fine. timelines relax a little'];
+const LAB_TWEETS = ['Introducing memory, agents, and a free version of half the apps on your timeline.','New today: our assistant now does that thing your startup does. For free.'];
+const LOVE = ['A customer emailed: "this saved my business." You read it four times.','A stranger paid for the annual plan. You stared at the Stripe notification for a while.','A user sent a feature request with a thank-you note attached.'];
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const rand = (a,b) => a + Math.random()*(b-a);
+const ri = (a,b) => Math.floor(rand(a,b+1));
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const gauss = () => { let u=0,v=0; while(!u) u=Math.random(); while(!v) v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); };
+const lognorm = s => Math.exp(gauss()*s);
+const money = n => '$' + Math.round(n).toLocaleString('en-US');
+const num = n => n >= 10000 ? (n/1000).toFixed(n >= 100000 ? 0 : 1).replace(/\.0$/,'') + 'k' : Math.round(n).toLocaleString('en-US');
+const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Math.random().toString(36).slice(2, 9);
+const hue = s => { let h = 0; for (const ch of s) h = (h*31 + ch.charCodeAt(0)) % 360; return h; };
+
+/* ---------- state ---------- */
+let S;
+function fresh(){
+  return { phase:'title', day:0, agiDay:START_DAYS, morale:72, skill:1, followers:14, mrr:0,
+    products:[], current:null, ideas:[], saved:[], ships:0, flops:0, doom:0, grass:0, abandoned:0,
+    busy:null, postCd:0, history:[0], shifts:0, escaped:false, bestLaunch:0, badge:2,
+    scrolling:false, scrollDays:0, acc:0, newsletter:false };
+}
+const setMorale = d => { S.morale = clamp(S.morale + d, 0, 100); };
+const sumMrr = () => { S.mrr = S.products.reduce((a,p) => a + p.mrr, 0); };
+
+/* ---------- ideas ---------- */
+function makeIdea(hot = false, forceType){
+  const type = forceType || pick(['wrapper','agent','b2b','b2b','game','ext','letter']);
+  const n = pick(NICHES);
+  const name = {
+    wrapper: () => `an AI that rewrites ${pick(WRAP)}`,
+    agent:   () => pick([`an AI receptionist for ${n}`, `an agent that does bookkeeping for ${n}`, `an AI that answers email for ${n}`]),
+    b2b:     () => pick([`scheduling software for ${n}`, `invoicing for ${n}`, `a CRM for ${n}`, `inventory tracking for ${n}`]),
+    game:    () => pick(GAMES),
+    ext:     () => `a browser extension that ${pick(EXTS)}`,
+    letter:  () => pick([`a newsletter about software for ${n}`, 'a weekly digest of indie launches', 'a newsletter for people anxious about AGI', 'a newsletter about boring businesses']),
+  }[type]();
+  return { id:uid(), type, name, hot, effort:Math.round(TYPES[type].effort * rand(.85, 1.2)), progress:0 };
+}
+function makeOptions(){
+  const out = S.saved.splice(0, 2);
+  const used = new Set(out.map(i => i.type));
+  let guard = 0;
+  while (out.length < 3 && guard++ < 200){
+    const idea = makeIdea(false);
+    if (used.has(idea.type) || (idea.type === 'letter' && S.newsletter)) continue;
+    used.add(idea.type); out.push(idea);
+  }
+  return out;
+}
+function saveIdea(idea){
+  if (idea.type === 'letter' && S.newsletter) idea = makeIdea(true, 'agent');
+  if (!S.current){
+    const i = S.ideas.findIndex(x => !x.hot);
+    if (i >= 0) S.ideas[i] = idea; else { S.saved.push(idea); }
+  } else {
+    S.saved.push(idea);
+    if (S.saved.length > 3) S.saved.shift();
+  }
+  projKey = '';
+}
+function ideaText(i){
+  return pick([`someone please build ${i.name}. I would pay $50/mo`, `free startup idea: ${i.name}`, `hot take: ${i.name} is a $10M company waiting to happen`, `if you are bored this weekend, build ${i.name}`]);
+}
+
+/* ---------- actions ---------- */
+const canAct = () => S.phase === 'play' && !S.busy && !S.scrolling;
+
+let lastBuild = 0;
+function build(){
+  if (!canAct() || !S.current) return;
+  const now = performance.now();
+  if (now - lastBuild < 75) return;
+  lastBuild = now;
+  const c = S.current;
+  if (c.progress >= c.effort) return;
+  const power = (0.6 + S.skill*0.15) * (0.3 + 0.7*S.morale/100);
+  c.progress = Math.min(c.effort, c.progress + power);
+  setMorale(-0.4);
+  checkBurnout();
+  render();
+}
+function checkBurnout(){
+  if (S.morale > 0 || S.busy || S.phase !== 'play') return;
+  if (S.scrolling) closeApp(true);
+  stopHold();
+  S.busy = { kind:'burnout', left:18 };
+  toast('Burnout. You stare at the ceiling for 18 days.', 'bad');
+}
+
+function ship(){
+  const c = S.current;
+  if (!canAct() || !c) return;
+  const q = c.progress / c.effort;
+  if (q < 0.4) return;
+  const t = TYPES[c.type];
+  const skillF = 0.55 + S.skill*0.12;
+  const audF = 0.6 + Math.log10(S.followers + 10)*0.35;
+  const viral = Math.random() < t.viral * (0.5 + q) * (c.hot ? 1.5 : 1) * (0.8 + Math.min(S.skill, 10)*0.04);
+  const flop = !viral && !t.newsletter && Math.random() < clamp(0.62 - S.skill*0.045 - (q - 0.7)*0.35, 0.18, 0.85);
+  let mrr;
+  if (t.newsletter){ mrr = Math.round(S.followers * 0.08 * (0.5 + 0.5*q)); S.newsletter = true; }
+  else if (flop) mrr = Math.round(t.base * 0.05 * Math.random());
+  else mrr = Math.round(t.base * (0.35 + 0.65*q) * skillF * audF * lognorm(0.55) * (viral ? rand(2.5, 6) : 1) * (c.hot ? 1.3 : 1));
+  const fol = Math.round((6 + S.followers*0.04) * t.fol * (viral ? rand(6, 18) : 1) * (flop ? 0.4 : 1) * rand(.7, 1.3));
+
+  S.followers += fol;
+  S.skill += 1;
+  S.ships += 1;
+  if (flop) S.flops += 1;
+  S.bestLaunch = Math.max(S.bestLaunch, mrr);
+  S.products.unshift({ id:c.id, name:c.name, type:c.type, hot:c.hot, mrr, day:S.day, flop, viral, note:'' });
+  sumMrr();
+  setMorale(viral ? 25 : flop ? -6 : 14);
+
+  const pct = Math.round(q*100);
+  const early = pct < 100 ? ` Shipped at ${pct}%.` : '';
+  let msg, kind, line;
+  if (t.newsletter){ msg = `${num(Math.round(S.followers*0.06))} subscribers signed up. ${money(mrr)}/mo from sponsors.${early}`; kind = 'money'; line = 'first issue is out. subscribe if you want'; }
+  else if (viral){ msg = `It went viral. +${num(fol)} followers, +${money(mrr)} MRR.${early}`; kind = 'money'; line = 'this blew up. thank you all'; }
+  else if (flop){ msg = `${ri(0, 14)} signups, ${mrr > 0 ? 'one' : 'zero'} paid. It flopped. Skill ${S.skill} anyway.${early}`; kind = 'bad'; line = 'would love feedback'; }
+  else { msg = `${ri(3, 40)} paying customers. +${money(mrr)} MRR. Skill ${S.skill}.${early}`; kind = 'money'; line = 'first customers already in'; }
+  toast(msg, kind);
+  const likes = Math.round((S.followers*0.03 + 2) * (viral ? rand(20, 60) : flop ? rand(.2, .6) : rand(1, 2)));
+  addTweet({ you:true, text:`just shipped ${c.name}. ${line}`, likes }, $('feed'));
+
+  S.current = null;
+  S.ideas = makeOptions();
+  projKey = '';
+  checkEscape();
+  render();
+}
+function checkEscape(){
+  if (!S.escaped && S.mrr >= GOAL){
+    S.escaped = true;
+    toast('Escape velocity: $10k MRR. Everything from here is a victory lap.', 'money');
+  }
+}
+
+function post(){
+  if (!canAct() || S.postCd > 0) return;
+  const gain = Math.max(1, Math.round((2 + S.ships*2.5) * rand(.5, 1.6) * Math.sqrt(1 + S.followers/400)));
+  S.followers += gain;
+  S.postCd = 6;
+  setMorale(gain > 10 ? 3 : -2);
+  const c = S.current;
+  const text = c ? `day ${S.day} of building ${c.name}. ${Math.round(100*c.progress/c.effort)}% done.`
+    : S.ships ? `${plural(S.ships, 'launch')} so far. ${money(S.mrr)} MRR. still going.`
+    : `day ${S.day}. haven't shipped anything yet. starting today.`;
+  addTweet({ you:true, text, likes:Math.round(gain*rand(1.5, 4) + S.followers*0.01) }, $('feed'));
+  toast(gain > 10 ? `Posted. +${gain} followers.` : `Posted into the void. +${plural(gain, 'follower')}.`);
+  render();
+}
+
+function touchGrass(){
+  if (!canAct()) return;
+  stopHold();
+  S.busy = { kind:'grass', left:4 };
+  toast('Phone in a drawer. Four days outside.', 'good');
+  render();
+}
+
+function pickIdea(i){
+  if (!canAct() || S.current || !S.ideas[i]) return;
+  S.current = S.ideas[i];
+  S.ideas = [];
+  projKey = '';
+  render();
+}
+function abandon(){
+  if (!canAct() || !S.current) return;
+  S.abandoned += 1;
+  toast(`Abandoned ${S.current.name} at ${Math.round(100*S.current.progress/S.current.effort)}%. Onto the next shiny thing.`, 'bad');
+  S.current = null;
+  S.ideas = makeOptions();
+  projKey = '';
+  render();
+}
+
+function openApp(){
+  if (!canAct()) return;
+  stopHold();
+  S.scrolling = true;
+  S.scrollDays = 0;
+  S.badge = 0;
+  $('scrollFeed').innerHTML = '';
+  for (let k = 0; k < 3; k++) scrollTweet(true);
+  $('scrollOverlay').hidden = false;
+  $('bClose').focus();
+  render();
+}
+function closeApp(silent){
+  if (!S.scrolling) return;
+  S.scrolling = false;
+  $('scrollOverlay').hidden = true;
+  if (!silent && S.scrollDays > 0) toast(`You scrolled for ${plural(S.scrollDays, 'day')}.`, S.scrollDays > 20 ? 'bad' : '');
+  if (S.phase === 'play') $('bBuild').focus();
+  render();
+}
+
+/* ---------- timeline ---------- */
+function addTweet(tw, list, cap = 30){
+  const who = tw.you ? ['You','you'] : tw.who;
+  const li = document.createElement('li');
+  li.className = 'tweet' + (tw.you ? ' you' : '');
+  const h = tw.you ? 42 : hue(who[1]);
+  const likes = tw.likes ?? Math.round(Math.exp(rand(2, 8.5)));
+  const rts = Math.round(likes * rand(.04, .2));
+  li.innerHTML = `<div class="avatar" style="background:hsl(${h} 58% 72%)">${esc(who[0][0].toUpperCase())}</div>
+    <div style="min-width:0"><div class="tw-head"><strong>${esc(who[0])}</strong><span>@${esc(who[1])} · day ${S.day}</span></div>
+    <div class="tw-body">${esc(tw.text)}</div>
+    <div class="tw-foot"><span>${num(likes)} like${likes === 1 ? '' : 's'}</span><span>${num(rts)} repost${rts === 1 ? '' : 's'}</span>${tw.effect ? `<span class="fx ${tw.effect[1]}">${esc(tw.effect[0])}</span>` : ''}</div></div>`;
+  list.prepend(li);
+  while (list.children.length > cap) list.lastElementChild.remove();
+}
+function randomTweet(){
+  const r = Math.random();
+  if (r < .42) return { who:pick(PEOPLE), text:pick(FLEX), kind:'flex' };
+  if (r < .58) return { who:pick(PEOPLE), text:pick(REAL), kind:'real' };
+  if (r < .80) return { who:pick(PEOPLE), text:pick(HYPE), kind:'hype' };
+  return { who:pick(PEOPLE), idea:makeIdea(true), kind:'idea' };
+}
+function passiveTweet(){
+  const tw = randomTweet();
+  if (tw.kind === 'idea') tw.text = ideaText(tw.idea);
+  if (tw.kind === 'flex') setMorale(-1);
+  addTweet(tw, $('feed'));
+}
+function scrollTweet(free){
+  if (!free && S.scrollDays % 2) return;
+  const tw = randomTweet();
+  if (tw.kind === 'flex'){ setMorale(-3); tw.effect = ['-3 morale. you compared yourself', 'bad']; }
+  else if (tw.kind === 'real'){ setMorale(2); tw.effect = ['+2 morale', 'good']; }
+  else if (tw.kind === 'hype'){ setMorale(-1); tw.effect = ['-1 morale. timeline anxiety', 'bad']; }
+  else {
+    tw.text = ideaText(tw.idea);
+    if (Math.random() < .55){ saveIdea(tw.idea); tw.effect = ['idea saved', 'idea']; }
+    else tw.effect = ['+1 dopamine', ''];
+  }
+  setMorale(1);
+  addTweet(tw, $('scrollFeed'), 12);
+}
+
+/* ---------- simulation ---------- */
+function tick(){
+  S.day += 1;
+  if (S.postCd > 0) S.postCd -= 1;
+
+  if (S.scrolling){
+    S.doom += 1; S.scrollDays += 1;
+    scrollTweet(false);
+  } else if (S.busy){
+    S.busy.left -= 1;
+    if (S.busy.kind === 'grass'){ S.grass += 1; setMorale(9); } else setMorale(2);
+    if (S.busy.left <= 0){
+      const k = S.busy.kind; S.busy = null;
+      toast(k === 'grass' ? 'Back at the desk. Feeling human again.' : 'You recovered, slowly. Pace yourself.', 'good');
+    }
+  } else {
+    setMorale(0.22);
+  }
+
+  if (!S.scrolling){
+    if (Math.random() < 0.26) passiveTweet();
+    if (Math.random() < 0.07){ S.badge += 1; bumpBadge(); }
+  }
+  events();
+  if (S.day % 30 === 0) monthEnd();
+  if (S.day % 10 === 0) S.history.push(S.mrr);
+  checkBurnout();
+  if (S.day >= S.agiDay){ endGame(); return; }
+}
+
+function events(){
+  if (Math.random() < 0.007 && S.agiDay - S.day > 70){
+    const up = Math.random() < 0.6;
+    const d = ri(12, 40);
+    S.agiDay = up ? Math.max(S.day + 45, S.agiDay - d) : S.agiDay + d;
+    S.shifts += 1;
+    clockShift(up ? `New model dropped. Timelines moved up ${d} days.` : `Benchmarks plateaued, allegedly. AGI pushed back ${d} days.`);
+    addTweet({ who:AGI_ACC, text:pick(up ? AGI_UP : AGI_DOWN) }, $('feed'));
+  }
+  const labbed = S.products.filter(p => TYPES[p.type].lab && p.mrr > 0);
+  if (labbed.length && Math.random() < 0.0045){
+    labbed.forEach(p => { p.mrr = Math.round(p.mrr*0.2); p.note = 'gutted by a frontier lab'; });
+    sumMrr();
+    setMorale(-12);
+    toast('A frontier lab shipped your product as a free feature. Your AI products lost 80% of their revenue.', 'bad');
+    addTweet({ who:LAB, text:pick(LAB_TWEETS) }, $('feed'));
+  }
+  if (S.mrr > 0 && Math.random() < 0.009){ setMorale(10); toast(pick(LOVE), 'good'); }
+  const big = S.products.filter(p => p.mrr > 250 && !TYPES[p.type].newsletter);
+  if (big.length && Math.random() < 0.003){
+    const p = pick(big);
+    p.mrr = Math.round(p.mrr*0.7); p.note = 'cloned by someone with a better thread';
+    sumMrr();
+    toast(`Someone cloned ${p.name} and wrote a better launch thread. That one dropped 30%.`, 'bad');
+  }
+}
+
+function monthEnd(){
+  S.products.forEach(p => {
+    const t = TYPES[p.type];
+    if (t.newsletter){ p.mrr = Math.round(S.followers * 0.08 * rand(.85, 1.15)); return; }
+    const churn = t.churn * (p.hot ? 1.8 : 1);
+    const growth = t.growth * (0.6 + Math.min(S.skill, 12)*0.06);
+    p.mrr = Math.max(0, Math.round(p.mrr * (1 - churn + growth) * rand(.95, 1.06)));
+  });
+  sumMrr();
+  checkEscape();
+}
+
+/* ---------- end ---------- */
+function rankOf(){
+  const m = S.mrr;
+  if (S.ships === 0) return ['The Spectator', `You watched ${S.agiDay} days of other people shipping${S.doom ? ` and scrolled through ${S.doom} of them` : ''}.`, false];
+  if (m >= GOAL) return ['Escaped', 'Your products pay you whether or not anyone is watching. You got out.', true];
+  if (m >= 5000) return ['Almost Out', 'A real business. Most of your timeline never gets this far.', true];
+  if (m >= 1000) return ['Small Business Owner', 'Rent money from things you made. That counts for a lot.', false];
+  if (m >= 100) return ['Ramen Profitable', 'Strangers pay you every month. Everyone started here.', false];
+  return ['Still in the Underclass', `${plural(S.ships, 'launch')} and almost no revenue, but your skill is ${S.skill} now. Run it back.`, false];
+}
+function endGame(){
+  S.phase = 'end';
+  stopHold();
+  if (S.scrolling){ S.scrolling = false; $('scrollOverlay').hidden = true; }
+  render();
+  const [title, line, won] = rankOf();
+  $('endEyebrow').textContent = `Day ${S.agiDay}. AGI has arrived.`;
+  $('endTitle').textContent = title;
+  $('endTitle').classList.toggle('won', won);
+  $('endLine').textContent = line;
+  const stats = [
+    ['MRR', money(S.mrr), 'money'], ['Shipped', S.ships], ['Flopped', S.flops],
+    ['Followers', num(S.followers)], ['Skill', S.skill], ['Best launch', money(S.bestLaunch)],
+    ['Days scrolling', S.doom], ['Days outside', S.grass], ['Ideas abandoned', S.abandoned],
+  ];
+  $('endStats').innerHTML = stats.map(([k, v, c]) => `<div class="${c || ''}"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+  $('endEpilogue').innerHTML = `AGI arrived on day ${S.agiDay}. The date moved <b>${plural(S.shifts, 'time')}</b> while you played, and nobody on your timeline knew the real one either. The numbers you controlled: <b>${plural(S.ships, 'launch')}</b>, <b>${S.grass} days outside</b>, <b>${S.doom} days scrolling</b>.`;
+  const brag = S.ships ? `I shipped ${plural(S.ships, 'thing')} before AGI (${S.flops} flopped), hit ${money(S.mrr)} MRR and doomscrolled ${plural(S.doom, 'day')}.` : `I shipped nothing before AGI. I just watched the timeline${S.doom ? ` and doomscrolled ${plural(S.doom, 'day')}` : ''}.`;
+  const text = `${brag}\n\nRank: ${title}\n\nShip Before AGI: ${GAME_URL}`;
+  $('shareText').value = text;
+  $('shareText').hidden = true;
+  $('bShare').href = 'https://x.com/intent/tweet?text=' + encodeURIComponent(text);
+  if (TIP_URL){ $('tipLink').href = TIP_URL; $('tipLine').hidden = false; }
+  saveBest(title);
+  $('endScreen').hidden = false;
+  $('bShare').focus();
+}
+function saveBest(title){
+  try {
+    const best = JSON.parse(localStorage.getItem('sba-best') || 'null');
+    if (!best || S.mrr > best.mrr) localStorage.setItem('sba-best', JSON.stringify({ mrr:S.mrr, title }));
+  } catch (e) {}
+}
+function showBest(){
+  try {
+    const best = JSON.parse(localStorage.getItem('sba-best') || 'null');
+    $('bestLine').textContent = best ? `Your best: ${money(best.mrr)} MRR, ${best.title}` : '';
+  } catch (e) { $('bestLine').textContent = ''; }
+}
+
+/* ---------- render ---------- */
+let projKey = '', prodKey = '', sparkKey = '';
+const MOODS = [[75,'locked in'],[50,'fine, mostly'],[30,'comparing yourself'],[12,'cooked'],[0,'one tweet from burnout']];
+
+function render(){
+  const left = Math.max(0, S.agiDay - S.day);
+  $('tminus').textContent = left;
+  $('miniT').textContent = left;
+  if (!$('clockNote').classList.contains('hit')) $('clockNote').textContent = `Day ${S.day} of your last ${S.agiDay === START_DAYS ? 'two years' : S.agiDay + ' days'}`;
+  $('sMrr').textContent = money(S.mrr);
+  $('sFol').textContent = num(S.followers);
+  $('sSkill').textContent = S.skill;
+  $('sShips').textContent = S.ships;
+
+  const m = Math.round(S.morale);
+  $('moraleBar').style.width = m + '%';
+  $('moraleMeter').classList.toggle('low', m < 30);
+  $('mood').textContent = MOODS.find(([t]) => m > t || t === 0)[1];
+  $('mood').classList.toggle('low', m < 30);
+
+  renderProject();
+
+  const busy = $('busy');
+  if (S.busy){
+    busy.hidden = false;
+    busy.className = 'busy' + (S.busy.kind === 'grass' ? ' grass' : '');
+    busy.textContent = S.busy.kind === 'grass' ? `Touching grass. ${plural(S.busy.left, 'day')} left.` : `Burnt out. ${plural(S.busy.left, 'day')} until you can look at a screen.`;
+  } else busy.hidden = true;
+
+  const act = canAct();
+  const c = S.current;
+  const q = c ? c.progress / c.effort : 0;
+  $('bBuild').disabled = !act || !c || q >= 1;
+  const shipOk = act && c && q >= 0.4;
+  $('bShip').disabled = !shipOk;
+  $('bShip').classList.toggle('ready', !!(c && q >= 1));
+  $('shipLabel').textContent = c && q >= 0.4 && q < 1 ? 'Ship early' : 'Ship it';
+  $('shipSub').textContent = !c ? 'pick an idea first' : q < 0.4 ? 'unlocks at 40%' : q < 1 ? 'rough edges, real users' : 'it is ready. go.';
+  $('bPost').disabled = !act || S.postCd > 0;
+  $('postSub').textContent = S.postCd > 0 ? `again in ${plural(S.postCd, 'day')}` : 'build in public';
+  $('bGrass').disabled = !act;
+  $('bScroll').disabled = !act;
+  $('badge').textContent = S.badge;
+  $('badge').hidden = S.badge === 0;
+  $('scrollDays').textContent = plural(S.scrollDays, 'day');
+
+  renderProducts();
+  const sk = S.history.length + ':' + S.mrr + ':' + S.agiDay;
+  if (sk !== sparkKey){ sparkKey = sk; drawSpark(); }
+}
+
+function meter(label, n){
+  return `<span class="m"><span>${label}</span><span class="dots" role="img" aria-label="${label} ${n} of 4">${'<i class="on"></i>'.repeat(n)}${'<i></i>'.repeat(4 - n)}</span></span>`;
+}
+function ideaCard(i, n){
+  const t = TYPES[i.type];
+  const eff = i.effort <= 25 ? 1 : i.effort <= 45 ? 2 : i.effort <= 70 ? 3 : 4;
+  return `<button class="idea${i.hot ? ' is-hot' : ''}" type="button" data-i="${n}">
+    <span class="idea-top"><span class="chips"><span class="chip">${t.label}</span>${i.hot ? '<span class="chip hot">trending</span>' : ''}</span><kbd>${n + 1}</kbd></span>
+    <strong>${esc(i.name)}</strong>
+    <span class="idea-meters">${meter('Effort', eff)}${meter('Upside', t.up)}${meter('Hype', t.hype)}</span>
+    <span class="idea-note">${i.hot ? HOT_NOTE : t.note}</span>
+  </button>`;
+}
+function renderProject(){
+  const el = $('project');
+  const key = S.current ? 'c' + S.current.id + ':' + S.saved.length : 'i' + S.ideas.map(i => i.id).join(',');
+  if (key !== projKey){
+    projKey = key;
+    if (S.current){
+      const c = S.current, t = TYPES[c.type];
+      el.innerHTML = `
+        <div class="proj-head"><p class="eyebrow">Now building</p><button class="link" id="bAbandon" type="button">Abandon it</button></div>
+        <h2 class="proj-name">${esc(c.name)}</h2>
+        <div class="chips"><span class="chip">${t.label}</span>${c.hot ? '<span class="chip hot">from the timeline</span>' : ''}${S.saved.length ? `<span class="chip">${plural(S.saved.length, 'idea')} saved for later</span>` : ''}</div>
+        <div class="progress" id="pBar" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100"><i id="pFill"></i><span class="mark"></span></div>
+        <div class="proj-meta"><span id="pPct">0%</span><span id="pTask"></span></div>
+        <p class="idea-note" style="margin:0">${c.hot ? HOT_NOTE : t.note}</p>`;
+      $('bAbandon').onclick = abandon;
+    } else {
+      el.innerHTML = `
+        <div class="proj-head"><p class="eyebrow">Pick your next idea</p><span class="best">press 1, 2 or 3</span></div>
+        <div class="ideas">${S.ideas.map(ideaCard).join('')}</div>`;
+      el.querySelectorAll('.idea').forEach(b => { b.onclick = () => pickIdea(+b.dataset.i); });
+    }
+  }
+  if (S.current){
+    const c = S.current;
+    const pct = Math.min(100, Math.floor(100 * c.progress / c.effort + 1e-9));
+    $('pFill').style.width = pct + '%';
+    $('pBar').setAttribute('aria-valuenow', pct);
+    $('pBar').dataset.state = pct >= 100 ? 'ready' : pct >= 40 ? 'early' : 'wip';
+    $('pPct').textContent = pct >= 100 ? '100%, ready to ship' : pct >= 40 ? `${pct}%, shippable now` : `${pct}%`;
+    $('pTask').textContent = TASKS[Math.min(TASKS.length - 1, Math.floor(pct / 100 * TASKS.length))];
+  }
+}
+function renderProducts(){
+  const key = S.products.map(p => p.id + ':' + p.mrr + ':' + p.note).join('|');
+  if (key === prodKey) return;
+  prodKey = key;
+  const el = $('products');
+  if (!S.products.length){
+    el.innerHTML = '<li class="empty">Nothing shipped yet. Your first launch will probably flop. Ship it anyway.</li>';
+    return;
+  }
+  const shown = S.products.slice(0, 7);
+  el.innerHTML = shown.map(p => {
+    const t = TYPES[p.type];
+    const note = p.note || (p.viral ? 'went viral' : p.flop ? 'flopped' : t.newsletter ? 'grows with followers' : 'paying customers');
+    return `<li class="prod${p.mrr ? '' : ' zero'}"><span class="prod-name">${esc(p.name)}</span><span class="prod-mrr">${money(p.mrr)}/mo</span><span class="prod-note">${t.label} · day ${p.day} · ${esc(note)}</span></li>`;
+  }).join('') + (S.products.length > 7 ? `<li class="empty">+ ${S.products.length - 7} older launches</li>` : '');
+}
+function drawSpark(){
+  const cv = $('spark');
+  const w = cv.clientWidth, h = cv.clientHeight;
+  if (!w || !h) return;
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(w*dpr); cv.height = Math.round(h*dpr);
+  const ctx = cv.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  const css = getComputedStyle(document.documentElement);
+  const col = n => css.getPropertyValue(n).trim();
+  const data = S.history.concat(S.phase === 'title' ? [] : [S.mrr]);
+  const max = Math.max(2000, ...data) * 1.15;
+  const n = Math.max(2, Math.ceil(S.agiDay / 10) + 1);
+  const X = i => 2 + (i / (n - 1)) * (w - 4);
+  const Y = v => h - 2 - (v / max) * (h - 14);
+  ctx.font = '10px ' + col('--f-mono');
+  if (GOAL <= max){
+    ctx.strokeStyle = col('--line'); ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, Y(GOAL)); ctx.lineTo(w, Y(GOAL)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = col('--muted'); ctx.fillText('$10k', 2, Y(GOAL) - 3);
+  } else {
+    ctx.fillStyle = col('--muted'); ctx.fillText('MRR', 2, 9);
+  }
+  ctx.strokeStyle = col('--line'); ctx.beginPath(); ctx.moveTo(0, h - 1.5); ctx.lineTo(w, h - 1.5); ctx.stroke();
+  if (data.length < 2) return;
+  ctx.beginPath();
+  data.forEach((v, i) => i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(i), Y(v)));
+  ctx.lineTo(X(data.length - 1), h - 2); ctx.lineTo(X(0), h - 2); ctx.closePath();
+  ctx.fillStyle = col('--money-wash'); ctx.fill();
+  ctx.beginPath();
+  data.forEach((v, i) => i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(i), Y(v)));
+  ctx.strokeStyle = col('--money'); ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.stroke();
+  const li = data.length - 1;
+  ctx.fillStyle = col('--money'); ctx.beginPath(); ctx.arc(X(li), Y(data[li]), 3.5, 0, Math.PI*2); ctx.fill();
+}
+
+/* ---------- effects ---------- */
+function toast(text, kind = ''){
+  const box = $('toasts');
+  const t = document.createElement('div');
+  t.className = 'toast ' + kind;
+  t.textContent = text;
+  box.prepend(t);
+  while (box.children.length > 3) box.lastElementChild.remove();
+  setTimeout(() => t.remove(), 4200);
+}
+function clockShift(msg){
+  const cd = $('countdown'), note = $('clockNote');
+  cd.classList.remove('shake'); void cd.offsetWidth; cd.classList.add('shake');
+  note.textContent = msg; note.classList.add('hit');
+  clearTimeout(clockShift.t);
+  clockShift.t = setTimeout(() => { note.classList.remove('hit'); render(); }, 4000);
+}
+function bumpBadge(){
+  const b = $('badge');
+  b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+}
+
+/* ---------- input ---------- */
+let holdTimer = 0;
+function startHold(){ stopHold(); build(); holdTimer = setInterval(build, 90); $('bBuild').classList.add('pressed'); }
+function stopHold(){ clearInterval(holdTimer); holdTimer = 0; $('bBuild').classList.remove('pressed'); }
+
+const bb = $('bBuild');
+bb.addEventListener('pointerdown', e => { if (e.button === 0) { e.preventDefault(); startHold(); } });
+['pointerup','pointerleave','pointercancel'].forEach(ev => bb.addEventListener(ev, stopHold));
+bb.addEventListener('click', e => { if (e.detail === 0) build(); });
+bb.addEventListener('contextmenu', e => e.preventDefault());
+$('bShip').onclick = ship;
+$('bPost').onclick = post;
+$('bGrass').onclick = touchGrass;
+$('bScroll').onclick = openApp;
+$('bClose').onclick = () => closeApp(false);
+$('bStart').onclick = startGame;
+$('bAgain').onclick = startGame;
+$('bCopy').onclick = () => {
+  const text = $('shareText').value;
+  const fallback = () => { const ta = $('shareText'); ta.hidden = false; ta.focus(); ta.select(); $('bCopy').textContent = 'Select and copy'; };
+  try {
+    navigator.clipboard.writeText(text).then(() => { $('bCopy').textContent = 'Copied'; setTimeout(() => { $('bCopy').textContent = 'Copy result'; }, 1800); }, fallback);
+  } catch (e) { fallback(); }
+};
+window.addEventListener('blur', stopHold);
+
+document.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (S.phase === 'title'){
+    if (k === 'enter' || k === ' '){ e.preventDefault(); startGame(); }
+    return;
+  }
+  if (S.phase !== 'play') return;
+  if (S.scrolling){
+    if (k === 't' || k === 'escape'){ e.preventDefault(); closeApp(false); }
+    return;
+  }
+  if (k === ' '){ e.preventDefault(); build(); }
+  else if (k === 'enter'){ const b = e.target.closest('button,a'); if (!b || b.id === 'bBuild'){ e.preventDefault(); ship(); } }
+  else if (k === 'p') post();
+  else if (k === 'g') touchGrass();
+  else if (k === 't') openApp();
+  else if (k === '1' || k === '2' || k === '3') pickIdea(+k - 1);
+});
+document.addEventListener('keyup', e => { if (e.key === ' ' && S.phase === 'play') e.preventDefault(); });
+window.addEventListener('resize', () => { sparkKey = ''; drawSpark(); });
+
+/* ---------- loop ---------- */
+let last = 0;
+function frame(t){
+  const dt = last ? Math.min(250, t - last) : 0;
+  last = t;
+  if (S.phase === 'play' && !document.hidden){
+    S.acc += dt * (S.scrolling ? SCROLL_SPEED : S.busy ? BUSY_SPEED : 1);
+    let steps = 0;
+    while (S.acc >= DAY_MS && S.phase === 'play' && steps++ < 8){ S.acc -= DAY_MS; tick(); }
+    if (steps) render();
+  }
+  requestAnimationFrame(frame);
+}
+
+/* ---------- boot ---------- */
+function seedFeed(){
+  $('feed').innerHTML = '';
+  const seed = [
+    { who:pick(PEOPLE), text:pick(HYPE) },
+    { who:pick(PEOPLE), text:pick(REAL) },
+    { who:AGI_ACC, text:'you have 2 years to escape the permanent underclass. what are you doing tonight?' },
+    { who:pick(PEOPLE), text:'$0 to $12k MRR in 41 days. thread below' },
+    { who:['Lena Indie','lena_indie'], text:'made a game today. took 3 hours. 40k plays already' },
+  ];
+  seed.forEach(tw => addTweet(tw, $('feed')));
+}
+function startGame(){
+  S = fresh();
+  S.phase = 'play';
+  S.ideas = makeOptions();
+  projKey = prodKey = sparkKey = '';
+  $('titleScreen').hidden = true;
+  $('endScreen').hidden = true;
+  $('scrollOverlay').hidden = true;
+  seedFeed();
+  render();
+  toast('Day 1. Pick an idea and start building.');
+  $('bBuild').focus();
+}
+function boot(data){
+  if (data && data.S && data.S.phase){
+    S = data.S; S.acc = 0;
+    $('titleScreen').hidden = S.phase !== 'title';
+    $('scrollOverlay').hidden = !S.scrolling;
+    if (S.phase === 'end') endGame();
+  } else {
+    S = fresh();
+    S.ideas = makeOptions();
+  }
+  seedFeed();
+  showBest();
+  render();
+  requestAnimationFrame(frame);
+}
+window.claude?.hot?.snapshot?.(() => ({ S }));
+window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
+})();
+</script>
+
+</body>
+</html>
