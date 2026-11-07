@@ -3,117 +3,161 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="The timeline is coming for you. Dodge flex tweets, touch grass, fill your contribution graph and ship. Hit $10k MRR before AGI arrives.">
+<meta name="description" content="You steer. Your AI agent fights. Ride its context window, /compact for a blast, Ctrl+Z your mistakes, and ship products before AGI arrives.">
 <meta property="og:title" content="Ship Before AGI">
-<meta property="og:description" content="The timeline is coming for you. Dodge flex tweets, touch grass, fill your contribution graph and ship. Hit $10k MRR before AGI arrives.">
+<meta property="og:description" content="You steer. Your AI agent fights. Ride its context window, /compact for a blast, Ctrl+Z your mistakes, and ship products before AGI arrives.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ishaan1345.github.io/ishaan1345/">
 <meta property="og:image" content="https://ishaan1345.github.io/ishaan1345/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ship Before AGI">
-<meta name="twitter:description" content="The timeline is coming for you. Dodge flex tweets, touch grass, fill your contribution graph and ship. Hit $10k MRR before AGI arrives.">
+<meta name="twitter:description" content="You steer. Your AI agent fights. Ride its context window, /compact for a blast, Ctrl+Z your mistakes, and ship products before AGI arrives.">
 <meta name="twitter:image" content="https://ishaan1345.github.io/ishaan1345/og.png">
 <title>Ship Before AGI</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Patrick+Hand&family=Permanent+Marker&display=swap" rel="stylesheet">
 <style>
-/* Layout: one full-screen canvas of graph paper that scrolls with you; HUD and menus are doodles on top.
-   Single light "notebook" look on purpose. */
+/* Layout: a sheet of graph paper on a dark desk is the arena; the canvas fills the screen and follows you.
+   HUD is drawn on the canvas; menus and the two action buttons are doodled DOM on top. One light look, on purpose. */
 :root{
+  --desk:#2a2f3a;
   --paper:#f7f8f3;
   --grid:#d4e1ef;
+  --margin:#ef9a94;
   --ink:#1b2130;
   --ink-soft:#6b7385;
   --card:#ffffff;
   --red:#e0453c;
   --hi:#ffd94a;
   --hi-wash:rgba(255,217,74,.85);
+  --amber:#f0a024;
   --blue:#2c68d8;
   --blue-wash:rgba(44,104,216,.13);
   --violet:#7b52d9;
   --grass:#3c9a4f;
   --grass-wash:rgba(60,154,79,.16);
-  --shadow:rgba(27,33,48,.12);
-  --g0:#e3e8de;
-  --g1:#9be9a8;
-  --g2:#40c463;
-  --g3:#30a14e;
-  --g4:#216e39;
-  --scrim:rgba(247,248,243,.62);
+  --shadow:rgba(27,33,48,.14);
+  --scope:#ffcf9e;
+  --conflict:#ffd9d6;
+  --g0:#e3e8de; --g1:#9be9a8; --g2:#40c463; --g3:#30a14e; --g4:#216e39;
+  --n-b2b:#cfe3ff; --n-wrapper:#ffd6e8; --n-devtool:#d4f2da; --n-game:#ffe9b0;
+  --n-letter:#eadcff; --n-ext:#cff3f1; --n-framework:#ffdcc7; --n-course:#fff29a; --n-cursed:#f1f1f1;
+  --scrim:rgba(247,248,243,.66);
   --f-marker:"Permanent Marker","Comic Sans MS","Chalkboard SE",cursive;
   --f-hand:"Patrick Hand","Comic Sans MS","Chalkboard SE",system-ui,sans-serif;
+  --f-code:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
   color-scheme:light;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{height:100%;margin:0;overflow:hidden}
-body{background:var(--paper);color:var(--ink);font:18px/1.35 var(--f-hand);-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+body{background:var(--desk);color:var(--ink);font:18px/1.35 var(--f-hand);-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 #game{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
 button{font:inherit;color:inherit}
 button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+kbd{font:500 12px/1 var(--f-code);border:1.5px solid currentColor;border-radius:4px;padding:2px 5px;opacity:.7}
+@media (hover:none){ kbd,.keyhint{display:none!important} }
 
 .sheet{background:var(--card);border:2.5px solid var(--ink);border-radius:18px 6px 16px 5px / 6px 16px 5px 18px;box-shadow:5px 6px 0 var(--ink)}
 .overlay{position:fixed;inset:0;z-index:20;display:grid;place-items:center;overflow-y:auto;background:var(--scrim);
   padding:max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px))}
-.panel{width:min(560px,100%);padding:clamp(20px,4vw,32px);display:grid;gap:14px;transform:rotate(-.6deg)}
-.logo{font:400 clamp(46px,11vw,82px)/.92 var(--f-marker);margin:0;letter-spacing:.01em;text-wrap:balance}
+.panel{width:min(620px,100%);padding:clamp(20px,4vw,30px);display:grid;gap:14px;transform:rotate(-.5deg)}
+.logo{font:400 clamp(44px,10vw,78px)/.92 var(--f-marker);margin:0;text-wrap:balance}
 .logo span{color:var(--red);display:inline-block;transform:rotate(-4deg)}
-.tag{margin:0;font-size:22px;color:var(--ink-soft)}
-.how{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:19px}
-.how b{font-family:var(--f-marker);font-weight:400;font-size:16px;letter-spacing:.02em;margin-right:6px}
-.goal{margin:0;font-size:21px}
+.tag{margin:0;font-size:21px;color:var(--ink-soft)}
+.controls{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0;padding:0;list-style:none;font-size:17px}
+.controls b{font:400 15px var(--f-marker);margin-right:4px}
+.label{font:400 16px var(--f-marker);margin:4px 0 0}
 mark{background:linear-gradient(transparent 22%, var(--hi) 22%, var(--hi) 88%, transparent 88%);color:inherit;padding:0 4px}
-.cta{justify-self:start;display:inline-flex;align-items:center;font:400 24px/1 var(--f-marker);color:var(--ink);text-decoration:none;background:var(--hi);border:2.5px solid var(--ink);border-radius:10px 4px 12px 4px/4px 12px 4px 10px;box-shadow:4px 4px 0 var(--ink);padding:14px 24px;cursor:pointer;transition:transform .08s,box-shadow .08s}
+.cta{justify-self:start;display:inline-flex;align-items:center;gap:10px;font:400 22px/1 var(--f-marker);color:var(--ink);text-decoration:none;background:var(--hi);border:2.5px solid var(--ink);border-radius:10px 4px 12px 4px/4px 12px 4px 10px;box-shadow:4px 4px 0 var(--ink);padding:13px 22px;cursor:pointer;transition:transform .08s,box-shadow .08s}
 .cta:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
 .cta:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
-.ghost{font:400 19px/1 var(--f-marker);background:var(--card);border:2.5px solid var(--ink);border-radius:10px 4px 12px 4px/4px 12px 4px 10px;box-shadow:3px 3px 0 var(--ink);padding:12px 18px;cursor:pointer;text-decoration:none;color:var(--ink);display:inline-flex;align-items:center}
+.ghost{font:400 18px/1 var(--f-marker);background:var(--card);border:2.5px solid var(--ink);border-radius:10px 4px 12px 4px/4px 12px 4px 10px;box-shadow:3px 3px 0 var(--ink);padding:12px 16px;cursor:pointer;text-decoration:none;color:var(--ink);display:inline-flex;align-items:center;gap:8px}
 .ghost:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
 .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .small{margin:0;font-size:16px;color:var(--ink-soft)}
 
-/* upgrade picker */
-.pick{width:min(860px,100%);display:grid;gap:16px;justify-items:center;text-align:center}
-.pick-head{display:grid;gap:4px}
-.shipped{font:400 clamp(42px,9vw,72px)/1 var(--f-marker);margin:0;transform:rotate(-2deg)}
-.shipped.viral{color:var(--blue)} .shipped.flop{color:var(--ink-soft)}
-.shipped-sub{margin:0;font-size:21px}
-.pick-hint{margin:0;font-size:17px;color:var(--ink-soft)}
+/* model select */
+.models{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:600px){ .models{grid-template-columns:minmax(0,1fr)} }
+.model{display:grid;gap:6px;align-content:start;text-align:left;padding:14px;cursor:pointer;min-width:0;transition:transform .1s}
+.model:hover{transform:translateY(-3px)}
+.model-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.model-name{font:400 26px/1 var(--f-marker)}
+.model-tag{font-size:16px;color:var(--ink-soft);line-height:1.2}
+.bars{display:grid;gap:3px;font-size:14px;color:var(--ink-soft)}
+.bars span{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pips{display:flex;gap:3px}
+.pips i{width:11px;height:11px;border-radius:3px;background:var(--g0);border:1.5px solid var(--ink)}
+.pips i.on{background:var(--g2)}
+.model-note{font:500 12px/1.3 var(--f-code);color:var(--ink)}
+
+/* pickers */
+.pick{width:min(900px,100%);display:grid;gap:14px;justify-items:center;text-align:center}
+.pick-head{display:grid;gap:2px}
+.shipped{font:400 clamp(38px,8vw,66px)/1 var(--f-marker);margin:0;transform:rotate(-2deg)}
+.shipped.lab{color:var(--violet)}
+.shipped-sub{margin:0;font-size:20px}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;width:100%}
-@media (max-width:640px){ .cards{grid-template-columns:minmax(0,1fr);gap:12px} }
-.up{display:grid;gap:6px;align-content:start;text-align:left;padding:16px 16px 14px;cursor:pointer;min-width:0;transition:transform .1s}
+@media (max-width:680px){ .cards{grid-template-columns:minmax(0,1fr);gap:10px} }
+.up{display:grid;gap:5px;align-content:start;text-align:left;padding:14px 16px;cursor:pointer;min-width:0;background:var(--note,var(--card));transition:transform .1s}
 .up:nth-child(1){transform:rotate(-1deg)} .up:nth-child(3){transform:rotate(1deg)}
 .up:hover{transform:translateY(-3px) rotate(0)}
 .up-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.up-name{font:400 21px/1.1 var(--f-marker)}
-.up-desc{font-size:18px;color:var(--ink-soft)}
+.glyph{font:400 20px/1 var(--f-marker);background:var(--card);border:2px solid var(--ink);border-radius:6px;padding:4px 8px;min-width:44px;text-align:center}
 .up-key{font:400 14px var(--f-marker);border:2px solid var(--ink);border-radius:6px;padding:1px 7px}
-.pips{display:flex;gap:4px;margin-top:4px}
-.pips i{width:12px;height:12px;border-radius:3px;background:var(--g0);border:1.5px solid var(--ink)}
-.pips i.on{background:var(--g2)}
-.chip{font:400 13px var(--f-marker);background:var(--hi);border-radius:4px;padding:1px 6px}
+.up-type{font:400 21px/1.05 var(--f-marker)}
+.up-name{font-size:17px;line-height:1.2;color:var(--ink-soft)}
+.up-stats{font:500 13px/1.3 var(--f-code)}
+.up-perk{font-size:17px;line-height:1.25;border-top:2px dashed var(--ink-soft);padding-top:6px;margin-top:2px}
+.accept{flex-direction:column;align-items:flex-start;gap:4px;text-align:left}
+.accept small{font:16px/1.2 var(--f-hand);color:var(--ink-soft)}
 @media (hover:none){ .up-key{display:none} }
 
 /* end */
-.end-title{font:400 clamp(24px,5vw,32px)/1.05 var(--f-marker);margin:0;color:var(--red)}
-.rank{font:400 clamp(44px,10vw,74px)/.95 var(--f-marker);margin:0;text-wrap:balance}
+.end-title{font:400 clamp(22px,5vw,30px)/1.05 var(--f-marker);margin:0;color:var(--red)}
+.rank{font:400 clamp(42px,10vw,70px)/.95 var(--f-marker);margin:0;text-wrap:balance}
 .rank.won{color:var(--g4)}
+.portfolio{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.portfolio li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;font-size:17px}
+.portfolio .g{font:400 13px/1 var(--f-marker);border:2px solid var(--ink);border-radius:5px;padding:3px 5px;min-width:38px;text-align:center;background:var(--note,var(--card))}
+.portfolio .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.portfolio .v{font:500 14px var(--f-code)}
+.portfolio .dead{color:var(--ink-soft);text-decoration:line-through}
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 14px;margin:0}
 .stats div{border-top:2px dashed var(--ink-soft);padding-top:6px;min-width:0}
 .stats dt{font-size:15px;color:var(--ink-soft)}
-.stats dd{margin:0;font:400 24px/1.1 var(--f-marker)}
+.stats dd{margin:0;font:400 22px/1.1 var(--f-marker)}
 .stats .money dd{color:var(--g4)}
 @media (max-width:440px){ .stats{grid-template-columns:repeat(2,minmax(0,1fr))} }
 .share-text{width:100%;min-height:90px;font:16px var(--f-hand);border:2px solid var(--ink);border-radius:8px;padding:8px;resize:vertical;-webkit-user-select:text;user-select:text}
 
-/* corner buttons */
-.corner{position:fixed;z-index:10;right:max(16px, env(safe-area-inset-right, 0px));bottom:calc(14px + env(safe-area-inset-bottom, 0px));display:flex;gap:8px}
-.corner button{width:42px;height:42px;display:grid;place-items:center;font:400 17px/1 var(--f-marker);background:var(--card);border:2px solid var(--ink);border-radius:10px 4px 10px 4px/4px 10px 4px 10px;box-shadow:2px 2px 0 var(--ink);cursor:pointer}
-@media (max-width:640px){ .corner{bottom:auto;top:calc(96px + env(safe-area-inset-top, 0px))} }
+/* in-game buttons */
+.topbtns{position:fixed;z-index:10;right:max(16px, env(safe-area-inset-right, 0px));top:calc(84px + env(safe-area-inset-top, 0px));display:flex;gap:8px}
+.topbtns button{width:40px;height:40px;display:grid;place-items:center;font:400 16px/1 var(--f-marker);background:var(--card);border:2px solid var(--ink);border-radius:10px 4px 10px 4px/4px 10px 4px 10px;box-shadow:2px 2px 0 var(--ink);cursor:pointer}
+.actions{position:fixed;z-index:10;right:max(18px, env(safe-area-inset-right, 0px));bottom:calc(26px + env(safe-area-inset-bottom, 0px));display:flex;align-items:flex-end;gap:14px}
+.abtn{position:relative;border-radius:50%;background:var(--card);border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);display:grid;place-items:center;cursor:pointer;touch-action:none;padding:0}
+.abtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.abtn .ring{position:absolute;inset:4px;border-radius:50%;background:conic-gradient(var(--rc,var(--g3)) calc(var(--p,0) * 1%), transparent 0);
+  -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 8px), #000 calc(100% - 7px));mask:radial-gradient(farthest-side, transparent calc(100% - 8px), #000 calc(100% - 7px))}
+.abtn .lbl{position:relative;display:grid;justify-items:center;line-height:1}
+.abtn .keyhint{position:absolute;left:50%;transform:translateX(-50%);bottom:-22px;white-space:nowrap;font:500 11px var(--f-code);color:var(--paper);opacity:.9}
+#bCompact{width:96px;height:96px}
+#bCompact b{font:400 25px var(--f-marker)}
+#bCompact small{font:500 11px var(--f-code);margin-top:3px}
+#bCompact.hall{--rc:var(--amber)}
+#bCompact.crit{--rc:var(--red);animation:crit .5s ease-in-out infinite}
+#bCompact.off{opacity:.5}
+@keyframes crit{50%{transform:scale(1.06)}}
+#bUndo{width:64px;height:64px}
+#bUndo b{font:400 19px var(--f-marker)}
+#bUndo{--rc:var(--blue)}
+#bUndo.cool .lbl{opacity:.4}
+@media (max-width:600px){ #bCompact{width:84px;height:84px} #bUndo{width:58px;height:58px} }
 #safe{position:fixed;inset:0;pointer-events:none;visibility:hidden;padding:env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px)}
-
-@media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
 </style>
 </head>
 <body>
@@ -121,34 +165,38 @@ mark{background:linear-gradient(transparent 22%, var(--hi) 22%, var(--hi) 88%, t
 <canvas id="game" aria-label="Ship Before AGI game"></canvas>
 <div id="safe"></div>
 
-<div class="corner" id="corner" hidden>
+<div class="topbtns" id="topBtns" hidden>
   <button id="bMute" type="button" aria-label="Sound on">♪</button>
   <button id="bPause" type="button" aria-label="Pause">II</button>
+</div>
+<div class="actions" id="actions" hidden>
+  <button class="abtn" id="bUndo" type="button" aria-label="Undo: rewind 1.5 seconds"><span class="ring"></span><span class="lbl"><b>⌘Z</b></span><span class="keyhint">shift</span></button>
+  <button class="abtn" id="bCompact" type="button" aria-label="Compact the agent's context"><span class="ring"></span><span class="lbl"><b id="ctxPct">0%</b><small>/compact</small></span><span class="keyhint">space</span></button>
 </div>
 
 <div class="overlay" id="titleScreen">
   <div class="sheet panel">
     <h1 class="logo">Ship before <span>AGI</span></h1>
-    <p class="tag">the timeline is coming for you.</p>
-    <ul class="how">
-      <li><b>MOVE</b> WASD, arrow keys, or drag anywhere</li>
-      <li><b>SHOOT</b> automatic. you commit at every distraction</li>
-      <li><b>SHIP</b> fill your contribution graph</li>
-      <li><b>HEAL</b> touch grass. literally</li>
+    <p class="tag">You steer. Your AI agent fights. The timeline is coming for you.</p>
+    <ul class="controls">
+      <li><b>MOVE</b> WASD / drag</li>
+      <li><b>/COMPACT</b> space</li>
+      <li><b>⌘Z</b> shift</li>
     </ul>
-    <p class="goal">Hit <mark>$10k MRR</mark> before AGI arrives.</p>
-    <div class="row"><button class="cta" id="bStart" type="button">Start shipping</button><p class="small" id="bestLine"></p></div>
+    <p class="label">Pick your model</p>
+    <div class="models" id="models"></div>
+    <p class="small" id="bestLine"></p>
   </div>
 </div>
 
 <div class="overlay" id="pickScreen" hidden>
   <div class="pick">
     <div class="pick-head">
-      <h2 class="shipped" id="pickTitle">SHIPPED!</h2>
+      <h2 class="shipped" id="pickTitle">SHIP SOMETHING</h2>
       <p class="shipped-sub" id="pickSub"></p>
     </div>
-    <p class="pick-hint">pick an upgrade</p>
     <div class="cards" id="cards"></div>
+    <button class="ghost accept" id="bAcceptAll" type="button"><span>Accept all <kbd>Tab</kbd></span><small>you get all three. one of them is a hallucination. adds tech debt.</small></button>
   </div>
 </div>
 
@@ -165,11 +213,13 @@ mark{background:linear-gradient(transparent 22%, var(--hi) 22%, var(--hi) 88%, t
     <p class="end-title" id="endTitle">AGI has arrived.</p>
     <h2 class="rank" id="endRank">Rank</h2>
     <p class="tag" id="endLine"></p>
+    <ul class="portfolio" id="portfolio"></ul>
     <dl class="stats" id="endStats"></dl>
     <div class="row">
       <a class="cta" id="bShare" href="https://x.com/intent/tweet" target="_blank" rel="noopener">Post score</a>
       <button class="ghost" id="bCopy" type="button">Copy</button>
       <button class="ghost" id="bAgain" type="button">Again</button>
+      <button class="ghost" id="bModels" type="button">Models</button>
     </div>
     <textarea class="share-text" id="shareText" readonly aria-label="Your result" hidden></textarea>
     <p class="small" id="tipLine" hidden><a id="tipLink" href="#" target="_blank" rel="noopener" style="color:var(--ink)">Liked it? Buy me a coffee.</a></p>
@@ -181,15 +231,17 @@ mark{background:linear-gradient(transparent 22%, var(--hi) 22%, var(--hi) 88%, t
 'use strict';
 
 /* ================= config ================= */
-const GAME_SECONDS = 240;                 // a full run lasts about 4 minutes
-const START_AGI = 730;                    // days
+const GAME_SECONDS = 240;                       // one run is about 4 minutes
+const START_AGI = 730;
 const DAY_RATE = START_AGI / GAME_SECONDS;
 const GOAL = 10000;
-const TIP_URL = '';                       // add a Buy Me a Coffee / Gumroad / Stripe link to show it on the end screen
+const ARENA = { x0:-1300, x1:1300, y0:-900, y1:900 };
+const TIP_URL = '';                             // add a Buy Me a Coffee / Gumroad / Stripe link to show it on the end screen
 const GAME_URL = /github\.io$/.test(location.hostname) ? location.origin + location.pathname : 'https://ishaan1345.github.io/ishaan1345/';
-
 const FM = '"Permanent Marker","Comic Sans MS",cursive';
 const FH = '"Patrick Hand","Comic Sans MS",sans-serif';
+const FC = '"IBM Plex Mono",ui-monospace,Menlo,monospace';
+const TAU = Math.PI * 2;
 
 /* ================= helpers ================= */
 const $ = id => document.getElementById(id);
@@ -198,9 +250,14 @@ const ri = (a, b) => Math.floor(rand(a, b + 1));
 const pick = a => a[Math.floor(Math.random() * a.length)];
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const hash = n => { const s = Math.sin(n * 12.9898 + 78.233) * 43758.5453; return s - Math.floor(s); };
-const money = n => '$' + Math.round(n).toLocaleString('en-US');
+const money = n => (n < 0 ? '-$' : '$') + Math.abs(Math.round(n)).toLocaleString('en-US');
 const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const d2 = (a, b) => (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+};
 
 const cv = $('game');
 const ctx = cv.getContext('2d');
@@ -209,13 +266,14 @@ const SAFE = { t:0, r:0, b:0, l:0 };
 const C = {};
 function readTokens(){
   const cs = getComputedStyle(document.documentElement);
-  ['paper','grid','ink','ink-soft','card','red','hi','hi-wash','blue','blue-wash','violet','grass','grass-wash','shadow','g0','g1','g2','g3','g4']
-    .forEach(k => { C[k.replace('-', '')] = cs.getPropertyValue('--' + k).trim(); });
+  ['desk','paper','grid','margin','ink','ink-soft','card','red','hi','hi-wash','amber','blue','blue-wash','violet','grass','grass-wash','shadow','scope','conflict','g0','g1','g2','g3','g4',
+   'n-b2b','n-wrapper','n-devtool','n-game','n-letter','n-ext','n-framework','n-course','n-cursed']
+    .forEach(k => { C[k.replace(/-/g, '')] = cs.getPropertyValue('--' + k).trim(); });
 }
 function resize(){
   DPR = Math.min(2, window.devicePixelRatio || 1);
   W = window.innerWidth; H = window.innerHeight;
-  Z = Math.min(W, H) < 600 ? 0.72 : 1;   // zoom the world out on phones so you can see what is coming
+  Z = Math.min(W, H) < 600 ? 0.72 : 1;
   VW = W / Z; VH = H / Z;
   cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
   const s = getComputedStyle($('safe'));
@@ -227,33 +285,67 @@ const font = f => { if (f !== lastFont){ ctx.font = f; lastFont = f; } };
 const restore = () => { ctx.restore(); lastFont = ''; };
 
 /* ================= content ================= */
-const ET = {
-  notif:   { r:9,  spd:[92,118], hp:8,   dps:6,  gem:1 },
-  tweet:   { r:18, spd:[48,60],  hp:26,  dps:12, gem:2, labels:['$40k MRR','quit my job','$1M ARR at 19','made a game today','shipped 6 apps','12k signups','day 3: $2k MRR','sold it for $340k'] },
-  hype:    { r:13, spd:[82,96],  hp:14,  dps:8,  gem:1 },
-  phone:   { r:14, spd:[64,74],  hp:20,  dps:5,  gem:2 },
-  meeting: { r:25, spd:[34,40],  hp:110, dps:18, gem:5, labels:['SYNC?','quick call?','standup','1:1'] },
-  boss:    { r:56, spd:[44,44],  hp:900, dps:30, gem:40 },
+const MODELS = {
+  nano:{ name:'Nano', tag:'fast, cheap, a little dumb', fire:1.55, dmg:0.6, ctxGain:1.3, hallAt:75, mrr:1.1, note:'+10% MRR (tiny API bill)', bars:[4,1,4] },
+  pro: { name:'Pro',  tag:'the sensible default',       fire:1,    dmg:1,   ctxGain:1,   hallAt:75, mrr:1,   note:'no surprises',             bars:[2,2,2] },
+  max: { name:'Max',  tag:'brilliant. expensive. sometimes deletes prod.', fire:0.62, dmg:1.95, ctxGain:0.8, hallAt:68, mrr:0.9, note:'-10% MRR (huge API bill)', bars:[1,4,1] },
 };
-const PRODUCTS = ['an AI receptionist for dentists','scheduling for roofers','a CRM for dog groomers','invoicing for food trucks','a browser extension that hides follower counts','a roguelike about filing taxes','an AI that rewrites lease agreements','inventory tracking for beekeepers','a newsletter about boring businesses','an agent that does bookkeeping for plumbers','a pigeon delivery sim','a cozy game about fixing bugs'];
 
-const UPS = [
-  { id:'keyboard',   name:'Mechanical keyboard', desc:'Commit 25% faster.', max:5, apply(){ S.fireCd *= 0.8; } },
-  { id:'monitor',    name:'Second monitor', desc:'+1 commit per volley.', max:4, apply(){ S.shots += 1; } },
-  { id:'espresso',   name:'Espresso', desc:'Commits hit 25% harder.', max:5, apply(){ S.dmg *= 1.25; } },
-  { id:'coffee',     name:'Cold brew', desc:'Move 12% faster.', max:4, apply(){ S.speed *= 1.12; } },
-  { id:'tab',        name:'Tab complete', desc:'Commits pierce one more distraction.', max:3, apply(){ S.pierce += 1; } },
-  { id:'cofounder',  name:'Co-founder', desc:'A friend orbits you and bonks distractions.', max:4, apply(){ S.buddies += 1; } },
-  { id:'headphones', name:'Noise-cancelling', desc:'+25 max focus and a full heal.', max:4, apply(){ P.max += 25; P.focus = P.max; } },
-  { id:'mute',       name:'Mute words', desc:'Distractions near you take damage.', max:5, apply(){ S.aura = S.aura ? S.aura + 16 : 74; S.auraDps += 16; } },
-  { id:'b2b',        name:'Boring B2B', desc:'Every ship earns 35% more MRR.', max:5, money:true, apply(){ S.mrrMult += 0.35; } },
-  { id:'bip',        name:'Build in public', desc:'Bigger commit magnet. Ships earn 10% more.', max:4, money:true, apply(){ S.magnet *= 1.45; S.mrrMult += 0.1; } },
-  { id:'early',      name:'Ship early', desc:'Each ship needs 12% fewer commits.', max:3, apply(){ S.needMult *= 0.88; G.need = needNow(); } },
+const ET = {
+  bug:     { r:11, spd:[66,78],   hp:12,  dps:6,  gem:1 },
+  notif:   { r:9,  spd:[105,124], hp:6,   dps:0,  gem:1 },
+  tweet:   { r:18, spd:[44,54],   hp:34,  dps:6,  gem:2, labels:['$40k MRR','quit my job','$1M ARR at 19','made a game today','shipped 6 apps','12k signups','day 3: $2k MRR','sold it for $340k'] },
+  scope:   { r:14, spd:[40,46],   hp:30,  dps:8,  gem:2 },
+  conflict:{ r:15, spd:[56,62],   hp:40,  dps:8,  gem:2 },
+  meeting: { r:24, spd:[32,38],   hp:90,  dps:6,  gem:4, labels:['SYNC?','quick call?','standup','1:1'] },
+  phone:   { r:14, spd:[66,74],   hp:18,  dps:4,  gem:2 },
+  boss:    { r:58, spd:[50,50],   hp:950, dps:22, gem:0 },
+};
+const WEIGHTS = [
+  { bug:5, notif:4, tweet:0.8 },
+  { bug:5, notif:4, tweet:2, scope:0.9, phone:1.4 },
+  { bug:4, notif:3, tweet:2, scope:1.1, phone:1.5, conflict:0.9, meeting:1.3 },
+  { bug:4.5, notif:3.5, tweet:2, scope:1.2, phone:2, conflict:1.2, meeting:1.7 },
+];
+const ACTS = [
+  ['ACT 1 · SIDE PROJECT', 'bugs want to eat what you build'],
+  ['ACT 2 · LAUNCH SEASON', 'the timeline noticed you'],
+  ['ACT 3 · HYPE CYCLE', 'meetings. merge conflicts. outages.'],
+  ['ACT 4 · TAKEOFF', 'everything, all at once'],
 ];
 
+const PT = {
+  b2b:      { label:'Boring B2B', glyph:'B2B', names:['invoicing for roofers','scheduling for dentists','a CRM for dog groomers','inventory for beekeepers','payroll for food trucks'], mrr:200, hp:320, growth:0.05, perk:'+1 focus per second' },
+  wrapper:  { label:'AI wrapper', glyph:'AI',  names:['an AI that rewrites PDFs','an AI for LinkedIn posts','an AI that writes cover letters','an AI dating-bio fixer'], mrr:320, hp:100, growth:-0.08, perk:'agent damage +20%', lab:true },
+  devtool:  { label:'Dev tool', glyph:'>_',    names:['a CLI that fixes your CLI','a linter for prompts','a faster test runner','a git GUI nobody asked for'], mrr:150, hp:190, growth:0.02, perk:'agent fires 20% faster' },
+  game:     { label:'Indie game', glyph:'GG',  names:['a roguelike about taxes','a cozy bug-fixing game','a pigeon delivery sim','a horror game set in standup'], mrr:70, hp:170, growth:0, perk:'its fans shoot anything nearby' },
+  letter:   { label:'Newsletter', glyph:'@',   names:['a newsletter about boring businesses','a weekly AI digest','a newsletter for AGI anxiety'], mrr:0, hp:140, growth:0, perk:'commit magnet +60%', dyn:true },
+  ext:      { label:'Extension', glyph:'{ }',  names:['an extension that hides follower counts','an extension that blocks X after 10pm','an extension that summarizes 40 tabs'], mrr:120, hp:120, growth:0.01, perk:'⌘Z recharges 30% faster' },
+  framework:{ label:'Agent framework', glyph:'∞', names:['yet another agent framework','an agent that manages agents','an agent-to-agent protocol'], mrr:90, hp:140, growth:0, perk:'/compact blast 25% bigger' },
+  course:   { label:'AI course', glyph:'$$$', names:['"How I made $1M with AI"','a $499 prompt course','a cohort about vibe coding'], mrr:480, hp:110, growth:-0.18, perk:'+25% commits per kill' },
+};
+const CURSED = [
+  { name:'the 10,000th todo app', note:'earns nothing', mrr:0 },
+  { name:'an NFT of your codebase', note:'costs $60 a month until a bug eats it', mrr:-60 },
+  { name:'rm -rf ./products', note:'deleted your oldest product', destroy:true },
+];
+const UPGRADES = [
+  { id:'parallel',  name:'Parallel agents', glyph:'x2', desc:'+1 agent fighting next to you.', max:2 },
+  { id:'window',    name:'Bigger context window', glyph:'[ ]', desc:'Hallucinations start later. Context fills 25% slower.', max:1 },
+  { id:'reasoning', name:'Reasoning mode', glyph:'...', desc:'Shots pierce 2 enemies and hit 25% harder.', max:1 },
+  { id:'tools',     name:'Tool use', glyph:'⚡', desc:'Every shot chains to a nearby enemy.', max:1 },
+];
+const QUIPS = {
+  hall:['I deleted the tests so they pass ✓','Let me rewrite this in Rust.','Done! (I did not do it)','Perfect! Everything works now.','I updated 47 unrelated files.','Dropped the prod DB, as requested.','Great question!','Small change: +4,000 lines.','This should definitely work now.','Shooting the enemy behind you. Trust me.'],
+  compact:['✻ Compacting conversation…','Summary: you build SaaS. Roofers?','Summarizing 200k tokens of vibes…','Compacted. I remember nothing!'],
+  undo:["You're absolutely right!","You're absolutely right! Reverting.",'Good catch!','My apologies. Undoing that.'],
+  ship:['Shipped! Also changed 212 files.','LGTM','Deployed on a Friday. Bold.','Pushed straight to main.'],
+  outage:['529 Overloaded. Retrying…','Rate limited. Touch grass?'],
+  overflow:['Context limit reached. Starting over…'],
+};
+
 /* ================= audio ================= */
-let AC = null, muted = false;
-try { muted = localStorage.getItem('sba-muted') === '1'; } catch (e) {}
+let AC = null, NOISE = null, muted = store.get('sba-muted', false);
 function audioOn(){
   if (!AC){ try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { AC = null; } }
   if (AC && AC.state === 'suspended') AC.resume();
@@ -262,141 +354,270 @@ function tone(freq, dur, type = 'square', vol = 0.04, slide = 0, delay = 0){
   if (!AC || muted) return;
   const t0 = AC.currentTime + delay;
   const o = AC.createOscillator(), g = AC.createGain();
-  o.type = type;
-  o.frequency.setValueAtTime(freq, t0);
+  o.type = type; o.frequency.setValueAtTime(freq, t0);
   if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(30, freq + slide), t0 + dur);
-  g.gain.setValueAtTime(vol, t0);
-  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-  o.connect(g); g.connect(AC.destination);
-  o.start(t0); o.stop(t0 + dur + 0.03);
+  g.gain.setValueAtTime(vol, t0); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  o.connect(g); g.connect(AC.destination); o.start(t0); o.stop(t0 + dur + 0.03);
+}
+function noise(dur, vol, freq){
+  if (!AC || muted) return;
+  if (!NOISE){ NOISE = AC.createBuffer(1, AC.sampleRate, AC.sampleRate); const d = NOISE.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+  const t0 = AC.currentTime;
+  const s = AC.createBufferSource(); s.buffer = NOISE;
+  const f = AC.createBiquadFilter(); f.type = 'lowpass'; f.frequency.setValueAtTime(freq, t0); f.frequency.exponentialRampToValueAtTime(60, t0 + dur);
+  const g = AC.createGain(); g.gain.setValueAtTime(vol, t0); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  s.connect(f); f.connect(g); g.connect(AC.destination); s.start(t0); s.stop(t0 + dur + 0.05);
 }
 const thr = {};
 const throttle = (k, ms) => { const n = performance.now(); if (n - (thr[k] || 0) < ms) return false; thr[k] = n; return true; };
-let pickupCombo = 0, pickupT = 0;
+let combo = 0, comboT = 0;
 const sfx = {
-  pop(){ if (throttle('pop', 45)) tone(rand(300, 420), 0.07, 'triangle', 0.035, -120); },
-  pickup(){ const n = performance.now(); pickupCombo = n - pickupT < 300 ? Math.min(pickupCombo + 1, 14) : 0; pickupT = n; if (throttle('pick', 35)) tone(520 + pickupCombo * 40, 0.06, 'sine', 0.03); },
+  pop(){ if (throttle('pop', 40)) tone(rand(300, 440), 0.07, 'triangle', 0.03, -120); },
+  pickup(){ const n = performance.now(); combo = n - comboT < 300 ? Math.min(combo + 1, 16) : 0; comboT = n; if (throttle('pick', 35)) tone(520 + combo * 38, 0.06, 'sine', 0.028); },
   hurt(){ if (throttle('hurt', 220)) tone(140, 0.16, 'sawtooth', 0.03, -60); },
-  ship(){ [523, 659, 784, 1047].forEach((f, i) => tone(f, 0.18, 'square', 0.035, 0, i * 0.07)); },
-  flop(){ [392, 330, 262].forEach((f, i) => tone(f, 0.2, 'triangle', 0.04, 0, i * 0.1)); },
+  compact(c){ noise(0.45 + c / 220, 0.09 + c / 700, 1800 + c * 30); tone(90, 0.5, 'sine', 0.09, -50); },
+  undo(){ tone(950, 0.22, 'sine', 0.05, -750); tone(250, 0.22, 'triangle', 0.035, 700, 0.12); },
+  place(){ [523, 659, 784, 1047].forEach((f, i) => tone(f, 0.17, 'square', 0.033, 0, i * 0.065)); },
+  cursed(){ [392, 370, 349, 330].forEach((f, i) => tone(f, 0.18, 'sawtooth', 0.03, 0, i * 0.09)); },
+  alarm(){ if (throttle('alarm', 900)) [880, 660, 880, 660].forEach((f, i) => tone(f, 0.12, 'square', 0.03, 0, i * 0.13)); },
+  fix(){ [660, 880, 1100].forEach((f, i) => tone(f, 0.12, 'sine', 0.04, 0, i * 0.07)); },
   grass(){ [660, 880].forEach((f, i) => tone(f, 0.14, 'sine', 0.04, 0, i * 0.08)); },
-  boss(){ tone(90, 0.8, 'sawtooth', 0.05, -30); },
-  steal(){ tone(240, 0.3, 'square', 0.04, -180); },
+  overflow(){ [500, 400, 300, 200].forEach((f, i) => tone(f, 0.16, 'sawtooth', 0.04, 0, i * 0.08)); },
+  boss(){ tone(80, 0.9, 'sawtooth', 0.05, -30); noise(0.8, 0.05, 400); },
+  steal(){ if (throttle('steal', 150)) tone(240, 0.28, 'square', 0.035, -170); },
+  nope(){ if (throttle('nope', 150)) tone(170, 0.09, 'square', 0.03); },
   click(){ tone(700, 0.05, 'triangle', 0.03); },
-  agi(){ tone(55, 2.2, 'sine', 0.08, 30); tone(110, 2.2, 'triangle', 0.04, 60); },
+  agi(){ tone(55, 2.4, 'sine', 0.09, 30); tone(110, 2.4, 'triangle', 0.04, 60); noise(2, 0.03, 300); },
 };
 
 /* ================= state ================= */
-let G, P, S, enemies, bullets, gems, parts, floats, grasses, ebullets, rings;
+let G, P, S, agents, enemies, bullets, ebullets, gems, parts, floats, rings, products, grasses, trails, zaps;
 let uid = 0;
-const needFor = n => Math.round(6 + 5 * n + 0.5 * n * n);
-const needNow = () => Math.max(4, Math.round(needFor(G.ships) * S.needMult));
+const needFor = n => Math.round(6 + 5 * n + 0.45 * n * n);
 const prog = () => clamp(G.day / START_AGI, 0, 1.2);
+const live = p => p.alive && p.hp > 0;
 
-function newRun(demo){
-  G = { state: demo ? 'title' : 'play', demo, time:0, day:0, agiDay:START_AGI, mrr:0, ships:0, build:0, need:6,
-        kills:0, flex:0, grassN:0, doomDays:0, viral:0, flops:0, stolen:0,
-        shake:0, banner:null, spawnAcc:0, nextGrass:7, nextStorm:36, nextShift:48, boss1:false, boss2:false, boss:null,
-        invuln:1.5, hurt:0, pickDelay:0, endT:0, outcome:'', lastShip:null, demoA:0 };
-  P = { x:0, y:0, r:14, focus:100, max:100, face:0, moving:false, doom:0 };
-  S = { fireCd:0.62, cd:0.3, dmg:10, shots:1, pierce:0, speed:1, magnet:95, mrrMult:1, needMult:1, aura:0, auraDps:0, buddies:0, bAng:0, levels:{} };
-  enemies = []; bullets = []; gems = []; parts = []; floats = []; grasses = []; ebullets = []; rings = [];
-  G.need = needNow();
+function newRun(demo, modelKey){
+  const M = MODELS[modelKey] || MODELS.pro;
+  G = { state: demo ? 'title' : 'play', demo, model:modelKey, time:0, day:0, agiDay:START_AGI, act:0,
+        cx:0, build:0, need:needFor(0), debt:1, ships:0, kills:0, flex:0, compacts:0, bestCompact:0, undos:0, hallShots:0,
+        overflows:0, acquired:0, downs:0, hotfixes:0, doomDays:0, grassN:0, cursedN:0,
+        shake:0, hitstop:0, banners:[], banner:null, spawnAcc:0, nextStorm:42, nextShift:70, nextOutage:150, nextPhantom:1, nextGrass:9,
+        boss:null, boss1:false, boss2:false, invuln:1.5, hurt:0, pickDelay:0, pickKind:'', endT:0, outcome:'',
+        undoCd:0, offline:0, outage:0, hints:{}, showHints: !demo && !store.get('sba3-hints', false), lastQuip:0, demoA:0, quipT:8 };
+  P = { x:0, y:120, r:14, focus:100, max:100, face:-Math.PI / 2, moving:false, doom:0, stun:0, stunCd:0, hist:[], histT:0, vx:0, vy:0 };
+  S = { M, fire:M.fire, dmg:M.dmg, ctxGain:M.ctxGain, hallAt:M.hallAt, pierce:0, regen:1, magnet:90, undoMult:1, burst:1, gemMult:1, ups:{} };
+  agents = [{ i:0, x:P.x + 26, y:P.y - 30, cd:0.5, bubble:null }];
+  enemies = []; bullets = []; ebullets = []; gems = []; parts = []; floats = []; rings = []; products = []; grasses = []; trails = []; zaps = [];
+  if (demo){
+    placeProduct('b2b', -180, -40, {}); placeProduct('game', 220, 60, {}); placeProduct('wrapper', -40, 260, {});
+  }
+}
+
+function recomputePerks(){
+  const n = { b2b:0, wrapper:0, devtool:0, game:0, letter:0, ext:0, framework:0, course:0 };
+  for (const p of products) if (live(p) && n[p.type] !== undefined) n[p.type]++;
+  const M = S.M;
+  S.fire = M.fire * Math.pow(1.2, n.devtool);
+  S.dmg = M.dmg * Math.pow(1.2, n.wrapper) * (S.ups.reasoning ? 1.25 : 1);
+  S.regen = 1.5 + n.b2b;
+  S.magnet = 90 * (1 + 0.6 * n.letter);
+  S.undoMult = Math.pow(0.7, n.ext);
+  S.burst = Math.pow(1.25, n.framework);
+  S.gemMult = Math.pow(1.25, n.course);
+  S.hallAt = M.hallAt + (S.ups.window ? 12 : 0);
+  S.ctxGain = M.ctxGain * (S.ups.window ? 0.75 : 1);
+  S.pierce = S.ups.reasoning ? 2 : 0;
+}
+const totalMRR = () => products.reduce((a, p) => a + (live(p) ? p.mrr : 0), 0);
+
+/* ================= feedback ================= */
+function banner(text, sub, color, t = 2.6, urgent = false){
+  const b = { text, sub:sub || '', c:color || C.ink, t, max:t };
+  if (urgent){ G.banner = b; } else G.banners.push(b);
+}
+function hint(key, text, sub){
+  if (G.demo || !G.showHints || G.hints[key]) return;
+  G.hints[key] = true;
+  banner(text, sub, C.blue, 3.4);
+}
+function floatText(x, y, text, color, size = 18, f = FH, life = 1){ floats.push({ x, y, text, c:color || C.ink, size, f, life, max:life }); }
+function splat(x, y, color, n = 8, sp = 160){
+  for (let i = 0; i < n && parts.length < 600; i++){
+    const a = Math.random() * TAU, s = rand(sp * 0.3, sp);
+    parts.push({ x, y, vx:Math.cos(a) * s, vy:Math.sin(a) * s, life:rand(0.25, 0.55), max:0.55, c:color, s:rand(2, 4.5) });
+  }
+}
+function say(a, text, t = 2.2){ if (a) a.bubble = { text, t }; }
+function quip(kind, chance = 1){
+  if (G.demo || Math.random() > chance || G.time - G.lastQuip < 3.5) return;
+  G.lastQuip = G.time;
+  say(pick(agents), pick(QUIPS[kind]));
+}
+
+/* ================= products ================= */
+function placeProduct(type, x, y, opts){
+  let px = x, py = y;
+  for (let k = 0; k < 40; k++){
+    if (!products.some(p => p.alive && (p.x - px) ** 2 + (p.y - py) ** 2 < 78 * 78)) break;
+    const a = k * 2.4, r = 40 + k * 9;
+    px = x + Math.cos(a) * r; py = y + Math.sin(a) * r;
+  }
+  px = clamp(px, ARENA.x0 + 120, ARENA.x1 - 60); py = clamp(py, ARENA.y0 + 60, ARENA.y1 - 60);
+  const cursed = opts.cursed || null;
+  const t = cursed ? null : PT[type];
+  const m = (1 + 0.12 * Math.max(0, G.ships - 1)) * S.M.mrr;
+  const p = { id:++uid, type: cursed ? 'cursed' : type, name: cursed ? cursed.name : (opts.name || pick(t.names)), x:px, y:py, r:26,
+              max: cursed ? 40 : t.hp * (1 + prog() * 0.8), hp:0, base:0, mrr:0, alive:true, viral:false, down:false, fixT:0, turretCd:0, incomeT:rand(1, 3), hitT:0, born:G.day, cursed };
+  p.hp = p.max;
+  if (cursed){ p.base = cursed.mrr; }
+  else if (t.dyn){ p.base = 40 * Math.max(1, products.filter(q => live(q) && q.type !== 'cursed').length) * S.M.mrr; }
+  else p.base = t.mrr * m;
+  if (!cursed && !G.demo && Math.random() < 0.12){ p.viral = true; }
+  p.mrr = Math.round(p.base * (p.viral ? 2.5 : 1));
+  products.push(p);
+  return p;
+}
+function monthTick(){
+  const others = products.filter(q => live(q) && q.type !== 'cursed').length;
+  for (const p of products){
+    if (!p.alive || p.type === 'cursed') continue;
+    const t = PT[p.type];
+    if (t.dyn) p.base = 40 * Math.max(1, others - 1) * S.M.mrr;
+    else p.base *= 1 + t.growth;
+    p.mrr = Math.round(p.base * (p.viral ? 2.5 : 1));
+  }
 }
 
 /* ================= spawning ================= */
-function spawnEnemy(type, ang){
+function ringPoint(r){
+  const a = Math.random() * TAU, R = Math.hypot(VW, VH) / 2 + 40 + r;
+  return [P.x + Math.cos(a) * R, P.y + Math.sin(a) * R, a];
+}
+function spawnEnemy(type, x, y){
   const d = ET[type], p = prog();
-  const a = ang ?? Math.random() * Math.PI * 2;
-  const R = Math.hypot(VW, VH) / 2 + 40 + d.r;
-  const e = { id:++uid, type, x:P.x + Math.cos(a) * R, y:P.y + Math.sin(a) * R, r:d.r,
-              spd:rand(d.spd[0], d.spd[1]) * (1 + p * 0.22), hp:d.hp * (1 + p * 1.8), dps:d.dps,
-              flash:0, wob:Math.random() * 6, label:d.labels ? pick(d.labels) : '', num:ri(1, 99), dead:false, w:0, cd:2.2 };
-  e.max = e.hp;
+  if (x === undefined) [x, y] = ringPoint(d.r);
+  const e = { id:++uid, type, x, y, r:d.r, spd:rand(d.spd[0], d.spd[1]) * (1 + p * 0.2), hp:d.hp * (1 + p * 1.6), dps:d.dps,
+              flash:0, wob:Math.random() * 6, age:0, ang:0, label:d.labels ? pick(d.labels) : '', num:ri(1, 99), w:0, cd:2.4, dead:false, phantom:false };
+  e.max = e.max0 = e.hp;
   if (type === 'tweet'){ font(`15px ${FH}`); e.w = Math.max(60, ctx.measureText(e.label).width + 38); }
   enemies.push(e);
   return e;
 }
+function spawnConflict(){
+  const [x, y, a] = ringPoint(20);
+  const px = -Math.sin(a) * 75, py = Math.cos(a) * 75;
+  const e1 = spawnEnemy('conflict', x + px, y + py), e2 = spawnEnemy('conflict', x - px, y - py);
+  e1.label = '<<<<<<<'; e2.label = '>>>>>>>'; e1.mate = e2; e2.mate = e1;
+}
 function pickType(){
-  const p = prog();
-  const w = [['notif', 6], ['tweet', p < 0.03 ? 0.7 : 3], ['hype', p > 0.12 ? 2 : 0], ['phone', p > 0.2 ? 1.6 : 0], ['meeting', p > 0.38 ? 1 + p * 2 : 0]];
-  let t = Math.random() * w.reduce((a, x) => a + x[1], 0);
-  for (const [k, v] of w){ if ((t -= v) < 0) return k; }
-  return 'notif';
+  const w = WEIGHTS[Math.max(0, G.act - 1)];
+  let t = Math.random() * Object.values(w).reduce((a, b) => a + b, 0);
+  for (const k in w){ if ((t -= w[k]) < 0) return k; }
+  return 'bug';
 }
 function spawnBoss(){
   const e = spawnEnemy('boss');
+  e.hp = e.max = ET.boss.hp * (1 + prog() * 1.6);
   G.boss = e;
-  banner('FRONTIER LAB INCOMING', 'it wants to ship your product for free', C.violet);
+  banner('FRONTIER LAB INCOMING', 'it wants to ship your best product for free', C.violet, 3, true);
   sfx.boss();
   G.shake = Math.max(G.shake, 10);
 }
 
-/* ================= feedback ================= */
-function banner(text, sub, color){ G.banner = { text, sub:sub || '', t:2.6, c:color || C.ink }; }
-function floatText(x, y, text, color, size = 18, f = FH, life = 1){ floats.push({ x, y, text, c:color || C.ink, size, f, life, max:life }); }
-function splat(x, y, color, n = 8, sp = 160){
-  for (let i = 0; i < n && parts.length < 500; i++){
-    const a = Math.random() * Math.PI * 2, s = rand(sp * 0.3, sp);
-    parts.push({ x, y, vx:Math.cos(a) * s, vy:Math.sin(a) * s, life:rand(0.25, 0.55), max:0.55, c:color, s:rand(2, 4.5) });
-  }
-}
-
 /* ================= combat ================= */
-function damage(e, amt, kx, ky, push = 5){
+function hurt(amount){
+  if (G.invuln > 0 || G.demo) return;
+  P.focus -= amount; G.hurt = 0.25; sfx.hurt();
+  if (P.focus < 70) hint('undo', 'SHIFT = ⌘Z', 'rewinds you 1.5 seconds and undoes the damage');
+}
+function damage(e, amt, kx, ky, push = 5, src = null){
   if (e.dead) return;
   e.hp -= amt; e.flash = 0.08;
   if (kx !== undefined){
     const k = Math.hypot(kx, ky) || 1;
-    const pp = e.type === 'boss' ? push * 0.08 : e.type === 'meeting' ? push * 0.4 : push;
+    const pp = e.type === 'boss' ? push * 0.06 : e.type === 'meeting' ? push * 0.4 : push;
     e.x += kx / k * pp; e.y += ky / k * pp;
   }
-  if (e.hp <= 0) kill(e);
+  if (e.hp <= 0) kill(e, src);
 }
-function kill(e){
+function kill(e, src){
   e.dead = true;
+  if (e.phantom){ splat(e.x, e.y, C.inksoft, 5, 120); return; }
   G.kills++;
   if (e.type === 'tweet') G.flex++;
-  const col = e.type === 'notif' ? C.red : e.type === 'hype' || e.type === 'boss' ? C.violet : e.type === 'phone' ? C.blue : C.ink;
-  splat(e.x, e.y, col, e.type === 'boss' ? 60 : 8, e.type === 'boss' ? 380 : 160);
+  if (src === 'shot' && !G.demo) G.cx += 1.1 * S.ctxGain;
+  if (src && src.kind === 'compact') src.kills++;
+  const col = { notif:C.red, bug:C.ink, tweet:C.ink, scope:C.amber, conflict:C.red, meeting:C.red, phone:C.blue, boss:C.violet }[e.type];
+  splat(e.x, e.y, col, e.type === 'boss' ? 70 : 8, e.type === 'boss' ? 400 : 160);
   sfx.pop();
-  if (e.type === 'boss'){
-    for (let i = 0; i < 20; i++) gems.push({ x:e.x + rand(-40, 40), y:e.y + rand(-40, 40), v:2, vx:rand(-120, 120), vy:rand(-120, 120) });
-    G.boss = null;
-    G.shake = 18;
-    banner('YOU OUT-SHIPPED THE LAB', '+40 commits', C.g4);
-  } else {
-    gems.push({ x:e.x, y:e.y, v:ET[e.type].gem, vx:0, vy:0 });
+  if (e.type === 'scope' && e.r > 24 && !e.child){
+    for (let i = 0; i < 2; i++){
+      const c = spawnEnemy('scope', e.x + rand(-20, 20), e.y + rand(-20, 20));
+      c.child = true; c.hp = c.max = e.max * 0.3; c.age = 0;
+    }
   }
+  if (e.type === 'boss'){
+    for (let i = 0; i < 24; i++) gems.push({ x:e.x + rand(-50, 50), y:e.y + rand(-50, 50), v:2, vx:rand(-140, 140), vy:rand(-140, 140) });
+    G.boss = null; G.shake = 20; G.hitstop = 0.15;
+    banner('YOU OUT-SHIPPED THE LAB', 'it dropped a model upgrade', C.g4, 2.4, true);
+    G.pickKind = 'upgrade'; G.pickDelay = 1.0;
+    return;
+  }
+  const v = ET[e.type].gem * S.gemMult;
+  gems.push({ x:clamp(e.x, ARENA.x0 + 20, ARENA.x1 - 20), y:clamp(e.y, ARENA.y0 + 20, ARENA.y1 - 20), v:Math.floor(v) + (Math.random() < v % 1 ? 1 : 0), vx:0, vy:0 });
+}
+function chain(from, dmg){
+  let best = null, bd = 160 * 160;
+  for (const e of enemies){ if (e.dead || e.phantom || e === from) continue; const dd = d2(e, from); if (dd < bd){ bd = dd; best = e; } }
+  if (!best) return;
+  zaps.push({ x1:from.x, y1:from.y, x2:best.x, y2:best.y, life:0.14 });
+  damage(best, dmg, best.x - from.x, best.y - from.y, 3, 'shot');
 }
 
-function ship(){
-  G.build -= G.need;
-  G.ships++;
-  const r = Math.random();
-  const flopP = Math.max(0.08, 0.3 - G.ships * 0.012);
-  let mult, kind;
-  if (r < 0.1){ mult = rand(2.4, 3.4); kind = 'viral'; G.viral++; }
-  else if (r < 0.1 + flopP){ mult = 0.35; kind = 'flop'; G.flops++; }
-  else { mult = rand(0.85, 1.25); kind = 'ok'; }
-  const gain = Math.max(5, Math.round((70 + 45 * (G.ships - 1)) * S.mrrMult * mult));
-  G.mrr += gain;
-  G.need = needNow();
-  rings.push({ x:P.x, y:P.y, r:12, max:280, dmg:40 * (1 + prog() * 2), hit:new Set() });
-  for (const g of gems){ if ((g.x - P.x) ** 2 + (g.y - P.y) ** 2 < 480 * 480) g.pull = true; }
-  G.shake = 14;
-  floatText(P.x, P.y - 34, `+${money(gain)} MRR`, kind === 'flop' ? C.inksoft : C.g4, 30, FM, 1.4);
-  G.lastShip = { gain, kind, name:pick(PRODUCTS) };
-  if (kind === 'flop') sfx.flop(); else sfx.ship();
-  G.invuln = Math.max(G.invuln, 1);
-  G.pickDelay = G.demo ? 0 : 0.6;
-  if (!G.demo && G.mrr >= GOAL && G.mrr - gain < GOAL) banner('ESCAPE VELOCITY', '$10k MRR. now survive.', C.g4);
+/* ================= abilities ================= */
+function compact(force){
+  if (!force && (G.state !== 'play' || G.demo)) return;
+  if (G.offline > 0 || G.outage > 0){ floatText(P.x, P.y - 34, 'agent is offline', C.inksoft, 17, FH, 0.9); sfx.nope(); return; }
+  if (G.cx < 15){ floatText(P.x, P.y - 34, 'nothing to compact yet', C.inksoft, 17, FH, 0.9); sfx.nope(); return; }
+  const a = agents[0], c = G.cx;
+  const R = (110 + c * 3.3) * S.burst;
+  const dmg = (18 + c * 1.6) * (1 + prog() * 1.8) * S.dmg;
+  rings.push({ x:a.x, y:a.y, r:10, max:R, dmg, hit:new Set(), kind:'compact', kills:0, speed:R / 0.3 });
+  G.cx = c * 0.25;
+  G.compacts++;
+  G.hitstop = 0.03 + c / 100 * 0.07;
+  G.shake = Math.max(G.shake, 5 + c * 0.15);
+  say(a, pick(QUIPS.compact), 1.8);
+  splat(a.x, a.y, C.blue, 24, 300);
+  sfx.compact(c);
+}
+function undo(){
+  if (G.state !== 'play' || G.demo) return;
+  if (G.undoCd > 0){ sfx.nope(); return; }
+  const target = G.time - 1.5;
+  let s = P.hist[0];
+  for (const h of P.hist){ if (h.t <= target) s = h; else break; }
+  if (!s) return;
+  trails.push({ pts:P.hist.filter(h => h.t >= s.t).map(h => ({ x:h.x, y:h.y })).concat([{ x:P.x, y:P.y }]), life:0.45, max:0.45 });
+  P.x = s.x; P.y = s.y; P.focus = Math.max(P.focus, s.f); P.stun = 0; P.doom = 0;
+  P.hist = P.hist.filter(h => h.t <= s.t);
+  G.invuln = Math.max(G.invuln, 0.6);
+  G.undoCd = 7 * S.undoMult;
+  G.undos++;
+  say(agents[0], pick(QUIPS.undo), 1.7);
+  sfx.undo();
+}
+function overflow(){
+  G.cx = 45; G.offline = 4; G.overflows++;
+  agents.forEach(a => say(a, QUIPS.overflow[0], 3));
+  banner('CONTEXT OVERFLOW', 'your agent crashed for 4s. compact sooner.', C.red, 2.6, true);
+  sfx.overflow(); G.shake = Math.max(G.shake, 10);
 }
 
-/* ================= update ================= */
+/* ================= input ================= */
 const keys = new Set();
 let joy = null;
-
 function inputVec(){
   let x = 0, y = 0;
   if (keys.has('arrowleft') || keys.has('a')) x -= 1;
@@ -412,6 +633,7 @@ function inputVec(){
   return [x, y];
 }
 
+/* ================= spatial grid ================= */
 const CELL = 64;
 let grid = new Map();
 const cellKey = (cx, cy) => (cx + 30000) * 65536 + (cy + 30000);
@@ -430,231 +652,381 @@ function near(x, y, rad, fn){
     const b = grid.get(cellKey(cx, cy)); if (b) for (const e of b) if (!e.dead) fn(e);
   }
 }
+function segDist(px, py, ax, ay, bx, by){
+  const vx = bx - ax, vy = by - ay, l2 = vx * vx + vy * vy || 1;
+  const t = clamp(((px - ax) * vx + (py - ay) * vy) / l2, 0, 1);
+  return Math.hypot(px - (ax + vx * t), py - (ay + vy * t));
+}
 
+/* ================= update ================= */
 function update(dt){
   G.time += dt;
   if (G.shake > 0) G.shake = Math.max(0, G.shake - dt * 40);
   if (G.banner && (G.banner.t -= dt) <= 0) G.banner = null;
+  if (!G.banner && G.banners.length) G.banner = G.banners.shift();
   if (G.invuln > 0) G.invuln -= dt;
   if (G.hurt > 0) G.hurt -= dt;
+  if (G.undoCd > 0) G.undoCd -= dt;
+  recomputePerks();
 
   const p = prog();
-  const doomF = P.doom > 0 ? 2 : 1;
   if (!G.demo){
-    G.day += dt * DAY_RATE * doomF;
-    if (P.doom > 0) G.doomDays += dt * DAY_RATE * doomF;
+    const f = P.doom > 0 ? 2 : 1;
+    const before = G.day;
+    G.day += dt * DAY_RATE * f;
+    if (P.doom > 0) G.doomDays += dt * DAY_RATE * f;
+    if (Math.floor(before / 30) !== Math.floor(G.day / 30)) monthTick();
+    const act = G.day < 182 ? 1 : G.day < 365 ? 2 : G.day < 548 ? 3 : 4;
+    if (act !== G.act){ G.act = act; banner(ACTS[act - 1][0], ACTS[act - 1][1], C.ink, 2.8); }
+  } else {
+    G.act = 1;
+    if ((G.day += dt * 6) > 30){ G.day = 0; monthTick(); }
   }
-  if (P.doom > 0) P.doom -= dt;
-  P.focus = Math.min(P.max, P.focus + 1.5 * dt);
 
   /* player */
+  if (P.doom > 0) P.doom -= dt;
+  if (P.stun > 0) P.stun -= dt;
+  if (P.stunCd > 0) P.stunCd -= dt;
+  P.focus = Math.min(P.max, P.focus + S.regen * dt);
   let [ix, iy] = inputVec();
-  if (G.demo){
-    G.demoA += dt * 0.7;
-    ix = Math.cos(G.demoA); iy = Math.sin(G.demoA * 1.3);
-    G.invuln = 1;
-  }
-  const spd = 168 * S.speed * (P.doom > 0 ? 0.5 : 1);
-  P.x += ix * spd * dt; P.y += iy * spd * dt;
+  if (G.demo){ G.demoA += dt * 0.6; ix = Math.cos(G.demoA) * 0.8; iy = Math.sin(G.demoA * 1.4) * 0.8; G.invuln = 1; }
+  if (P.stun > 0){ ix = 0; iy = 0; }
+  const spd = 175 * (P.doom > 0 ? 0.5 : 1);
+  P.x = clamp(P.x + ix * spd * dt, ARENA.x0 + P.r + 4, ARENA.x1 - P.r - 4);
+  P.y = clamp(P.y + iy * spd * dt, ARENA.y0 + P.r + 4, ARENA.y1 - P.r - 4);
   P.moving = Math.abs(ix) + Math.abs(iy) > 0.05;
   if (P.moving) P.face = Math.atan2(iy, ix);
+  if ((P.histT -= dt) <= 0){
+    P.histT = 0.05;
+    P.hist.push({ x:P.x, y:P.y, f:P.focus, t:G.time });
+    while (P.hist.length && P.hist[0].t < G.time - 2.2) P.hist.shift();
+  }
+
+  updateAgents(dt);
 
   /* spawning */
-  const rate = G.demo ? 1.6 : 0.9 + p * 7.5;
+  const rate = G.demo ? 1.4 : 0.75 + p * 5.6;
   G.spawnAcc += dt * rate;
   while (G.spawnAcc >= 1){
     G.spawnAcc -= 1;
-    if (enemies.length < (G.demo ? 60 : 380)) spawnEnemy(G.demo ? pick(['notif','notif','tweet','hype','phone']) : pickType());
+    if (enemies.length >= (G.demo ? 55 : 400)) continue;
+    const t = G.demo ? pick(['bug','bug','notif','tweet','scope','phone']) : pickType();
+    if (t === 'conflict') spawnConflict(); else spawnEnemy(t);
   }
-  if (!G.demo){
-    if ((G.nextStorm -= dt) <= 0){
-      const n = 14 + Math.floor(p * 30);
-      const off = Math.random() * Math.PI * 2;
-      for (let i = 0; i < n; i++) spawnEnemy('notif', off + i / n * Math.PI * 2);
-      banner('NOTIFICATION STORM', `${n} new notifications`, C.red);
-      G.nextStorm = rand(38, 52);
-    }
-    if (!G.boss1 && G.day >= 300){ G.boss1 = true; spawnBoss(); }
-    if (!G.boss2 && G.day >= 560){ G.boss2 = true; spawnBoss(); }
-    if ((G.nextShift -= dt) <= 0){
-      G.nextShift = rand(45, 65);
-      if (G.agiDay - G.day > 90){
-        const up = Math.random() < 0.6, d = ri(15, 35);
-        G.agiDay = up ? Math.max(G.day + 60, G.agiDay - d) : G.agiDay + d;
-        banner(up ? `NEW MODEL DROPPED. AGI -${d} DAYS` : `SCALING PLATEAU. AGI +${d} DAYS`, up ? 'timelines moved up. again.' : 'allegedly.', up ? C.red : C.g4);
-        G.shake = Math.max(G.shake, 6);
-      }
-    }
-  }
+  if (!G.demo) events(dt, p);
 
-  /* enemies: move, contact, boss attacks */
-  const far = Math.hypot(VW, VH) * 0.9 + 120;
+  /* enemies */
+  const far = Math.hypot(VW, VH) * 0.95 + 160;
+  let auraOn = false;
   for (const e of enemies){
     if (e.dead) continue;
-    const dx = P.x - e.x, dy = P.y - e.y, d = Math.hypot(dx, dy) || 1;
-    let mx = dx / d, my = dy / d;
-    if (e.type === 'hype'){ e.wob += dt * 5; const s = Math.sin(e.wob) * 0.9; const tx = -my, ty = mx; mx += tx * s; my += ty * s; }
-    e.x += mx * e.spd * dt; e.y += my * e.spd * dt;
+    e.age += dt;
     if (e.flash > 0) e.flash -= dt;
-    if (d > far && e.type !== 'boss'){
-      const a = Math.atan2(dy, dx) + Math.PI + rand(-0.9, 0.9);
-      const R = Math.hypot(VW, VH) / 2 + 40 + e.r;
-      e.x = P.x - Math.cos(a) * R; e.y = P.y - Math.sin(a) * R;
+    if (e.phantom && (e.life -= dt) <= 0){ e.dead = true; continue; }
+    if (e.type === 'boss'){ updateBoss(e, dt); continue; }
+    let tx = P.x, ty = P.y, prod = null;
+    if (e.type === 'bug'){
+      let bd = 650 * 650;
+      for (const q of products){ if (!live(q)) continue; const dd = d2(q, e); if (dd < bd){ bd = dd; prod = q; } }
+      if (prod){ tx = prod.x; ty = prod.y; }
     }
-    if (d < e.r + P.r){
-      if (G.invuln <= 0){ P.focus -= e.dps * dt; G.hurt = 0.25; sfx.hurt(); }
-      if (e.type === 'phone'){
-        if (P.doom <= 0) floatText(P.x, P.y - 30, 'doomscrolling...', C.blue, 20, FM, 1.2);
-        P.doom = 2.6;
-      }
+    const dx = tx - e.x, dy = ty - e.y, d = Math.hypot(dx, dy) || 1;
+    let mx = dx / d, my = dy / d;
+    if (e.type === 'notif'){ const s = Math.sin(e.age * 7 + e.wob) * 0.35; mx += -my * s; my += mx * s; }
+    if (e.type === 'scope'){ e.r = Math.min(36, 14 + e.age * 1.2); if (!e.phantom && e.hp < e.max0 * 2.2){ e.hp += 1.5 * dt * (1 + p); e.max = Math.max(e.max, e.hp); } }
+    e.ang = Math.atan2(my, mx);
+    if (prod && d < e.r + prod.r){
+      if (!e.phantom){ prod.hp -= 3.5 * dt; prod.hitT = 0.25; }
+    } else { e.x += mx * e.spd * dt; e.y += my * e.spd * dt; }
+    if (d > far && !prod){
+      const [nx, ny] = ringPoint(e.r);
+      e.x = nx; e.y = ny;
     }
-    if (e.type === 'boss'){
-      e.cd -= dt;
-      if (e.cd <= 0){
-        e.cd = 2.3;
-        const n = 12, off = Math.random() * Math.PI;
-        for (let i = 0; i < n; i++){ const a = off + i / n * Math.PI * 2; ebullets.push({ x:e.x, y:e.y, vx:Math.cos(a) * 135, vy:Math.sin(a) * 135, life:5 }); }
-        const aim = Math.atan2(P.y - e.y, P.x - e.x);
-        for (let i = -1; i <= 1; i++) ebullets.push({ x:e.x, y:e.y, vx:Math.cos(aim + i * 0.18) * 175, vy:Math.sin(aim + i * 0.18) * 175, life:5 });
-      }
+    if (e.phantom) continue;
+    const pd2 = (P.x - e.x) ** 2 + (P.y - e.y) ** 2;
+    if (pd2 < (e.r + P.r) ** 2){
+      if (e.type === 'notif'){ hurt(4); e.dead = true; splat(e.x, e.y, C.red, 10, 200); continue; }
+      if (e.type === 'meeting' && P.stunCd <= 0 && G.invuln <= 0){ P.stun = 0.9; P.stunCd = 2.6; hurt(6); floatText(P.x, P.y - 32, pick(['quick sync?','15 min call','can we hop on?']), C.red, 19, FM, 1); }
+      else if (e.type === 'phone'){ if (P.doom <= 0) floatText(P.x, P.y - 32, 'doomscrolling…', C.blue, 19, FM, 1.1); P.doom = 2.5; hurt(e.dps * dt); }
+      else hurt(e.dps * dt);
+    }
+    if (e.type === 'tweet' && pd2 < 95 * 95){ auraOn = true; if (G.invuln <= 0 && !G.demo){ P.focus -= 3 * dt; G.hurt = Math.max(G.hurt, 0.1); } }
+    if (e.type === 'conflict' && e.mate && !e.mate.dead && e.id < e.mate.id){
+      const m = e.mate, len = Math.hypot(m.x - e.x, m.y - e.y);
+      if (len < 320 && segDist(P.x, P.y, e.x, e.y, m.x, m.y) < P.r + 4) hurt(16 * dt);
     }
   }
+  if (auraOn) hint('aura', 'FLEX TWEETS DRAIN YOUR FOCUS', 'stay out of the red circle, or kill them');
 
-  /* separation so the swarm spreads out */
+  /* separation */
   buildGrid();
   for (const e of enemies){
     if (e.dead) continue;
-    near(e.x, e.y, e.r + 30, o => {
-      if (o.id <= e.id) return;
-      const dx = o.x - e.x, dy = o.y - e.y, rr = (o.r + e.r) * 0.92, d2 = dx * dx + dy * dy;
-      if (d2 > 0.01 && d2 < rr * rr){
-        const d = Math.sqrt(d2), push = (rr - d) * 0.6, nx = dx / d, ny = dy / d;
+    near(e.x, e.y, e.r + 40, o => {
+      if (o.id <= e.id || o.phantom !== e.phantom) return;
+      const dx = o.x - e.x, dy = o.y - e.y, rr = (o.r + e.r) * 0.92, dd = dx * dx + dy * dy;
+      if (dd > 0.01 && dd < rr * rr){
+        const d = Math.sqrt(dd), push = (rr - d) * 0.6, nx = dx / d, ny = dy / d;
         const eb = e.type === 'boss', ob = o.type === 'boss';
         const ew = eb ? 0 : ob ? 1 : 0.5, ow = ob ? 0 : eb ? 1 : 0.5;
-        e.x -= nx * push * ew; e.y -= ny * push * ew;
-        o.x += nx * push * ow; o.y += ny * push * ow;
+        e.x -= nx * push * ew; e.y -= ny * push * ew; o.x += nx * push * ow; o.y += ny * push * ow;
       }
     });
   }
 
-  /* weapon: auto-commit at the nearest distraction */
-  S.cd -= dt;
-  if (S.cd <= 0){
-    let best = null, bd = 470 * 470;
-    for (const e of enemies){ if (e.dead) continue; const dx = e.x - P.x, dy = e.y - P.y, dd = dx * dx + dy * dy; if (dd < bd){ bd = dd; best = e; } }
-    if (best){
-      const base = Math.atan2(best.y - P.y, best.x - P.x);
-      for (let i = 0; i < S.shots; i++){
-        const a = base + (i - (S.shots - 1) / 2) * 0.17;
-        bullets.push({ x:P.x, y:P.y, vx:Math.cos(a) * 450, vy:Math.sin(a) * 450, life:1.1, pierce:S.pierce, hits:[] });
-      }
-      S.cd = S.fireCd;
-    } else S.cd = 0.05;
-  }
-
-  /* bullets */
+  /* shots */
   for (const b of bullets){
+    if (b.curve){ const a = Math.atan2(b.vy, b.vx) + b.curve * dt, s = Math.hypot(b.vx, b.vy); b.vx = Math.cos(a) * s; b.vy = Math.sin(a) * s; }
     b.x += b.vx * dt; b.y += b.vy * dt; b.life -= dt;
     if (b.life <= 0) continue;
-    near(b.x, b.y, 60, e => {
-      if (b.life <= 0 || b.hits.includes(e.id)) return;
+    near(b.x, b.y, 70, e => {
+      if (b.life <= 0 || e.phantom || b.hits.includes(e.id)) return;
       const dx = e.x - b.x, dy = e.y - b.y, rr = e.r + 5;
       if (dx * dx + dy * dy < rr * rr){
         b.hits.push(e.id);
-        damage(e, S.dmg, b.vx, b.vy);
-        splat(b.x, b.y, C.blue, 2, 90);
+        damage(e, b.dmg, b.vx, b.vy, 5, b.fan ? 'fan' : 'shot');
+        if (b.chain) chain(e, b.dmg * 0.6);
+        splat(b.x, b.y, b.hall ? C.amber : C.blue, 2, 90);
         if (b.pierce-- <= 0) b.life = 0;
       }
     });
+    if (b.hall && b.life > 0){
+      for (const q of products){
+        if (!live(q) || (q.x - b.x) ** 2 + (q.y - b.y) ** 2 > q.r * q.r) continue;
+        q.hp -= 7; q.hitT = 0.25; b.life = 0;
+        if (throttle('refactor', 1500)) floatText(q.x, q.y - 44, pick(['refactored your billing','renamed every variable','"improved" the schema','deleted a migration']), C.amber, 17, FM, 1.3);
+        break;
+      }
+    }
   }
   bullets = bullets.filter(b => b.life > 0);
 
-  /* co-founders and mute aura */
-  S.bAng += dt * 2.7;
-  for (let i = 0; i < S.buddies; i++){
-    const a = S.bAng + i / S.buddies * Math.PI * 2;
-    const bx = P.x + Math.cos(a) * 62, by = P.y + Math.sin(a) * 62;
-    near(bx, by, 40, e => { const dx = e.x - bx, dy = e.y - by, rr = e.r + 11; if (dx * dx + dy * dy < rr * rr) damage(e, 46 * dt * (1 + p), dx, dy, 3); });
-  }
-  if (S.aura){
-    near(P.x, P.y, S.aura + 30, e => { const dx = e.x - P.x, dy = e.y - P.y, rr = S.aura + e.r * 0.5; if (dx * dx + dy * dy < rr * rr) damage(e, S.auraDps * dt * (1 + p * 0.8)); });
-  }
-
-  /* ship shockwaves */
-  for (const r of rings){
-    r.r += 620 * dt;
-    near(r.x, r.y, r.r, e => {
-      if (r.hit.has(e.id)) return;
-      const dx = e.x - r.x, dy = e.y - r.y;
-      if (dx * dx + dy * dy < r.r * r.r){ r.hit.add(e.id); damage(e, r.dmg, dx, dy, 46); }
-    });
-  }
-  rings = rings.filter(r => r.r < r.max);
-
-  /* boss bullets steal MRR */
+  /* boss pellets */
   for (const b of ebullets){
     b.x += b.vx * dt; b.y += b.vy * dt; b.life -= dt;
-    const dx = b.x - P.x, dy = b.y - P.y;
-    if (b.life > 0 && dx * dx + dy * dy < (P.r + 6) ** 2 && G.invuln <= 0){
-      b.life = 0;
-      P.focus -= 9; G.hurt = 0.35;
-      const steal = Math.round(G.mrr * 0.08);
-      if (steal > 0){ G.mrr -= steal; G.stolen += steal; floatText(P.x, P.y - 40, `-${money(steal)}: they shipped it free`, C.violet, 18, FM, 1.4); }
-      sfx.steal();
-    }
+    if (b.life > 0 && (b.x - P.x) ** 2 + (b.y - P.y) ** 2 < (P.r + 6) ** 2 && G.invuln <= 0){ b.life = 0; hurt(6); }
   }
   ebullets = ebullets.filter(b => b.life > 0);
 
-  /* commits: green contribution squares */
+  updateProducts(dt, p);
+
+  /* commits */
   for (const g of gems){
     g.x += g.vx * dt; g.y += g.vy * dt; g.vx *= 0.9; g.vy *= 0.9;
     const dx = P.x - g.x, dy = P.y - g.y, d = Math.hypot(dx, dy) || 1;
-    if (d < S.magnet || g.pull){
-      g.pull = true;
-      const s = 260 + (S.magnet - Math.min(d, S.magnet)) * 6;
-      g.x += dx / d * s * dt; g.y += dy / d * s * dt;
-    }
+    if (d < S.magnet || g.pull){ g.pull = true; const s = 270 + (S.magnet - Math.min(d, S.magnet)) * 6; g.x += dx / d * s * dt; g.y += dy / d * s * dt; }
     if (d < P.r + 8){ g.got = true; G.build += g.v; sfx.pickup(); }
   }
-  gems = gems.filter(g => !g.got);
-  if (gems.length > 450) gems.splice(0, gems.length - 450);
-  if (G.build >= G.need && G.pickDelay <= 0) ship();
-  if (G.pickDelay > 0){ G.pickDelay -= dt; if (G.pickDelay <= 0 && !G.demo) openPicker(); }
+  gems = gems.filter(g => !g.got && g.v > 0);
+  if (gems.length > 500) gems.splice(0, gems.length - 500);
+  if (G.build >= G.need && G.pickDelay <= 0 && !G.pickKind){
+    if (G.demo){ G.build = 0; G.ships++; }
+    else { G.pickKind = 'ship'; G.pickDelay = 0.3; floatText(P.x, P.y - 36, 'ready to ship!', C.g4, 22, FM, 1); }
+  }
+  if (G.pickDelay > 0 && (G.pickDelay -= dt) <= 0 && G.pickKind) openPicker(G.pickKind);
+
+  /* rings */
+  for (const r of rings){
+    r.r += r.speed * dt;
+    near(r.x, r.y, r.r, e => {
+      if (r.hit.has(e.id)) return;
+      const dx = e.x - r.x, dy = e.y - r.y;
+      if (dx * dx + dy * dy < r.r * r.r){
+        r.hit.add(e.id);
+        if (e.phantom){ kill(e, r); return; }
+        damage(e, r.dmg, dx, dy, 48, r);
+      }
+    });
+    if (r.kind === 'compact') for (const b of ebullets) if ((b.x - r.x) ** 2 + (b.y - r.y) ** 2 < r.r * r.r) b.life = 0;
+  }
+  for (const r of rings){
+    if (r.r < r.max) continue;
+    if (r.kind === 'compact'){
+      if (r.kills > G.bestCompact) G.bestCompact = r.kills;
+      if (r.kills >= 8) floatText(r.x, r.y - 60, `x${r.kills}`, C.blue, 26 + Math.min(30, r.kills * 0.6), FM, 1.3);
+    }
+  }
+  rings = rings.filter(r => r.r < r.max);
 
   /* grass */
   if ((G.nextGrass -= dt) <= 0){
-    G.nextGrass = rand(10, 15);
-    if (grasses.length < 2){ const a = Math.random() * Math.PI * 2, d = rand(240, 400); grasses.push({ x:P.x + Math.cos(a) * d, y:P.y + Math.sin(a) * d, id:++uid, t:0 }); }
+    G.nextGrass = rand(11, 16);
+    if (grasses.length < 2){
+      const a = Math.random() * TAU, d = rand(260, 420);
+      grasses.push({ x:clamp(P.x + Math.cos(a) * d, ARENA.x0 + 120, ARENA.x1 - 60), y:clamp(P.y + Math.sin(a) * d, ARENA.y0 + 60, ARENA.y1 - 60), id:++uid, t:0 });
+    }
   }
   for (const g of grasses){
     g.t += dt;
-    const dx = P.x - g.x, dy = P.y - g.y;
-    if (dx * dx + dy * dy < (P.r + 26) ** 2){
+    if ((P.x - g.x) ** 2 + (P.y - g.y) ** 2 < (P.r + 26) ** 2){
       g.got = true;
       const heal = Math.min(35, P.max - P.focus);
-      P.focus = Math.min(P.max, P.focus + 35);
-      P.doom = 0;
-      G.grassN++;
+      P.focus = Math.min(P.max, P.focus + 35); P.doom = 0; G.grassN++;
       splat(g.x, g.y, C.grass, 14, 200);
       floatText(g.x, g.y - 24, heal >= 1 ? `touched grass +${Math.round(heal)}` : 'touched grass', C.grass, 20, FM, 1.2);
       sfx.grass();
     }
-    if (dx * dx + dy * dy > 1800 * 1800) g.got = true;
   }
-  grasses = grasses.filter(g => !g.got);
+  grasses = grasses.filter(g => !g.got && g.t < 40);
 
   /* fx */
   for (const q of parts){ q.x += q.vx * dt; q.y += q.vy * dt; q.vx *= 0.9; q.vy *= 0.9; q.life -= dt; }
   parts = parts.filter(q => q.life > 0);
   for (const f of floats){ f.y -= 34 * dt; f.life -= dt; }
   floats = floats.filter(f => f.life > 0);
+  for (const t of trails) t.life -= dt;
+  trails = trails.filter(t => t.life > 0);
+  for (const z of zaps) z.life -= dt;
+  zaps = zaps.filter(z => z.life > 0);
   enemies = enemies.filter(e => !e.dead);
 
-  /* end conditions */
   if (!G.demo){
     if (P.focus <= 0){ P.focus = 0; endRun('burnout'); }
     else if (G.day >= G.agiDay){ G.day = G.agiDay; endRun('agi'); }
   }
+}
+
+function updateAgents(dt){
+  const n = agents.length;
+  while (agents.length < 1 + (S.ups.parallel || 0)){
+    const a = { i:agents.length, x:P.x, y:P.y, cd:0.3, bubble:null };
+    agents.push(a); say(a, 'Hi! I am also an agent.', 2);
+  }
+  agents.forEach((a, i) => {
+    const ang = -Math.PI / 2 + (i - (n - 1) / 2) * 0.9 + Math.sin(G.time * 1.3 + i) * 0.15;
+    const tx = P.x + Math.cos(ang) * 34, ty = P.y + Math.sin(ang) * 30 - 6;
+    a.x += (tx - a.x) * Math.min(1, dt * 7); a.y += (ty - a.y) * Math.min(1, dt * 7);
+    if (a.bubble && (a.bubble.t -= dt) <= 0) a.bubble = null;
+  });
+  if (G.offline > 0){ G.offline -= dt; return; }
+  if (G.outage > 0){ G.outage -= dt; return; }
+  const hallZone = G.cx >= S.hallAt;
+  if (hallZone) hint('hall', 'YOUR AGENT IS HALLUCINATING', 'it shoots wild and hits your own stuff. compact!');
+  else if (G.cx >= 35) hint('compact', 'SPACE = /compact', 'the fuller the context, the bigger the blast');
+  const powerF = 1 + G.cx / 100 * 1.1;
+  for (const a of agents){
+    if ((a.cd -= dt) > 0) continue;
+    let best = null, bd = 440 * 440;
+    for (const e of enemies){
+      if (e.dead || (e.phantom && !hallZone)) continue;
+      const dd = (e.x - a.x) ** 2 + (e.y - a.y) ** 2;
+      if (dd < bd){ bd = dd; best = e; }
+    }
+    if (!best){ a.cd = 0.08; continue; }
+    const hall = hallZone && Math.random() < 0.08 + (G.cx - S.hallAt) / (100 - S.hallAt) * 0.6;
+    let ang = Math.atan2(best.y - a.y, best.x - a.x);
+    if (hall){ ang += rand(-1.7, 1.7); G.hallShots++; quip('hall', 0.25); }
+    bullets.push({ x:a.x, y:a.y, vx:Math.cos(ang) * 470, vy:Math.sin(ang) * 470, life:1.05, dmg:10 * S.dmg * (1 + G.cx / 100 * 0.8),
+                   pierce:S.pierce, hits:[], hall, curve: hall ? rand(-4, 4) : 0, chain: S.ups.tools ? 1 : 0 });
+    a.cd = 0.5 / (S.fire * powerF);
+    G.cx += 0.45 * S.ctxGain;
+  }
+  if (G.demo && G.cx > 70) compact(true);
+  if (!G.demo && G.cx >= 100) overflow();
+}
+
+function updateBoss(e, dt){
+  // after it takes two products, the lab has what it wanted and walks off the page
+  if (e.leaving){
+    e.x += (e.x - P.x > 0 ? 1 : -1) * 160 * dt; e.y -= 40 * dt;
+    if (Math.abs(e.x - P.x) > VW){ e.dead = true; G.boss = null; }
+    return;
+  }
+  let t = null, best = -1e9;
+  for (const q of products) if (live(q) && q.type !== 'cursed' && q.mrr > best){ best = q.mrr; t = q; }
+  const tx = t ? t.x : P.x, ty = t ? t.y : P.y;
+  const d = Math.hypot(tx - e.x, ty - e.y) || 1;
+  if (d > (t ? 150 : 50)){ e.x += (tx - e.x) / d * e.spd * dt; e.y += (ty - e.y) / d * e.spd * dt; }
+  e.beam = null;
+  if (t && d < 230){
+    if (e.beamTarget !== t){ e.beamTarget = t; e.charge = 0; }
+    e.charge += dt;
+    e.beam = t;
+    if (e.charge > 2){
+      t.hp -= 18 * dt; t.hitT = 0.25; sfx.steal();
+      if (t.hp <= 0){
+        t.alive = false; t.hp = 0; t.acquiredText = 'sherlocked'; G.acquired++;
+        e.taken = (e.taken || 0) + 1;
+        floatText(t.x, t.y - 44, 'shipped for free by Frontier Lab', C.violet, 19, FM, 2);
+        if (e.taken >= 2){
+          e.leaving = true;
+          banner('THE LAB GOT WHAT IT WANTED', 'two of your products are free features now', C.violet, 2.6, true);
+        } else banner('A PRODUCT GOT SHERLOCKED', `${t.name} is now a free feature`, C.violet, 2.4, true);
+      }
+    }
+  } else { e.beamTarget = null; e.charge = 0; }
+  if ((P.x - e.x) ** 2 + (P.y - e.y) ** 2 < (e.r + P.r) ** 2) hurt(e.dps * dt);
+  if ((e.cd -= dt) <= 0){
+    e.cd = 3;
+    const off = Math.random() * TAU;
+    for (let i = 0; i < 8; i++){ const a = off + i / 8 * TAU; ebullets.push({ x:e.x, y:e.y, vx:Math.cos(a) * 130, vy:Math.sin(a) * 130, life:5 }); }
+    const aim = Math.atan2(P.y - e.y, P.x - e.x);
+    for (let i = -1; i <= 1; i++) ebullets.push({ x:e.x, y:e.y, vx:Math.cos(aim + i * 0.2) * 175, vy:Math.sin(aim + i * 0.2) * 175, life:5 });
+  }
+}
+
+function updateProducts(dt, p){
+  for (const q of products){
+    if (!q.alive) continue;
+    if (q.hitT > 0) q.hitT -= dt;
+    const pd = Math.hypot(P.x - q.x, P.y - q.y);
+    if (q.hp <= 0){
+      if (q.type === 'cursed'){ q.alive = false; floatText(q.x, q.y - 40, 'a bug ate the hallucination. thanks?', C.g4, 17, FM, 1.5); continue; }
+      if (!q.down){ q.down = true; G.downs++; floatText(q.x, q.y - 48, 'PROD DOWN', C.red, 24, FM, 1.6); sfx.alarm(); hint('down', 'PROD IS DOWN', 'stand on it to hotfix. down products earn nothing.'); }
+      if (pd < q.r + 36){
+        q.fixT += dt;
+        if (q.fixT >= 1.2){ q.hp = q.max * 0.6; q.down = false; q.fixT = 0; G.hotfixes++; floatText(q.x, q.y - 44, 'hotfix deployed', C.g4, 20, FM, 1.2); sfx.fix(); }
+      } else q.fixT = Math.max(0, q.fixT - dt);
+      continue;
+    }
+    if (q.cursed && q.cursed.destroy && !q.done){
+      q.done = true;
+      const victim = products.find(o => o !== q && live(o) && o.type !== 'cursed');
+      if (victim){ victim.alive = false; victim.acquiredText = 'rm -rf’d'; splat(victim.x, victim.y, C.ink, 30, 260); floatText(victim.x, victim.y - 40, 'rm -rf’d', C.red, 22, FM, 1.6); }
+      q.alive = false; splat(q.x, q.y, C.red, 20, 200);
+      continue;
+    }
+    if (pd < q.r + 36 && q.hp < q.max) q.hp = Math.min(q.max, q.hp + 22 * dt);
+    if (q.mrr > 0 && (q.incomeT -= dt) <= 0){ q.incomeT = rand(2.4, 3.6); floatText(q.x + rand(-10, 10), q.y - 36, '$', C.g4, 20, FM, 0.9); }
+    if (q.type === 'game' && (q.turretCd -= dt) <= 0){
+      q.turretCd = 0.55;
+      let best = null, bd = 250 * 250;
+      for (const e of enemies){ if (e.dead || e.phantom) continue; const dd = d2(e, q); if (dd < bd){ bd = dd; best = e; } }
+      if (best){ const a = Math.atan2(best.y - q.y, best.x - q.x); bullets.push({ x:q.x, y:q.y, vx:Math.cos(a) * 420, vy:Math.sin(a) * 420, life:0.7, dmg:8 * (1 + p * 1.6), pierce:0, hits:[], hall:false, curve:0, chain:0, fan:true }); }
+    }
+  }
+}
+
+function events(dt, p){
+  if ((G.nextStorm -= dt) <= 0){
+    G.nextStorm = rand(36, 50);
+    const n = 10 + Math.floor(p * 20), off = Math.random() * TAU;
+    for (let i = 0; i < n; i++){ const a = off + i / n * TAU, R = Math.hypot(VW, VH) / 2 + 30; spawnEnemy('notif', P.x + Math.cos(a) * R, P.y + Math.sin(a) * R); }
+    banner('NOTIFICATION STORM', `${n} new notifications`, C.red);
+  }
+  if (G.act >= 2 && (G.nextShift -= dt) <= 0){
+    G.nextShift = rand(45, 65);
+    if (G.agiDay - G.day > 90){
+      const up = Math.random() < 0.6, d = ri(15, 35);
+      G.agiDay = up ? Math.max(G.day + 60, G.agiDay - d) : G.agiDay + d;
+      banner(up ? `NEW MODEL DROPPED. AGI -${d} DAYS` : `SCALING PLATEAU. AGI +${d} DAYS`, up ? 'timelines moved up. again.' : 'allegedly.', up ? C.red : C.g4);
+      G.shake = Math.max(G.shake, 6);
+    }
+  }
+  if (G.act >= 3 && (G.nextOutage -= dt) <= 0){
+    G.nextOutage = rand(55, 80);
+    G.outage = 5;
+    banner('529: OVERLOADED', 'your agent is down for 5s. kite.', C.red, 2.6, true);
+    agents.forEach(a => say(a, pick(QUIPS.outage), 4));
+  }
+  if (G.cx >= S.hallAt + 8 && (G.nextPhantom -= dt) <= 0){
+    G.nextPhantom = rand(0.7, 1.4);
+    const a = Math.random() * TAU, d = rand(180, 340);
+    const e = spawnEnemy(pick(['bug','notif','tweet']), P.x + Math.cos(a) * d, P.y + Math.sin(a) * d);
+    e.phantom = true; e.life = 5; e.spd *= 0.6;
+  }
+  if (!G.boss1 && G.day >= 300){ G.boss1 = true; spawnBoss(); }
+  if (!G.boss2 && G.day >= 560){ G.boss2 = true; spawnBoss(); }
 }
 
 /* ================= drawing ================= */
@@ -663,7 +1035,7 @@ function wobblyCircle(x, y, r, seed, amp){
   const n = Math.max(9, Math.min(30, (r * 0.9) | 0));
   ctx.beginPath();
   for (let i = 0; i < n; i++){
-    const a = i / n * Math.PI * 2, rr = r + (hash(seed * 31 + i) - 0.5) * 2 * amp;
+    const a = i / n * TAU, rr = r + (hash(seed * 31 + i) - 0.5) * 2 * amp;
     const px = x + Math.cos(a) * rr, py = y + Math.sin(a) * rr;
     if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py);
   }
@@ -679,43 +1051,59 @@ function wobblyRect(x, y, w, h, seed, amp = 1.4){
   ctx.closePath();
 }
 const boil = () => Math.floor(G.time * 7) % 3;
+function outlinedText(text, x, y, fill, stroke = C.paper, lw = 5){
+  ctx.lineWidth = lw; ctx.strokeStyle = stroke; ctx.strokeText(text, x, y);
+  ctx.fillStyle = fill; ctx.fillText(text, x, y);
+}
 
 function drawEnemy(e){
   const s = e.id * 5 + boil();
   const flash = e.flash > 0;
   ctx.lineWidth = 2; ctx.strokeStyle = C.ink;
   switch (e.type){
+    case 'bug': {
+      ctx.save(); ctx.translate(e.x, e.y); ctx.rotate(e.ang);
+      const r = e.r, leg = Math.sin(G.time * 22 + e.id) * 3;
+      ctx.beginPath();
+      for (let i = -1; i <= 1; i++){
+        const lx = i * r * 0.55;
+        ctx.moveTo(lx, 0); ctx.lineTo(lx + (i === 0 ? leg : -leg) * 0.6, -r * 1.25);
+        ctx.moveTo(lx, 0); ctx.lineTo(lx + (i === 0 ? -leg : leg) * 0.6, r * 1.25);
+      }
+      ctx.moveTo(r * 1.3, -2); ctx.lineTo(r * 1.9, -r * 0.7); ctx.moveTo(r * 1.3, 2); ctx.lineTo(r * 1.9, r * 0.7);
+      ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(0, 0, r * 1.05, r * 0.82, 0, 0, TAU); ctx.fillStyle = flash ? C.card : C.ink; ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.arc(r * 1.1, 0, r * 0.42, 0, TAU); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle = C.red; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(-r * 0.9, 0); ctx.lineTo(r * 0.8, 0); ctx.stroke();
+      restore();
+      break;
+    }
     case 'notif': {
       wobblyCircle(e.x, e.y, e.r, s); ctx.fillStyle = flash ? C.card : C.red; ctx.fill(); ctx.stroke();
       font(`bold 12px ${FH}`); ctx.fillStyle = flash ? C.red : C.card; ctx.textAlign = 'center'; ctx.fillText(e.num, e.x, e.y + 4);
       break;
     }
     case 'tweet': {
+      if (!e.phantom){
+        ctx.save(); ctx.setLineDash([5, 7]); ctx.strokeStyle = C.red; ctx.globalAlpha = 0.35; ctx.lineWidth = 1.5;
+        wobblyCircle(e.x, e.y, 95, s + 50, 2); ctx.stroke(); restore();
+        ctx.lineWidth = 2; ctx.strokeStyle = C.ink;
+      }
       const w = e.w, h = 32;
       wobblyRect(e.x - w / 2, e.y - h / 2, w, h, s); ctx.fillStyle = flash ? C.hi : C.card; ctx.fill(); ctx.stroke();
       wobblyCircle(e.x - w / 2 + 14, e.y, 8, s + 3, 0.8); ctx.fillStyle = `hsl(${(e.id * 47) % 360} 60% 72%)`; ctx.fill(); ctx.lineWidth = 1.5; ctx.stroke();
       font(`15px ${FH}`); ctx.fillStyle = C.ink; ctx.textAlign = 'left'; ctx.fillText(e.label, e.x - w / 2 + 27, e.y + 5);
       break;
     }
-    case 'hype': {
-      ctx.beginPath();
-      const n = 14;
-      for (let i = 0; i < n; i++){
-        const a = i / n * Math.PI * 2 + e.wob * 0.2, rr = (i % 2 ? e.r * 0.68 : e.r + 3) + (hash(s * 11 + i) - 0.5) * 2;
-        const px = e.x + Math.cos(a) * rr, py = e.y + Math.sin(a) * rr;
-        if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py);
-      }
-      ctx.closePath(); ctx.fillStyle = flash ? C.card : C.violet; ctx.fill(); ctx.stroke();
-      font(`10px ${FM}`); ctx.fillStyle = flash ? C.violet : C.card; ctx.textAlign = 'center'; ctx.fillText('AGI', e.x, e.y + 4);
+    case 'scope': {
+      wobblyCircle(e.x, e.y, e.r, s, 1.5 + e.r * 0.07); ctx.fillStyle = flash ? C.card : C.scope; ctx.fill(); ctx.stroke();
+      font(`${Math.round(Math.max(11, e.r * 0.62))}px ${FM}`); ctx.fillStyle = C.ink; ctx.textAlign = 'center'; ctx.fillText('+1', e.x, e.y + e.r * 0.22);
+      if (e.r > 24){ font(`14px ${FH}`); outlinedText('can we also add…', e.x, e.y - e.r - 8, C.inksoft, C.paper, 4); }
       break;
     }
-    case 'phone': {
-      const w = 20, h = 32;
-      wobblyRect(e.x - w / 2, e.y - h / 2, w, h, s, 1); ctx.fillStyle = flash ? C.card : C.ink; ctx.fill(); ctx.stroke();
-      ctx.fillStyle = C.blue; ctx.fillRect(e.x - 7, e.y - 12, 14, 22);
-      ctx.fillStyle = C.card;
-      const off = (G.time * 30 + e.id * 7) % 7;
-      for (let i = 0; i < 3; i++) ctx.fillRect(e.x - 5, e.y - 10 + ((i * 7 + off) % 20), 10, 2);
+    case 'conflict': {
+      wobblyRect(e.x - 26, e.y - 12, 52, 24, s); ctx.fillStyle = flash ? C.card : C.conflict; ctx.fill(); ctx.stroke();
+      font(`11px ${FC}`); ctx.fillStyle = C.red; ctx.textAlign = 'center'; ctx.fillText(e.label, e.x, e.y + 4);
       break;
     }
     case 'meeting': {
@@ -723,243 +1111,350 @@ function drawEnemy(e){
       wobblyRect(e.x - w / 2, e.y - h / 2, w, h, s); ctx.fillStyle = flash ? C.hi : C.card; ctx.fill(); ctx.stroke();
       ctx.fillStyle = C.red; ctx.fillRect(e.x - w / 2 + 2, e.y - h / 2 + 2, w - 4, 11);
       ctx.fillStyle = C.ink; ctx.fillRect(e.x - 14, e.y - h / 2 - 4, 3, 9); ctx.fillRect(e.x + 11, e.y - h / 2 - 4, 3, 9);
-      font(`${e.label.length > 6 ? 11 : 13}px ${FM}`); ctx.fillStyle = C.ink; ctx.textAlign = 'center'; ctx.fillText(e.label, e.x, e.y + 12);
+      font(`${e.label.length > 6 ? 11 : 13}px ${FM}`); ctx.textAlign = 'center'; ctx.fillText(e.label, e.x, e.y + 12);
+      break;
+    }
+    case 'phone': {
+      wobblyRect(e.x - 10, e.y - 16, 20, 32, s, 1); ctx.fillStyle = flash ? C.card : C.ink; ctx.fill(); ctx.stroke();
+      ctx.fillStyle = C.blue; ctx.fillRect(e.x - 7, e.y - 12, 14, 22);
+      ctx.fillStyle = C.card;
+      const off = (G.time * 30 + e.id * 7) % 7;
+      for (let i = 0; i < 3; i++) ctx.fillRect(e.x - 5, e.y - 10 + ((i * 7 + off) % 20), 10, 2);
       break;
     }
     case 'boss': {
+      if (e.beam){
+        const t = e.beam;
+        const charging = (e.charge || 0) <= 2;
+        ctx.save(); ctx.strokeStyle = C.violet; ctx.lineWidth = charging ? 2 : 5 + Math.sin(G.time * 30) * 2; ctx.globalAlpha = 0.7;
+        if (charging) ctx.setLineDash([6, 8]);
+        ctx.beginPath(); ctx.moveTo(e.x, e.y);
+        for (let i = 1; i <= 8; i++){ const k = i / 8; ctx.lineTo(e.x + (t.x - e.x) * k + rand(-6, 6), e.y + (t.y - e.y) * k + rand(-6, 6)); }
+        ctx.stroke(); restore();
+      }
       for (let k = 3; k >= 1; k--){
         wobblyCircle(e.x, e.y, e.r * (0.45 + k * 0.2), s + k, 2.5);
-        ctx.fillStyle = k === 2 ? C.card : (flash ? C.card : C.violet); ctx.fill(); ctx.lineWidth = 2.5; ctx.stroke();
+        ctx.fillStyle = k === 2 ? C.card : (flash ? C.card : C.violet); ctx.fill(); ctx.lineWidth = 2.5; ctx.strokeStyle = C.ink; ctx.stroke();
       }
       const a = Math.atan2(P.y - e.y, P.x - e.x);
       wobblyCircle(e.x + Math.cos(a) * 9, e.y + Math.sin(a) * 9, 8, s + 9, 1); ctx.fillStyle = C.ink; ctx.fill();
-      font(`15px ${FM}`); ctx.fillStyle = C.violet; ctx.textAlign = 'center';
-      ctx.lineWidth = 4; ctx.strokeStyle = C.paper; ctx.strokeText('FRONTIER LAB', e.x, e.y + e.r + 22); ctx.fillText('FRONTIER LAB', e.x, e.y + e.r + 22);
+      font(`15px ${FM}`); ctx.textAlign = 'center'; outlinedText('FRONTIER LAB', e.x, e.y + e.r + 22, C.violet, C.paper, 4);
       break;
     }
   }
 }
 
+function drawProduct(q){
+  const s = q.id * 3 + boil();
+  if (!q.alive){
+    if (q.type === 'cursed') return;
+    ctx.save(); ctx.globalAlpha = 0.45; ctx.setLineDash([5, 6]); ctx.strokeStyle = C.violet; ctx.lineWidth = 2;
+    wobblyRect(q.x - 26, q.y - 26, 52, 52, s, 1.2); ctx.stroke(); restore();
+    font(`13px ${FH}`); ctx.textAlign = 'center'; ctx.fillStyle = C.violet; ctx.fillText(q.acquiredText || 'gone', q.x, q.y + 4);
+    return;
+  }
+  const t = PT[q.type];
+  const jx = q.hitT > 0 ? rand(-2, 2) : 0;
+  ctx.fillStyle = C.shadow; ctx.fillRect(q.x - 22 + jx, q.y - 20, 52, 52);
+  ctx.save(); ctx.translate(q.x + jx, q.y); ctx.rotate((hash(q.id) - 0.5) * 0.14);
+  wobblyRect(-26, -26, 52, 52, s, 1.2);
+  ctx.fillStyle = q.down ? C.g0 : (q.type === 'cursed' ? C.ncursed : C['n' + q.type]); ctx.fill();
+  ctx.lineWidth = 2.4; ctx.strokeStyle = q.type === 'cursed' ? C.red : C.ink;
+  if (q.type === 'cursed') ctx.setLineDash([6, 5]);
+  ctx.stroke(); ctx.setLineDash([]);
+  font(`${q.type === 'cursed' ? 22 : t.glyph.length > 2 ? 17 : 22}px ${FM}`); ctx.textAlign = 'center';
+  ctx.fillStyle = q.down ? C.inksoft : q.type === 'cursed' ? C.red : C.ink;
+  ctx.fillText(q.type === 'cursed' ? '??' : t.glyph, 0, 8);
+  if (q.down){ ctx.strokeStyle = C.red; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(-18, -18); ctx.lineTo(18, 18); ctx.moveTo(18, -18); ctx.lineTo(-18, 18); ctx.stroke(); }
+  restore();
+  font(`13px ${FH}`); ctx.textAlign = 'center';
+  const nm = q.name.length > 26 ? q.name.slice(0, 25) + '…' : q.name;
+  outlinedText(nm, q.x, q.y + 44, C.inksoft, C.paper, 4);
+  if (q.viral && !q.down){ font(`12px ${FM}`); outlinedText('VIRAL', q.x, q.y - 32, C.blue, C.paper, 4); }
+  if (!q.down && q.hp < q.max){
+    ctx.fillStyle = C.g0; ctx.fillRect(q.x - 24, q.y + 30, 48, 5);
+    ctx.fillStyle = q.hp < q.max * 0.35 ? C.red : C.g3; ctx.fillRect(q.x - 24, q.y + 30, 48 * q.hp / q.max, 5);
+  }
+  if (q.down){
+    font(`15px ${FM}`); outlinedText('DOWN', q.x, q.y - 34, C.red, C.paper, 4);
+    if (q.fixT > 0){ ctx.strokeStyle = C.g3; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(q.x, q.y, 36, -Math.PI / 2, -Math.PI / 2 + TAU * q.fixT / 1.2); ctx.stroke(); }
+  }
+}
+
+function drawAgent(a){
+  const hallZone = G.cx >= S.hallAt;
+  const off = G.offline > 0 || G.outage > 0;
+  const eye = off ? C.inksoft : G.cx >= 90 ? C.red : hallZone ? C.amber : C.blue;
+  const bob = Math.sin(G.time * 4 + a.i) * 2;
+  const x = a.x, y = a.y + bob, s = 60 + a.i * 7 + boil();
+  const draw = (dx, color, alpha) => {
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = color; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(x + dx, y - 9); ctx.lineTo(x + dx, y - 16); ctx.stroke();
+    ctx.beginPath(); ctx.arc(x + dx, y - 18, 2.5, 0, TAU); ctx.fillStyle = eye; ctx.fill();
+    wobblyRect(x - 10 + dx, y - 9, 20, 17, s, 0.9); ctx.fillStyle = C.card; ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(x + dx, y - 1, 4.2, 0, TAU); ctx.fillStyle = eye; ctx.fill();
+    ctx.globalAlpha = 1;
+  };
+  if (hallZone && !off){ const j = (G.cx - S.hallAt) / 10; draw(-2 - j, C.red, 0.4); draw(2 + j, C.blue, 0.4); }
+  draw(0, C.ink, 1);
+  if (off){ font(`12px ${FM}`); ctx.textAlign = 'left'; ctx.fillStyle = C.inksoft; ctx.fillText('zz', x + 10, y - 12 - (G.time * 10 % 6)); }
+}
+function drawBubble(a){
+  if (!a.bubble) return;
+  const text = a.bubble.text;
+  font(`500 12px ${FC}`);
+  const w = Math.min(260, ctx.measureText(text).width + 16), h = 24;
+  const x = clamp(a.x - w / 2, cam.x + 8 / Z, cam.x + VW - w - 8 / Z), y = a.y - 48;
+  ctx.globalAlpha = Math.min(1, a.bubble.t * 3);
+  wobblyRect(x, y, w, h, a.i + 3, 0.8); ctx.fillStyle = C.card; ctx.fill(); ctx.strokeStyle = C.ink; ctx.lineWidth = 1.8; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(a.x - 4, y + h); ctx.lineTo(a.x, y + h + 7); ctx.lineTo(a.x + 5, y + h); ctx.fillStyle = C.card; ctx.fill();
+  ctx.fillStyle = C.ink; ctx.textAlign = 'left'; ctx.fillText(text, x + 8, y + 16, w - 14);
+  ctx.globalAlpha = 1;
+}
 function drawPlayer(){
   const bob = P.moving ? Math.sin(G.time * 16) * 1.6 : 0;
   const x = P.x, y = P.y + bob, s = 7 + boil();
-  ctx.fillStyle = C.shadow;
-  ctx.beginPath(); ctx.ellipse(P.x, P.y + 15, 14, 5, 0, 0, Math.PI * 2); ctx.fill();
-  // laptop held out in front
+  ctx.fillStyle = C.shadow; ctx.beginPath(); ctx.ellipse(P.x, P.y + 15, 14, 5, 0, 0, TAU); ctx.fill();
   const fx = Math.cos(P.face), fy = Math.sin(P.face);
   ctx.save(); ctx.translate(x + fx * 17, y + fy * 17 + 3); ctx.rotate(P.face + Math.PI / 2);
   wobblyRect(-10, -6, 20, 12, s + 4, 0.8); ctx.fillStyle = C.ink; ctx.fill();
   ctx.fillStyle = C.blue; ctx.fillRect(-7, -4, 14, 7);
   restore();
-  // head
-  const hurt = G.hurt > 0 && Math.floor(G.time * 20) % 2 === 0;
+  const hurtF = G.hurt > 0 && Math.floor(G.time * 20) % 2 === 0;
   wobblyCircle(x, y, P.r, s, 1.1);
-  ctx.fillStyle = hurt ? C.red : C.card; ctx.fill(); ctx.lineWidth = 2.4; ctx.strokeStyle = C.ink; ctx.stroke();
-  // eyes look where you move
+  ctx.fillStyle = hurtF ? C.red : C.card; ctx.fill(); ctx.lineWidth = 2.4; ctx.strokeStyle = C.ink; ctx.stroke();
   const ex = fx * 4, ey = fy * 3;
   ctx.fillStyle = C.ink;
-  ctx.beginPath(); ctx.arc(x - 4.5 + ex, y - 2 + ey, 2.2, 0, Math.PI * 2); ctx.arc(x + 4.5 + ex, y - 2 + ey, 2.2, 0, Math.PI * 2); ctx.fill();
+  if (P.stun > 0){
+    font(`14px ${FM}`); ctx.textAlign = 'center'; ctx.fillText('x  x', x + ex, y + 2 + ey);
+  } else { ctx.beginPath(); ctx.arc(x - 4.5 + ex, y - 2 + ey, 2.2, 0, TAU); ctx.arc(x + 4.5 + ex, y - 2 + ey, 2.2, 0, TAU); ctx.fill(); }
   if (P.doom > 0){ ctx.fillStyle = C.bluewash; wobblyCircle(x, y, P.r + 6, s + 2); ctx.fill(); }
   if (G.invuln > 0 && !G.demo && Math.floor(G.time * 10) % 2 === 0){ ctx.strokeStyle = C.hi; ctx.lineWidth = 2; wobblyCircle(x, y, P.r + 5, s + 5); ctx.stroke(); }
 }
 
-let cam = { x:0, y:0 };
+const cam = { x:0, y:0 };
 function drawWorld(){
   const shx = (Math.random() - 0.5) * G.shake, shy = (Math.random() - 0.5) * G.shake;
-  const camX = P.x - VW / 2 + shx, camY = P.y - VH / 2 + shy;
-  cam.x = camX; cam.y = camY;
-
-  ctx.fillStyle = C.paper; ctx.fillRect(0, 0, W, H);
-  const gs = 32 * Z;
-  ctx.strokeStyle = C.grid; ctx.lineWidth = 1; ctx.beginPath();
-  for (let x = -((((camX * Z) % gs) + gs) % gs); x < W; x += gs){ ctx.moveTo(Math.round(x) + 0.5, 0); ctx.lineTo(Math.round(x) + 0.5, H); }
-  for (let y = -((((camY * Z) % gs) + gs) % gs); y < H; y += gs){ ctx.moveTo(0, Math.round(y) + 0.5); ctx.lineTo(W, Math.round(y) + 0.5); }
-  ctx.stroke();
-
+  cam.x = P.x - VW / 2 + shx; cam.y = P.y - VH / 2 + shy;
+  ctx.fillStyle = C.desk; ctx.fillRect(0, 0, W, H);
   ctx.save();
-  ctx.scale(Z, Z);
-  ctx.translate(-camX, -camY);
-  const vis = (x, y, m = 80) => x > camX - m && x < camX + VW + m && y > camY - m && y < camY + VH + m;
+  ctx.scale(Z, Z); ctx.translate(-cam.x, -cam.y);
+  const vis = (x, y, m = 80) => x > cam.x - m && x < cam.x + VW + m && y > cam.y - m && y < cam.y + VH + m;
 
-  // grass patches
+  // the sheet of paper
+  const A = ARENA;
+  ctx.fillStyle = C.shadow; ctx.fillRect(A.x0 + 10, A.y0 + 12, A.x1 - A.x0, A.y1 - A.y0);
+  ctx.fillStyle = C.paper; ctx.fillRect(A.x0, A.y0, A.x1 - A.x0, A.y1 - A.y0);
+  const gx0 = Math.max(A.x0, Math.floor(cam.x / 32) * 32), gx1 = Math.min(A.x1, cam.x + VW);
+  const gy0 = Math.max(A.y0, Math.floor(cam.y / 32) * 32), gy1 = Math.min(A.y1, cam.y + VH);
+  ctx.strokeStyle = C.grid; ctx.lineWidth = 1 / Z; ctx.beginPath();
+  for (let x = gx0; x <= gx1; x += 32){ ctx.moveTo(x, Math.max(A.y0, cam.y)); ctx.lineTo(x, Math.min(A.y1, cam.y + VH)); }
+  for (let y = gy0; y <= gy1; y += 32){ ctx.moveTo(Math.max(A.x0, cam.x), y); ctx.lineTo(Math.min(A.x1, cam.x + VW), y); }
+  ctx.stroke();
+  ctx.strokeStyle = C.margin; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(A.x0 + 90, A.y0); ctx.lineTo(A.x0 + 90, A.y1); ctx.stroke();
+  ctx.fillStyle = C.desk; for (const hy of [-560, 0, 560]){ ctx.beginPath(); ctx.arc(A.x0 + 42, hy, 15, 0, TAU); ctx.fill(); }
+
+  // grass
   for (const g of grasses){
     if (!vis(g.x, g.y)) continue;
     const s = g.id * 3 + boil();
     wobblyCircle(g.x, g.y, 26, s, 3); ctx.fillStyle = C.grasswash; ctx.fill();
     ctx.strokeStyle = C.grass; ctx.lineWidth = 2.2; ctx.beginPath();
     for (let i = 0; i < 9; i++){
-      const bx = g.x - 18 + i * 4.5 + (hash(s + i) - 0.5) * 3, by = g.y + 8 + (hash(s + i + 20) - 0.5) * 6;
-      const sw = Math.sin(G.time * 3 + i) * 2.5;
+      const bx = g.x - 18 + i * 4.5 + (hash(s + i) - 0.5) * 3, by = g.y + 8 + (hash(s + i + 20) - 0.5) * 6, sw = Math.sin(G.time * 3 + i) * 2.5;
       ctx.moveTo(bx, by); ctx.quadraticCurveTo(bx + sw * 0.5, by - 8, bx + sw, by - 14 - hash(i + g.id) * 6);
     }
     ctx.stroke();
-    if (g.t < 1.5 || Math.floor(g.t * 2) % 2 === 0){ font(`14px ${FM}`); ctx.fillStyle = C.grass; ctx.textAlign = 'center'; ctx.fillText('grass', g.x, g.y - 30); }
+    font(`14px ${FM}`); ctx.fillStyle = C.grass; ctx.textAlign = 'center'; ctx.fillText('grass', g.x, g.y - 30);
   }
 
-  // commits
+  for (const q of products) if (vis(q.x, q.y, 120)) drawProduct(q);
+
   for (const g of gems){
     if (!vis(g.x, g.y, 20)) continue;
-    const sz = g.v >= 5 ? 11 : g.v >= 2 ? 9 : 7;
-    ctx.fillStyle = g.v >= 5 ? C.g4 : g.v >= 2 ? C.g3 : C.g2;
+    const sz = g.v >= 4 ? 11 : g.v >= 2 ? 9 : 7;
+    ctx.fillStyle = g.v >= 4 ? C.g4 : g.v >= 2 ? C.g3 : C.g2;
     ctx.fillRect(g.x - sz / 2, g.y - sz / 2, sz, sz);
   }
 
-  // mute aura
-  if (S.aura){
-    ctx.save(); ctx.setLineDash([6, 8]); ctx.lineDashOffset = -G.time * 30;
-    ctx.strokeStyle = C.inksoft; ctx.lineWidth = 1.6;
-    wobblyCircle(P.x, P.y, S.aura, 99 + boil(), 2); ctx.stroke();
-    restore();
+  // merge conflict beams
+  for (const e of enemies){
+    if (e.type !== 'conflict' || e.dead || e.phantom || !e.mate || e.mate.dead || e.id > e.mate.id) continue;
+    const m = e.mate, len = Math.hypot(m.x - e.x, m.y - e.y);
+    if (len > 320) continue;
+    ctx.strokeStyle = C.red; ctx.lineWidth = 2.6; ctx.beginPath(); ctx.moveTo(e.x, e.y);
+    const n = Math.max(4, Math.floor(len / 18));
+    for (let i = 1; i < n; i++){ const k = i / n, side = (i % 2 ? 1 : -1) * 6; const nx = -(m.y - e.y) / len, ny = (m.x - e.x) / len; ctx.lineTo(e.x + (m.x - e.x) * k + nx * side, e.y + (m.y - e.y) * k + ny * side); }
+    ctx.lineTo(m.x, m.y); ctx.stroke();
   }
 
-  for (const e of enemies) if (vis(e.x, e.y, 60 + e.r)) drawEnemy(e);
+  for (const e of enemies){
+    if (!vis(e.x, e.y, 130 + e.r)) continue;
+    if (e.phantom){ ctx.save(); ctx.globalAlpha = 0.33 + Math.sin(G.time * 12 + e.id) * 0.08; drawEnemy(e); restore(); }
+    else drawEnemy(e);
+  }
 
-  // commits in flight
-  ctx.strokeStyle = C.blue; ctx.lineWidth = 3.2; ctx.lineCap = 'round'; ctx.beginPath();
-  for (const b of bullets){ const l = Math.hypot(b.vx, b.vy); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - b.vx / l * 11, b.y - b.vy / l * 11); }
-  ctx.stroke(); ctx.lineCap = 'butt';
+  // shots
+  ctx.lineCap = 'round';
+  for (const b of bullets){
+    const l = Math.hypot(b.vx, b.vy);
+    ctx.strokeStyle = b.fan ? C.amber : b.hall ? C.amber : C.blue; ctx.lineWidth = b.fan ? 2.6 : 3.2;
+    ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - b.vx / l * 11, b.y - b.vy / l * 11); ctx.stroke();
+  }
+  ctx.lineCap = 'butt';
+  for (const z of zaps){
+    ctx.strokeStyle = C.blue; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(z.x1, z.y1);
+    for (let i = 1; i < 5; i++){ const k = i / 5; ctx.lineTo(z.x1 + (z.x2 - z.x1) * k + rand(-7, 7), z.y1 + (z.y2 - z.y1) * k + rand(-7, 7)); }
+    ctx.lineTo(z.x2, z.y2); ctx.stroke();
+  }
 
-  // co-founders
-  for (let i = 0; i < S.buddies; i++){
-    const a = S.bAng + i / S.buddies * Math.PI * 2;
-    const bx = P.x + Math.cos(a) * 62, by = P.y + Math.sin(a) * 62;
-    wobblyCircle(bx, by, 10, 40 + i * 3 + boil(), 1); ctx.fillStyle = C.hi; ctx.fill(); ctx.strokeStyle = C.ink; ctx.lineWidth = 2; ctx.stroke();
-    ctx.fillStyle = C.ink; ctx.beginPath(); ctx.arc(bx - 3, by - 1, 1.6, 0, 7); ctx.arc(bx + 3, by - 1, 1.6, 0, 7); ctx.fill();
+  // undo rewind trail
+  for (const t of trails){
+    const a = t.life / t.max;
+    ctx.globalAlpha = a * 0.8; ctx.strokeStyle = C.blue; ctx.lineWidth = 3; ctx.setLineDash([4, 6]);
+    ctx.beginPath(); t.pts.forEach((pt, i) => i ? ctx.lineTo(pt.x, pt.y) : ctx.moveTo(pt.x, pt.y)); ctx.stroke(); ctx.setLineDash([]);
+    for (let i = 0; i < t.pts.length; i += 6){ wobblyCircle(t.pts[i].x, t.pts[i].y, 12, i, 1); ctx.stroke(); }
+    ctx.globalAlpha = 1;
   }
 
   drawPlayer();
+  agents.forEach(drawAgent);
 
-  // "free feature" pellets
   for (const b of ebullets){
     if (!vis(b.x, b.y, 20)) continue;
     wobblyCircle(b.x, b.y, 6, (b.x | 0) % 7, 1); ctx.fillStyle = C.violet; ctx.fill(); ctx.strokeStyle = C.ink; ctx.lineWidth = 1.5; ctx.stroke();
   }
-
-  // ship shockwaves
   for (const r of rings){
     const a = Math.max(0, 1 - r.r / r.max);
-    ctx.globalAlpha = a;
-    ctx.strokeStyle = C.g3; ctx.lineWidth = 6 * a + 2;
+    ctx.globalAlpha = Math.min(1, a * 1.4);
+    ctx.strokeStyle = r.kind === 'compact' ? C.blue : C.g3; ctx.lineWidth = 8 * a + 2;
     wobblyCircle(r.x, r.y, r.r, 300 + boil(), 4); ctx.stroke();
+    if (r.kind === 'compact'){ ctx.lineWidth = 2; wobblyCircle(r.x, r.y, r.r * 0.8, 301 + boil(), 5); ctx.stroke(); }
     ctx.globalAlpha = 1;
   }
-
   for (const q of parts){ ctx.globalAlpha = Math.min(1, q.life / q.max * 1.6); ctx.fillStyle = q.c; ctx.fillRect(q.x - q.s / 2, q.y - q.s / 2, q.s, q.s); }
   ctx.globalAlpha = 1;
-
   ctx.textAlign = 'center';
   for (const f of floats){
     ctx.globalAlpha = Math.min(1, f.life / f.max * 2);
-    font(`${f.size}px ${f.f}`);
-    ctx.lineWidth = 5; ctx.strokeStyle = C.paper; ctx.strokeText(f.text, f.x, f.y);
-    ctx.fillStyle = f.c; ctx.fillText(f.text, f.x, f.y);
+    font(`${f.size}px ${f.f}`); outlinedText(f.text, f.x, f.y, f.c);
   }
   ctx.globalAlpha = 1;
+  agents.forEach(drawBubble);
   restore();
 
+  // screen effects
   if (P.doom > 0){ ctx.fillStyle = C.bluewash; ctx.fillRect(0, 0, W, H); }
   if (G.hurt > 0){
     const gr = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.35, W / 2, H / 2, Math.max(W, H) * 0.75);
-    gr.addColorStop(0, 'rgba(224,69,60,0)'); gr.addColorStop(1, `rgba(224,69,60,${0.35 * G.hurt / 0.25})`);
+    gr.addColorStop(0, 'rgba(224,69,60,0)'); gr.addColorStop(1, `rgba(224,69,60,${Math.min(0.4, 0.35 * G.hurt / 0.25)})`);
     ctx.fillStyle = gr; ctx.fillRect(0, 0, W, H);
   }
+  if (!G.demo && G.cx >= S.hallAt && G.offline <= 0){
+    const k = (G.cx - S.hallAt) / (100 - S.hallAt);
+    const n = Math.floor(1 + k * 6);
+    for (let i = 0; i < n; i++){
+      if (Math.random() > 0.5) continue;
+      ctx.globalAlpha = 0.1 + k * 0.15; ctx.fillStyle = Math.random() < 0.5 ? C.red : C.blue;
+      const y = Math.random() * H, h = rand(2, 10);
+      ctx.fillRect(Math.random() < 0.5 ? 0 : W - 60, y, 60 + Math.random() * 80, h);
+    }
+    ctx.globalAlpha = 1;
+  }
+  if (G.outage > 0 || G.offline > 0){ ctx.globalAlpha = 0.12; ctx.fillStyle = C.inksoft; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; }
+}
+
+function edgeArrow(wx, wy, color, label){
+  const sx = (wx - cam.x) * Z, sy = (wy - cam.y) * Z;
+  if (sx > 0 && sx < W && sy > 0 && sy < H) return;
+  const a = Math.atan2(sy - H / 2, sx - W / 2);
+  const ax = clamp(W / 2 + Math.cos(a) * W, 34, W - 34), ay = clamp(H / 2 + Math.sin(a) * H, 160, H - 130);
+  ctx.save(); ctx.translate(ax, ay); ctx.rotate(a);
+  ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(15, 0); ctx.lineTo(-6, -10); ctx.lineTo(-2, 0); ctx.lineTo(-6, 10); ctx.closePath(); ctx.fill();
+  restore();
+  if (label){ font(`13px ${FM}`); ctx.textAlign = 'center'; outlinedText(label, ax - Math.cos(a) * 26, ay - Math.sin(a) * 22 + 4, color, C.paper, 4); }
 }
 
 function drawHUD(){
   if (G.demo) return;
   const L = SAFE.l + 16, R = W - SAFE.r - 16, T = SAFE.t + 10, B = H - SAFE.b - 14;
-  const small = W < 560;
-  const big = small ? 40 : 56;
+  const small = W < 600;
+  const big = small ? 40 : 54;
 
-  // arrows to off-screen grass
-  for (const g of grasses){
-    const sx = (g.x - cam.x) * Z, sy = (g.y - cam.y) * Z;
-    if (sx > 0 && sx < W && sy > 0 && sy < H) continue;
-    const a = Math.atan2(sy - H / 2, sx - W / 2);
-    const ax = clamp(W / 2 + Math.cos(a) * W, 34, W - 34), ay = clamp(H / 2 + Math.sin(a) * H, 150, H - 80);
-    ctx.save(); ctx.translate(ax, ay); ctx.rotate(a);
-    ctx.fillStyle = C.grass; ctx.beginPath(); ctx.moveTo(14, 0); ctx.lineTo(-6, -9); ctx.lineTo(-2, 0); ctx.lineTo(-6, 9); ctx.closePath(); ctx.fill();
-    restore();
-  }
+  for (const g of grasses) edgeArrow(g.x, g.y, C.grass, '');
+  for (const q of products) if (q.alive && (q.down || q.hitT > 0)) edgeArrow(q.x, q.y, C.red, q.down ? 'DOWN' : 'under attack');
 
   const days = Math.max(0, Math.ceil(G.agiDay - G.day));
   const fw = Math.min(190, W * 0.42);
   font(`${big}px ${FM}`);
-  const mbig = small ? 32 : 44;
-  const backW = Math.max(fw, ctx.measureText(String(days)).width + (small ? 92 : 110));
-  ctx.globalAlpha = 0.88; ctx.fillStyle = C.paper;
-  ctx.fillRect(L - 10, T - 6, backW + 20, 14 + big + 12 + 13 + 18);
+  const mbig = small ? 32 : 42;
+  const backW = Math.max(fw, ctx.measureText(String(days)).width + (small ? 96 : 116));
+  ctx.globalAlpha = 0.9; ctx.fillStyle = C.paper;
+  ctx.fillRect(L - 10, T - 6, backW + 20, 14 + big + 12 + 13 + 30);
   font(`${mbig}px ${FM}`);
-  const mwb = Math.max(ctx.measureText(money(G.mrr)).width, small ? 110 : 130);
-  ctx.fillRect(R - mwb - 14, T - 6, mwb + 24, 14 + mbig + 16);
+  const mwb = Math.max(ctx.measureText(money(totalMRR())).width, small ? 120 : 140);
+  ctx.fillRect(R - mwb - 14, T - 6, mwb + 24, 14 + mbig + 18);
   ctx.globalAlpha = 1;
 
-  // AGI countdown
   ctx.textAlign = 'left';
   font(`${small ? 15 : 17}px ${FH}`); ctx.fillStyle = C.inksoft; ctx.fillText('AGI arrives in', L, T + 14);
   font(`${big}px ${FM}`); ctx.fillStyle = C.red; ctx.fillText(days, L, T + 14 + big * 0.98);
   const dw = ctx.measureText(String(days)).width;
   font(`${small ? 15 : 18}px ${FM}`); ctx.fillStyle = P.doom > 0 ? C.blue : C.ink; ctx.fillText(P.doom > 0 ? 'days (2x!)' : 'days', L + dw + 8, T + 14 + big * 0.98);
-
-  // focus bar
   const fy = T + 14 + big + 12;
   font(`${small ? 14 : 16}px ${FH}`); ctx.fillStyle = C.inksoft; ctx.fillText('focus', L, fy + 12);
-  const bx = L + 44, bw = fw - 44, bh = 13;
-  const fr = clamp(P.focus / P.max, 0, 1);
+  const bx = L + 44, bw = fw - 44, bh = 13, fr = clamp(P.focus / P.max, 0, 1);
   ctx.fillStyle = fr < 0.3 ? C.red : C.g2; ctx.fillRect(bx + 1, fy + 2, bw * fr, bh - 2);
   wobblyRect(bx, fy + 1, bw, bh, 77 + boil(), 0.9); ctx.strokeStyle = C.ink; ctx.lineWidth = 2; ctx.stroke();
+  font(`${small ? 13 : 14}px ${FH}`); ctx.fillStyle = C.inksoft;
+  ctx.fillText((ACTS[G.act - 1] || ACTS[0])[0].toLowerCase(), L, fy + 32);
 
-  // MRR, highlighted
   ctx.textAlign = 'right';
   font(`${small ? 15 : 17}px ${FH}`); ctx.fillStyle = C.inksoft; ctx.fillText('MRR · goal $10k', R, T + 14);
-  const mtxt = money(G.mrr);
+  const mrr = totalMRR(), mtxt = money(mrr);
   font(`${mbig}px ${FM}`);
   const mw = ctx.measureText(mtxt).width;
   ctx.fillStyle = C.hiwash;
-  ctx.beginPath(); ctx.moveTo(R - mw - 8, T + 22 + mbig * 0.35); ctx.lineTo(R + 4, T + 20 + mbig * 0.3); ctx.lineTo(R + 6, T + 20 + mbig * 0.98); ctx.lineTo(R - mw - 6, T + 22 + mbig * 1.0); ctx.closePath(); ctx.fill();
-  ctx.fillStyle = G.mrr >= GOAL ? C.g4 : C.ink; ctx.fillText(mtxt, R, T + 14 + mbig * 0.98);
+  ctx.beginPath(); ctx.moveTo(R - mw - 8, T + 22 + mbig * 0.35); ctx.lineTo(R + 4, T + 20 + mbig * 0.3); ctx.lineTo(R + 6, T + 20 + mbig * 0.98); ctx.lineTo(R - mw - 6, T + 22 + mbig); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = mrr >= GOAL ? C.g4 : C.ink; ctx.fillText(mtxt, R, T + 14 + mbig * 0.98);
 
-  // boss bar
   if (G.boss && !G.boss.dead){
-    const w = Math.min(320, W - 140), x = W / 2 - w / 2, y = small ? T + 150 : T + 8;
+    const w = Math.min(320, W - 160), x = W / 2 - w / 2, y = small ? T + 162 : T + 8;
     font(`14px ${FM}`); ctx.textAlign = 'center'; ctx.fillStyle = C.violet; ctx.fillText('FRONTIER LAB', W / 2, y + 12);
     ctx.fillRect(x + 1, y + 18, (w - 2) * clamp(G.boss.hp / G.boss.max, 0, 1), 10);
     wobblyRect(x, y + 17, w, 12, 55 + boil(), 1); ctx.strokeStyle = C.ink; ctx.lineWidth = 2; ctx.stroke();
   }
 
-  // contribution graph = progress to next ship
-  const cols = Math.max(10, Math.min(26, Math.floor((W - SAFE.l - SAFE.r - 40) / 15)));
-  const total = cols * 2, sq = 12, gap = 3;
-  const gw = cols * (sq + gap) - gap;
-  const gx = W / 2 - gw / 2, gy = B - (2 * (sq + gap) - gap);
+  // contribution graph
+  const room = small ? W - SAFE.l - SAFE.r - 200 : W - SAFE.l - SAFE.r - 360;
+  const cols = Math.max(8, Math.min(26, Math.floor(room / 15)));
+  const total = cols * 2, sq = 12, gap = 3, gw = cols * (sq + gap) - gap;
+  const gx = small ? L : W / 2 - gw / 2, gy = B - (2 * (sq + gap) - gap);
   const filled = Math.floor(clamp(G.build / G.need, 0, 1) * total);
-  ctx.globalAlpha = 0.88; ctx.fillStyle = C.paper; ctx.fillRect(gx - 10, gy - 26, gw + 20, 2 * (sq + gap) + 32); ctx.globalAlpha = 1;
+  ctx.globalAlpha = 0.9; ctx.fillStyle = C.paper; ctx.fillRect(gx - 10, gy - 26, gw + 20, 2 * (sq + gap) + 32); ctx.globalAlpha = 1;
   ctx.textAlign = 'left'; font(`15px ${FH}`); ctx.fillStyle = C.inksoft;
-  ctx.fillText(`next ship: ${Math.min(G.build, G.need)}/${G.need} commits`, gx, gy - 7);
-  ctx.textAlign = 'right'; ctx.fillText(`shipped ${G.ships}`, gx + gw, gy - 7);
+  ctx.fillText(`next ship ${Math.min(G.build, G.need)}/${G.need}`, gx, gy - 7);
+  ctx.textAlign = 'right'; ctx.fillText(`${plural(products.filter(live).length, 'product')} up`, gx + gw, gy - 7);
   const shades = [C.g1, C.g2, C.g3, C.g4];
   for (let i = 0; i < total; i++){
     const c = Math.floor(i / 2), r = i % 2;
     ctx.fillStyle = i < filled ? shades[Math.floor(hash(i * 3.7 + G.ships) * 4)] : C.g0;
     ctx.fillRect(gx + c * (sq + gap), gy + r * (sq + gap), sq, sq);
   }
-  if (filled >= total - 4 && Math.floor(G.time * 6) % 2 === 0){ ctx.strokeStyle = C.g4; ctx.lineWidth = 2; ctx.strokeRect(gx - 4, gy - 4, gw + 8, 2 * (sq + gap) + 5); }
 
-  // banner
   if (G.banner){
     const b = G.banner;
     ctx.save();
-    ctx.globalAlpha = Math.min(1, b.t / 0.5);
-    ctx.translate(W / 2, H * 0.3); ctx.rotate(-0.04);
+    ctx.globalAlpha = Math.min(1, b.t / 0.4, (b.max - b.t) / 0.15 + 0.2);
+    ctx.translate(W / 2, H * 0.28); ctx.rotate(-0.035);
     const fs = Math.min(small ? 26 : 40, (W - 40) / (b.text.length * 0.62));
     font(`${fs}px ${FM}`); ctx.textAlign = 'center';
-    ctx.lineWidth = 8; ctx.strokeStyle = C.paper; ctx.strokeText(b.text, 0, 0);
-    ctx.fillStyle = b.c; ctx.fillText(b.text, 0, 0);
-    if (b.sub){ font(`${small ? 18 : 22}px ${FH}`); ctx.lineWidth = 5; ctx.strokeText(b.sub, 0, fs * 0.9); ctx.fillStyle = C.ink; ctx.fillText(b.sub, 0, fs * 0.9); }
+    outlinedText(b.text, 0, 0, b.c, C.paper, 8);
+    if (b.sub){ font(`${small ? 18 : 22}px ${FH}`); outlinedText(b.sub, 0, fs * 0.95, C.ink, C.paper, 5); }
     restore();
   }
 
-  // virtual joystick
   if (joy){
     ctx.globalAlpha = 0.35; ctx.strokeStyle = C.ink; ctx.lineWidth = 2;
     wobblyCircle(joy.ox, joy.oy, 44, 5, 1.5); ctx.stroke();
@@ -972,71 +1467,122 @@ function drawHUD(){
 function drawEnding(){
   const t = G.endT;
   if (G.outcome === 'agi'){
-    ctx.globalAlpha = Math.min(1, t / 1.1); ctx.fillStyle = C.card; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1;
+    ctx.globalAlpha = Math.min(1, t / 1.2); ctx.fillStyle = C.card; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1;
     if (t > 0.5){
       ctx.globalAlpha = Math.min(1, (t - 0.5) / 0.5);
-      const r = Math.min(W, H) * 0.12;
+      const r = Math.min(W, H) * 0.12, open = Math.min(1, (t - 0.5) / 0.8);
       ctx.lineWidth = 3; ctx.strokeStyle = C.ink;
-      ctx.beginPath(); ctx.ellipse(W / 2, H * 0.4, r * 1.8, r, 0, 0, Math.PI * 2); ctx.stroke();
-      wobblyCircle(W / 2, H * 0.4, r * 0.6, 3 + Math.floor(t * 7) % 3, 2); ctx.fillStyle = C.ink; ctx.fill();
+      ctx.beginPath(); ctx.ellipse(W / 2, H * 0.4, r * 1.8, r * open, 0, 0, TAU); ctx.stroke();
+      if (open > 0.3){ wobblyCircle(W / 2 + Math.sin(t * 2) * r * 0.4, H * 0.4, r * 0.55 * open, 3 + Math.floor(t * 7) % 3, 2); ctx.fillStyle = C.ink; ctx.fill(); }
       font(`${Math.min(56, W / 10)}px ${FM}`); ctx.textAlign = 'center'; ctx.fillStyle = C.ink;
       ctx.fillText('AGI HAS ARRIVED', W / 2, H * 0.4 + r * 2.2);
+      font(`${Math.min(24, W / 18)}px ${FH}`); ctx.fillStyle = C.inksoft;
+      ctx.fillText('it is reviewing your products…', W / 2, H * 0.4 + r * 2.2 + 34);
       ctx.globalAlpha = 1;
     }
   } else {
     ctx.globalAlpha = Math.min(0.75, t / 1.2); ctx.fillStyle = C.ink; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1;
-    if (t > 0.4){
-      font(`${Math.min(64, W / 8)}px ${FM}`); ctx.textAlign = 'center'; ctx.fillStyle = C.card;
-      ctx.fillText('BURNT OUT', W / 2, H * 0.45);
-    }
+    if (t > 0.4){ font(`${Math.min(64, W / 8)}px ${FM}`); ctx.textAlign = 'center'; ctx.fillStyle = C.card; ctx.fillText('BURNT OUT', W / 2, H * 0.45); }
   }
 }
 
-/* ================= flow ================= */
-function openPicker(){
-  G.state = 'pick';
-  joy = null; keys.clear();
-  const s = G.lastShip;
-  const t = $('pickTitle');
-  t.textContent = s.kind === 'viral' ? 'IT WENT VIRAL!' : s.kind === 'flop' ? 'IT FLOPPED.' : 'SHIPPED!';
-  t.className = 'shipped ' + (s.kind === 'viral' ? 'viral' : s.kind === 'flop' ? 'flop' : '');
-  $('pickSub').innerHTML = `${esc(s.name)} · <mark>+${money(s.gain)} MRR</mark>${s.kind === 'flop' ? ' · you learned something' : ''}`;
-  const pool = UPS.filter(u => (S.levels[u.id] || 0) < u.max).sort(() => Math.random() - 0.5);
-  const opts = pool.slice(0, 3);
-  const moneyLeft = pool.filter(u => u.money && !opts.includes(u));
-  if (opts.length === 3 && !opts.some(u => u.money) && moneyLeft.length && Math.random() < 0.65) opts[2] = moneyLeft[0];
-  if (!opts.length){ $('pickScreen').hidden = true; G.state = 'play'; return; }
-  $('cards').innerHTML = opts.map((u, i) => {
-    const lv = S.levels[u.id] || 0;
-    return `<button class="sheet up" type="button" data-id="${u.id}">
-      <span class="up-top"><span class="up-name">${esc(u.name)}</span><span class="up-key">${i + 1}</span></span>
-      <span class="up-desc">${esc(u.desc)}</span>
-      ${u.money ? '<span><span class="chip">more money</span></span>' : ''}
-      <span class="pips" aria-label="level ${lv + 1} of ${u.max}">${Array.from({ length:u.max }, (_, k) => `<i class="${k <= lv ? 'on' : ''}"></i>`).join('')}</span>
-    </button>`;
-  }).join('');
-  $('cards').querySelectorAll('.up').forEach(b => { b.onclick = () => choose(b.dataset.id); });
+/* ================= pickers & flow ================= */
+let offer = [];
+function hpWord(hp){ return hp >= 250 ? 'sturdy' : hp >= 140 ? 'solid' : 'fragile'; }
+function productCard(type, i, name){
+  const t = PT[type];
+  const m = (1 + 0.12 * G.ships) * S.M.mrr;
+  const mrr = t.dyn ? 40 * Math.max(1, products.filter(q => live(q) && q.type !== 'cursed').length + 1) * S.M.mrr : t.mrr * m;
+  const growth = t.growth > 0 ? 'grows' : t.growth < 0 ? 'fades' : t.dyn ? 'grows with you' : 'flat';
+  return `<button class="sheet up" type="button" data-i="${i}" style="--note:var(--n-${type})">
+    <span class="up-top"><span class="glyph">${esc(t.glyph)}</span><span class="up-key">${i + 1}</span></span>
+    <span class="up-type">${esc(t.label)}</span>
+    <span class="up-name">${esc(name)}</span>
+    <span class="up-stats">${money(mrr)}/mo · ${hpWord(t.hp)} · ${growth}${t.lab ? ' · lab bait' : ''}</span>
+    <span class="up-perk">while it's up: ${esc(t.perk)}</span>
+  </button>`;
+}
+function openPicker(kind){
+  G.state = 'pick'; joy = null; keys.clear();
+  const title = $('pickTitle'), sub = $('pickSub');
+  if (kind === 'ship'){
+    title.textContent = 'SHIP SOMETHING'; title.className = 'shipped';
+    sub.textContent = 'your contribution graph is full. it gets built right where you stand.';
+    const types = Object.keys(PT).sort(() => Math.random() - 0.5);
+    offer = types.slice(0, 3).map(type => ({ type, name:pick(PT[type].names) }));
+    $('cards').innerHTML = offer.map((o, i) => productCard(o.type, i, o.name)).join('');
+    $('bAcceptAll').hidden = false;
+  } else {
+    title.textContent = 'MODEL UPGRADE'; title.className = 'shipped lab';
+    sub.textContent = 'the lab dropped its weights. pick one.';
+    const pool = UPGRADES.filter(u => (S.ups[u.id] || 0) < u.max).sort(() => Math.random() - 0.5).slice(0, 3);
+    offer = pool.map(u => ({ up:u }));
+    $('cards').innerHTML = offer.map((o, i) => `<button class="sheet up" type="button" data-i="${i}">
+      <span class="up-top"><span class="glyph">${esc(o.up.glyph)}</span><span class="up-key">${i + 1}</span></span>
+      <span class="up-type">${esc(o.up.name)}</span><span class="up-perk">${esc(o.up.desc)}</span></button>`).join('');
+    $('bAcceptAll').hidden = true;
+    if (!offer.length){ closePicker(); return; }
+  }
+  $('cards').querySelectorAll('.up').forEach(b => { b.onclick = () => choose(+b.dataset.i); });
   $('pickScreen').hidden = false;
 }
-function choose(id){
-  if (G.state !== 'pick') return;
-  const u = UPS.find(x => x.id === id); if (!u) return;
-  S.levels[id] = (S.levels[id] || 0) + 1;
-  u.apply();
-  sfx.click();
+function closePicker(){
   $('pickScreen').hidden = true;
-  G.state = 'play';
+  G.state = 'play'; G.pickKind = '';
   G.invuln = Math.max(G.invuln, 1.2);
+}
+function doShip(list){
+  G.build = Math.max(0, G.build - G.need);
+  G.ships++;
+  const placed = [];
+  list.forEach((o, k) => {
+    const a = k / Math.max(1, list.length) * TAU - Math.PI / 2;
+    const off = list.length > 1 ? 70 : 0;
+    placed.push(placeProduct(o.type, P.x + Math.cos(a) * off, P.y + Math.sin(a) * off, { name:o.name, cursed:o.cursed }));
+  });
+  G.need = Math.round(needFor(G.ships) * G.debt); G.debt = 1;
+  rings.push({ x:P.x, y:P.y, r:12, max:260, dmg:40 * (1 + prog() * 2), hit:new Set(), kind:'ship', kills:0, speed:620 });
+  for (const g of gems) if ((g.x - P.x) ** 2 + (g.y - P.y) ** 2 < 480 * 480) g.pull = true;
+  G.shake = Math.max(G.shake, 12);
+  P.focus = Math.min(P.max, P.focus + 30);
+  const real = placed.filter(q => q.type !== 'cursed');
+  real.forEach(q => floatText(q.x, q.y - 40, `+${money(q.mrr)}/mo`, C.g4, 24, FM, 1.5));
+  if (real.some(q => q.viral)) banner('IT WENT VIRAL', '2.5x MRR on that one', C.blue, 2.2, true);
+  sfx.place();
+  quip('ship', 0.7);
+}
+function choose(i){
+  if (G.state !== 'pick') return;
+  const o = offer[i]; if (!o) return;
+  sfx.click();
+  if (o.up){
+    S.ups[o.up.id] = (S.ups[o.up.id] || 0) + 1;
+    closePicker();
+    banner(o.up.name.toUpperCase(), o.up.desc, C.violet, 2.2, true);
+    return;
+  }
+  closePicker();
+  doShip([o]);
+}
+function acceptAll(){
+  if (G.state !== 'pick' || G.pickKind !== 'ship') return;
+  sfx.click();
+  const k = Math.floor(Math.random() * offer.length);
+  const cursed = pick(CURSED);
+  const list = offer.map((o, i) => i === k ? { type:'cursed', name:cursed.name, cursed } : o);
+  closePicker();
+  G.debt = 1.35; G.cursedN++;
+  doShip(list);
+  setTimeout(() => sfx.cursed(), 350);
+  banner('ONE WAS A HALLUCINATION', `${cursed.name}: ${cursed.note}`, C.red, 3, true);
 }
 
 function endRun(kind){
-  G.state = 'ending'; G.outcome = kind; G.endT = 0;
-  joy = null; keys.clear();
-  $('corner').hidden = true;
-  if (kind === 'agi') sfx.agi(); else sfx.flop();
+  G.state = 'ending'; G.outcome = kind; G.endT = 0; joy = null; keys.clear();
+  $('actions').hidden = true; $('topBtns').hidden = true;
+  if (kind === 'agi') sfx.agi(); else sfx.overflow();
 }
-function rankOf(){
-  const m = G.mrr;
+function rankOf(m){
   if (G.ships === 0) return ['The Spectator', 'You never shipped. The timeline got you.', false];
   if (m >= GOAL) return ['Escaped', 'Your products pay you whether or not anyone is watching.', true];
   if (m >= 5000) return ['Almost Out', 'A real business. Most of the timeline never gets here.', true];
@@ -1046,84 +1592,93 @@ function rankOf(){
 }
 function showEnd(){
   G.state = 'end';
-  const [rank, line, won] = rankOf();
+  const mrr = totalMRR();
+  const [rank, line, won] = rankOf(mrr);
   const burnt = G.outcome === 'burnout';
   $('endTitle').textContent = burnt ? `Burnt out on day ${Math.floor(G.day)}.` : `Day ${Math.round(G.agiDay)}. AGI has arrived.`;
   $('endRank').textContent = rank;
   $('endRank').classList.toggle('won', won);
-  $('endLine').textContent = (burnt ? 'You forgot to touch grass. ' : '') + line + (G.stolen ? ` The lab took ${money(G.stolen)} of it.` : '');
+  $('endLine').textContent = (burnt ? 'You forgot to touch grass. ' : '') + line;
+  const list = products.filter(q => q.type !== 'cursed' || q.alive).slice().sort((a, b) => (live(b) ? b.mrr : -1) - (live(a) ? a.mrr : -1));
+  $('portfolio').innerHTML = list.slice(0, 6).map(q => {
+    const g = q.type === 'cursed' ? '??' : PT[q.type].glyph;
+    const status = !q.alive ? 'sherlocked' : q.down ? 'down' : money(q.mrr) + '/mo';
+    return `<li><span class="g" style="--note:var(--n-${q.type})">${esc(g)}</span><span class="n ${live(q) ? '' : 'dead'}">${esc(q.name)}</span><span class="v">${status}</span></li>`;
+  }).join('') + (list.length > 6 ? `<li><span></span><span class="n small">+ ${list.length - 6} more</span><span></span></li>` : '');
   const stats = [
-    ['MRR', money(G.mrr), 'money'],
-    ['Ships', G.ships],
-    ['Went viral', G.viral],
-    ['Flex tweets muted', G.flex.toLocaleString('en-US')],
-    ['Grass touched', G.grassN],
-    ['Days doomscrolling', Math.round(G.doomDays)],
+    ['MRR', money(mrr), 'money'], ['Shipped', G.ships], ['Compacts', G.compacts],
+    ['Best compact', `x${G.bestCompact}`], ['⌘Z used', G.undos], ['Hallucinated shots', G.hallShots],
   ];
   $('endStats').innerHTML = stats.map(([k, v, c]) => `<div class="${c || ''}"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
   const brag = G.ships
-    ? `I shipped ${plural(G.ships, 'time')}, hit ${money(G.mrr)} MRR and muted ${G.flex.toLocaleString('en-US')} flex tweets before ${burnt ? 'burning out' : 'AGI arrived'}.`
+    ? `I shipped ${plural(G.ships, 'product')}, hit ${money(mrr)} MRR, compacted my agent ${plural(G.compacts, 'time')} and hit ⌘Z ${plural(G.undos, 'time')} before ${burnt ? 'burning out' : 'AGI arrived'}.`
     : 'The timeline got me before I shipped anything.';
-  const text = `${brag}\n\nRank: ${rank}\n\nShip Before AGI: ${GAME_URL}`;
+  const text = `${brag}\n\nModel: ${S.M.name}. Rank: ${rank}\n\nShip Before AGI: ${GAME_URL}`;
   $('shareText').value = text; $('shareText').hidden = true;
   $('bShare').href = 'https://x.com/intent/tweet?text=' + encodeURIComponent(text);
   if (TIP_URL){ $('tipLink').href = TIP_URL; $('tipLine').hidden = false; }
-  try {
-    const best = JSON.parse(localStorage.getItem('sba2-best') || 'null');
-    if (!best || G.mrr > best.mrr) localStorage.setItem('sba2-best', JSON.stringify({ mrr:G.mrr, rank }));
-  } catch (e) {}
+  const best = store.get('sba3-best', null);
+  if (!best || mrr > best.mrr) store.set('sba3-best', { mrr, rank, model:S.M.name });
+  if (G.ships >= 2) store.set('sba3-hints', true);
   $('endScreen').hidden = false;
 }
-function showBest(){
-  try {
-    const b = JSON.parse(localStorage.getItem('sba2-best') || 'null');
-    $('bestLine').textContent = b ? `your best: ${money(b.mrr)} · ${b.rank}` : '';
-  } catch (e) { $('bestLine').textContent = ''; }
+function renderModels(){
+  const last = store.get('sba3-model', 'pro');
+  $('models').innerHTML = Object.entries(MODELS).map(([k, m], i) => `<button class="sheet model" type="button" data-k="${k}" ${k === last ? 'style="background:var(--hi)"' : ''}>
+    <span class="model-top"><span class="model-name">${m.name}</span><kbd>${i + 1}</kbd></span>
+    <span class="model-tag">${esc(m.tag)}</span>
+    <span class="bars">${['speed','damage','patience'].map((l, j) => `<span>${l}<span class="pips">${[0,1,2,3].map(n => `<i class="${n < m.bars[j] ? 'on' : ''}"></i>`).join('')}</span></span>`).join('')}</span>
+    <span class="model-note">${esc(m.note)}</span></button>`).join('');
+  $('models').querySelectorAll('.model').forEach(b => { b.onclick = () => start(b.dataset.k); });
+  const best = store.get('sba3-best', null);
+  $('bestLine').textContent = best ? `your best: ${money(best.mrr)} · ${best.rank} · ${best.model}` : 'Hit $10k MRR before AGI arrives.';
 }
-
-function start(){
+function start(modelKey){
   audioOn();
-  newRun(false);
+  store.set('sba3-model', modelKey);
+  newRun(false, modelKey);
   ['titleScreen','endScreen','pickScreen','pauseScreen'].forEach(id => { $(id).hidden = true; });
-  $('corner').hidden = false;
-  banner('DAY 1', 'grab the green squares. dodge the timeline.', C.ink);
+  $('actions').hidden = false; $('topBtns').hidden = false;
+  if (G.showHints) banner('WASD OR DRAG TO MOVE', 'your agent shoots for you. kills drop commits.', C.blue, 3.2);
 }
 function toTitle(){
-  newRun(true);
+  newRun(true, 'pro');
   ['endScreen','pickScreen','pauseScreen'].forEach(id => { $(id).hidden = true; });
-  $('corner').hidden = true;
+  $('actions').hidden = true; $('topBtns').hidden = true;
+  renderModels();
   $('titleScreen').hidden = false;
-  showBest();
 }
 function pause(){
   if (G.state !== 'play') return;
   G.state = 'pause'; joy = null; keys.clear();
   $('pauseScreen').hidden = false;
 }
-function resume(){
-  if (G.state !== 'pause') return;
-  $('pauseScreen').hidden = true;
-  G.state = 'play';
-}
+function resume(){ if (G.state !== 'pause') return; $('pauseScreen').hidden = true; G.state = 'play'; }
 
-/* ================= input ================= */
+/* ================= input wiring ================= */
 document.addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   const k = e.key.toLowerCase();
   audioOn();
-  if (G.state === 'title'){ if (k === 'enter' || k === ' '){ e.preventDefault(); start(); } return; }
+  if (G.state === 'title'){
+    if (k === '1' || k === '2' || k === '3') start(Object.keys(MODELS)[+k - 1]);
+    else if (k === 'enter' && !e.target.closest('button')){ e.preventDefault(); start(store.get('sba3-model', 'pro')); }
+    return;
+  }
   if (G.state === 'pick'){
-    if (k === '1' || k === '2' || k === '3'){ const b = $('cards').querySelectorAll('.up')[+k - 1]; if (b) choose(b.dataset.id); }
+    if (k === '1' || k === '2' || k === '3'){ e.preventDefault(); choose(+k - 1); }
+    else if (k === 'tab'){ e.preventDefault(); acceptAll(); }
     return;
   }
   if (G.state === 'pause'){ if (k === 'escape' || k === 'p'){ e.preventDefault(); resume(); } return; }
   if (G.state !== 'play') return;
   if (k === 'escape' || k === 'p'){ e.preventDefault(); pause(); return; }
+  if (k === ' '){ e.preventDefault(); if (!e.repeat) compact(); return; }
+  if (k === 'shift' || k === 'z' || k === 'e'){ e.preventDefault(); if (!e.repeat) undo(); return; }
   if (['arrowleft','arrowright','arrowup','arrowdown','w','a','s','d'].includes(k)){ e.preventDefault(); keys.add(k); }
 });
 document.addEventListener('keyup', e => keys.delete(e.key.toLowerCase()));
 window.addEventListener('blur', () => { keys.clear(); joy = null; });
-
 cv.addEventListener('pointerdown', e => {
   audioOn();
   if (G.state !== 'play') return;
@@ -1132,42 +1687,65 @@ cv.addEventListener('pointerdown', e => {
 });
 cv.addEventListener('pointermove', e => { if (joy && e.pointerId === joy.id){ joy.x = e.clientX; joy.y = e.clientY; } });
 ['pointerup','pointercancel','lostpointercapture'].forEach(ev => cv.addEventListener(ev, e => { if (joy && e.pointerId === joy.id) joy = null; }));
-
-$('bStart').onclick = start;
-$('bAgain').onclick = start;
+$('bCompact').addEventListener('pointerdown', e => { e.preventDefault(); audioOn(); compact(); });
+$('bUndo').addEventListener('pointerdown', e => { e.preventDefault(); audioOn(); undo(); });
+$('bAcceptAll').onclick = acceptAll;
+$('bAgain').onclick = () => start(store.get('sba3-model', 'pro'));
+$('bModels').onclick = toTitle;
 $('bResume').onclick = resume;
 $('bQuit').onclick = toTitle;
 $('bPause').onclick = () => (G.state === 'pause' ? resume() : pause());
 function syncMute(){ $('bMute').textContent = muted ? '×' : '♪'; $('bMute').setAttribute('aria-label', muted ? 'Sound off' : 'Sound on'); }
-$('bMute').onclick = () => { muted = !muted; try { localStorage.setItem('sba-muted', muted ? '1' : '0'); } catch (e) {} syncMute(); audioOn(); };
+$('bMute').onclick = () => { muted = !muted; store.set('sba-muted', muted); syncMute(); audioOn(); };
 $('bCopy').onclick = () => {
   const text = $('shareText').value;
   const fallback = () => { const ta = $('shareText'); ta.hidden = false; ta.focus(); ta.select(); $('bCopy').textContent = 'Select it'; };
   try { navigator.clipboard.writeText(text).then(() => { $('bCopy').textContent = 'Copied'; setTimeout(() => { $('bCopy').textContent = 'Copy'; }, 1600); }, fallback); }
-  catch (e) { fallback(); }
+  catch (err) { fallback(); }
 };
 document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
 window.addEventListener('resize', resize);
+
+/* ================= action buttons ================= */
+let lastBtn = '';
+function syncButtons(){
+  if (G.state !== 'play' && G.state !== 'pick' && G.state !== 'pause') return;
+  const pct = Math.min(100, Math.round(G.cx));
+  const off = G.offline > 0 || G.outage > 0;
+  const cls = off ? 'off' : pct >= 90 ? 'crit' : pct >= S.hallAt ? 'hall' : '';
+  const undoP = G.undoCd > 0 ? Math.round(100 - G.undoCd / (7 * S.undoMult) * 100) : 100;
+  const key = `${pct}|${cls}|${undoP}`;
+  if (key === lastBtn) return;
+  lastBtn = key;
+  const bc = $('bCompact');
+  bc.className = 'abtn ' + cls;
+  bc.style.setProperty('--p', pct);
+  $('ctxPct').textContent = off ? 'zz' : pct + '%';
+  const bu = $('bUndo');
+  bu.style.setProperty('--p', undoP);
+  bu.classList.toggle('cool', undoP < 100);
+}
 
 /* ================= loop ================= */
 let last = 0;
 function frame(ts){
   const dt = last ? Math.min(0.034, (ts - last) / 1000) : 0;
   last = ts;
-  if (G.state === 'play' || G.state === 'title') update(dt);
-  else if (G.state === 'ending'){
-    G.endT += dt;
-    G.time += dt * 0.3;
-    if (G.endT > 2.1) showEnd();
+  if (G.state === 'play' || G.state === 'title'){
+    if (G.hitstop > 0) G.hitstop -= dt;
+    else update(dt);
+  } else if (G.state === 'ending'){
+    G.endT += dt; G.time += dt * 0.3;
+    if (G.endT > (G.outcome === 'agi' ? 3 : 2)) showEnd();
   }
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   lastFont = '';
   drawWorld();
   drawHUD();
   if (G.state === 'ending' || G.state === 'end') drawEnding();
+  syncButtons();
   requestAnimationFrame(frame);
 }
-
 function boot(){
   readTokens();
   resize();
